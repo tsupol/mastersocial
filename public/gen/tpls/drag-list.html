@@ -1,0 +1,36 @@
+<div class="row">
+    <div>
+    <div class="col-sm-1" style="width:210px; !important;">
+        <div class="input-group input-group-sm input-group-minimal">
+            <input type="text" class="form-control" ng-model="filters1[value.name][value.model[1]]" />
+                                        <span class="input-group-addon">
+                                            <i class="linecons-search"></i>
+                                        </span>
+        </div>
+        <div class="draglist thumbnail">
+            <div class="btn btn-white btn-draggable" style="margin:0px;" ng-click="dragChange(value.model[0], item)" ng-repeat="item in data[value.model[0]] | filter:filters1[value.name][value.model[1]] | filter:{selected: false}" >{{item.name}}</div>
+        </div>
+    </div>
+
+    <div class="col-sm-1" align="center" style="width:100px; margin-left:0px !important;" >
+        <div style="margin-top:110px;" >
+            <button class="btn btn-white" disabled >
+                <i class="glyphicon glyphicon-transfer"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="col-sm-1" style="width:210px; !important;">
+        <div class="input-group input-group-sm input-group-minimal">
+            <input type="text" class="form-control" ng-model="filters[value.name][value.model[1]]" />
+                                        <span class="input-group-addon">
+                                            <i class="linecons-search"></i>
+                                        </span>
+        </div>
+        <div  class="draglist thumbnail" >
+            <div class="btn btn-white btn-draggable" style="margin:0px;" ng-click="dragChange(value.model[0], item)" ng-repeat="item in data[value.model[0]] | filter:filters[value.name][value.model[1]] | filter:{selected: true}">{{item.name}}</div>
+        </div>
+    </div>
+    <input ng-if="value.type == 'offset'" type="hidden" class="form-control" ng-model="val[value.name]"/>
+    </div>
+</div>

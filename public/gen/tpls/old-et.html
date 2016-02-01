@@ -1,0 +1,87 @@
+<div class="row">
+    <div class="col-xs-12">
+
+        <form name="addForm" role="form" id="addForm" method="post" class="validate2 form-horizontal" action="" ng-model="addForm">
+
+            <div class="form-group"    >
+
+                <div class="col-sm-10 col-sm-offset-2">
+
+                    <div class="row" ng-controller="goods-packages-add" >
+
+                        <div class="col-sm-12 form-inline " style="background:#333;">
+
+                            <select id="level" name="level" class="form-control" ng-model="product_id"  ng-options="t.id as t.name for t in products" >
+                                <option value="">สินค้าทั่วไป</option>
+                            </select>
+                            <input type="text" name="amount" class="form-control" id="amount" ng-model="amount"  placeholder="จำนวน"  />
+                            <input type="button" value=" + " class="btn btn-white"  ng-click="additem()"  style="margin-top:10px;" />
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="table-responsive" >
+
+                                <table cellspacing="0" class="table table-small-font table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th class="col-xs-3" >สินค้า</th>
+                                        <th class="col-xs-3" >จำนวน</th>
+                                        <th class="col-xs-3" >ต้นทุน</th>
+                                        <th class="col-xs-3" >tool</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr ng-repeat="rs in procedure_product | filter:queryString ">
+                                        <td >{{ rs.name }}</td>
+                                        <td >
+
+                                            <div ng-hide="editorEnabled">
+                                                                <span style="cursor:pointer;  "
+                                                                      ng-class="{red: hover}"
+                                                                      ng-mouseenter="hover = true"
+                                                                      ng-mouseleave="hover = false"
+                                                                      ng-click="editorEnabled=!editorEnabled">{{ rs.amount }}</span>
+                                            </div>
+                                            <div ng-show="editorEnabled" >
+                                                <input ng-model="rs.amount"  >
+                                                <a href="" ng-click="editorEnabled=!editorEnabled" style="color:#F00;" >close edit</a>
+                                            </div>
+
+                                        </td>
+                                        <td >{{ rs.cost }}</td>
+                                        <td>
+
+                                            <button  class="btn  btn-blue btn-xs" title="แก้ไข" ng-click="updateitem(rs.id,rs.amount)">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+
+                                            <button ng-if="rs.deleted_at==null" class="btn btn-danger btn-xs" title="ลบข้อมูล" ng-click="deleteitem(rs.id)">
+                                                <i class="fa fa-close"></i>
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="col-sm-10 col-sm-offset-2">
+
+
+            </div>
+
+
+        </form>
+    </div>
+</div>

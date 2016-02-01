@@ -1,0 +1,345 @@
+
+<page-title ng-if="layoutOptions.pageTitles" title="{{pageTitle}}" description="{{ pageDescription }}"></page-title>
+<form  role="form"  class="form-horizontal" name="myForm"   >
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">ข้อมูลหลัก</h3>
+                    <div class="panel-options">
+                        <a href="" data-toggle="panel">
+                            <span class="collapse-icon">&ndash;</span>
+                            <span class="expand-icon">+</span>
+                        </a>
+                        <a href="" data-toggle="remove">
+                            &times;
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+
+                    <div class="form-group"  ng-class="{'has-error': myForm.email.$invalid && !myForm.email.$pristine}">
+                        <label class="col-sm-2 control-label" >email</label>
+                        <div class="col-sm-10">
+                            <input type="email" ng-disabled="id" class="form-control bs-callout" name="email" ng-model="data.email" placeholder="ใช้สำหรับล๊อกอินเข้าระบบ" required>
+                            <span ng-show="myForm.email.$error.required && !myForm.email.$pristine" class="text-danger">Required</span>
+                            <span ng-show="myForm.email.$error.email" class="text-danger"> Not a Email</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="!id" ng-class="{'has-error': myForm.password.$invalid && !myForm.password.$pristine}">
+                        <label class="col-sm-2 control-label" >password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control bs-callout" name="password" ng-model="data.password" placeholder="พาสเวิดสำหรับล๊อกอินเข้าระบบ"  required>
+                            <span ng-show="myForm.password.$error.required && !myForm.password.$pristine" class="text-danger">Required</span>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="!id"  ng-class="{'has-error': myForm.confirmpassword.$invalid && !myForm.confirmpassword.$pristine}">
+                        <label class="col-sm-2 control-label" >confirm password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control bs-callout" name="confirmpassword" ng-model="data.confirmpassword" data-password-verify="data.password" placeholder="ยืนยันพาสเวิดสำหรับล๊อกอินเข้าระบบ" required>
+                            <span ng-show="myForm.confirmpassword.$error.required && !myForm.confirmpassword.$pristine" class="text-danger">Required</span>
+                            <span ng-show="myForm.confirmpassword.$error.passwordVerify && !myForm.confirmpassword.$pristine" class="text-danger">กรุณากรอก password ให้ตรงกัน</span>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group"  ng-class="{'has-error': myForm.username.$invalid && !myForm.username.$pristine}">
+                        <label class="col-sm-2 control-label" >display name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control bs-callout" id="username" name="username" ng-model="data.name" placeholder="ชื่อสำหรับแสดงในระบบ" required>
+                            <span ng-show="myForm.username.$error.required && !myForm.username.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group"  ng-class="{'has-error': myForm.group_id.$invalid && !myForm.group_id.$pristine}" >
+                        <label class="col-sm-2 control-label">หมวดหมู่ลูกจ้าง</label>
+                        <div class="col-sm-10">
+                            <script type="text/javascript">
+                                jQuery(document).ready(function($)
+                                {
+                                    $("#group_id").select2({
+
+                                    }).on('select2-open', function()
+                                    {
+                                        // Adding Custom Scrollbar
+                                        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+                                    });
+
+                                });
+
+                            </script>
+                            <select id="group_id" name="group_id" class="form-control bs-callout" ng-model="data.group_id" ng-options="ug.group_id as ug.auth_name for ug in  userGroup" required>
+                                <option value="">กรุณาเลือกหมวดหมู่ลูกจ้าง</option>
+                            </select>
+                            <span ng-show="myForm.group_id.$error.required && !myForm.group_id.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+                    <div class="form-group"  ng-class="{'has-error': myForm.branch_id.$invalid && !myForm.branch_id.$pristine}" >
+                        <label class="col-sm-2 control-label">สาขา</label>
+                        <div class="col-sm-10">
+                            <script type="text/javascript">
+                                jQuery(document).ready(function($)
+                                {
+                                    $("#branch_id").select2({
+                                        placeholder: 'Select your country...',
+                                        allowClear: true
+                                    }).on('select2-open', function()
+                                    {
+                                        // Adding Custom Scrollbar
+                                        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+                                    });
+
+                                });
+                            </script>
+                            <select id="branch_id" name="branch_id" class="form-control bs-callout"  ng-model="data.branch_id" ng-options="ub.id as ub.name for ub in  userBranch" required>
+                                <option value="">กรุณาเลือกสาขา</option>
+                            </select>
+                            <span ng-show="myForm.branch_id.$error.required && !myForm.branch_id.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+                    <div class="form-group"  ng-class="{'has-error': myForm.role_id.$invalid && !myForm.role_id.$pristine}" >
+                        <label class="col-sm-2 control-label">Role</label>
+                        <div class="col-sm-10">
+                            <script type="text/javascript">
+                                jQuery(document).ready(function($)
+                                {
+                                    $("#role_id").select2({
+                                        placeholder: 'Select your country...',
+                                        allowClear: true
+                                    }).on('select2-open', function()
+                                    {
+                                        // Adding Custom Scrollbar
+                                        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+                                    });
+
+                                });
+                            </script>
+                            <select id="role_id" name="role_id" class="form-control bs-callout" ng-model="data.role_id"   ng-options="ur.id as ur.name for ur in  userRole" required>
+                                <option value="">กรุณาเลือก Role</option>
+                            </select>
+                            <span ng-show="myForm.role_id.$error.required && !myForm.role_id.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">ข้อมูลรอง</h3>
+                    <div class="panel-options">
+                        <a href="" data-toggle="panel">
+                            <span class="collapse-icon">&ndash;</span>
+                            <span class="expand-icon">+</span>
+                        </a>
+                        <a href="" data-toggle="remove">
+                            &times;
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+
+                    <div class="form-group"  ng-class="{'has-error': myForm.f_name.$invalid && !myForm.f_name.$pristine}">
+                        <label class="col-sm-2 control-label" >ชื่อ</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control bs-callout" name="f_name" ng-model="data.f_name" placeholder="ชื่อของลูกจ้าง" required>
+                            <span ng-show="myForm.f_name.$error.required && !myForm.f_name.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+                    <div class="form-group"  ng-class="{'has-error': myForm.l_name.$invalid && !myForm.l_name.$pristine}">
+                        <label class="col-sm-2 control-label" >สกุล</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control bs-callout" name="l_name" ng-model="data.l_name" placeholder="นามสกุลของลูกจ้าง" required>
+                            <span ng-show="myForm.l_name.$error.required && !myForm.l_name.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+                    <div class="form-group"  ng-class="{'has-error': myForm.l_name.$invalid && !myForm.l_name.$pristine}">
+                        <label class="col-sm-2 control-label" >ชื่อเล่น</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="n_name" ng-model="data.n_name" placeholder="ชื่อเล่นของลูกจ้าง" >
+                            <span ng-show="myForm.n_name.$error.required && !myForm.n_name.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+                    <div class="form-group"  ng-class="{'has-error': myForm.citizen_id.$invalid && !myForm.citizen_id.$pristine}">
+                        <label class="col-sm-2 control-label" >รหัสประชาชน</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="citizen_id" ng-model="data.citizen_id" inputmask data-mask="9-9999-99999-99-9" placeholder="9-9999-99999-99-9" >
+                            <span ng-show="myForm.citizen_id.$error.required && !myForm.citizen_id.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+                    <div class="form-group"  ng-class="{'has-error': myForm.birth_date.$invalid && !myForm.birth_date.$pristine}">
+                        <label class="col-sm-2 control-label" >วันเกิด</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="birth_date" ng-model="data.birth_date" inputmask data-mask="y-m-d" placeholder="ปี-เดือน-วัน" >
+                            <span ng-show="myForm.birth_date.$error.required && !myForm.birth_date.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group"  ng-class="{'has-error': myForm.phone.$invalid && !myForm.phone.$pristine}">
+                        <label class="col-sm-2 control-label" >โทรศัพท์หลัก</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control bs-callout" name="phone" id="phone" ng-model="data.phone" placeholder="เบอร์โทรศัพท์หลัก" required>
+                            <span ng-show="myForm.phone.$error.required && !myForm.phone.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group"  ng-class="{'has-error': myForm.phone_2.$invalid && !myForm.phone_2.$pristine}">
+                        <label class="col-sm-2 control-label" >โทรศัพท์สำรอง</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="phone_2" id="phone_2"  ng-model="data.phone_2" placeholder="เบอร์โทรศัพท์สำรอง">
+                            <span ng-show="myForm.phone_2.$error.required && !myForm.phone_2.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group"  >
+                        <label class="col-sm-2 control-label" >ที่อยู่</label>
+                        <div class="col-sm-10">
+                            <textarea name="address"  id="address" ng-model="data.address" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group"  >
+                        <label class="col-sm-2 control-label" >เพศ</label>
+                        <div class="col-sm-10">
+                            <script type="text/javascript">
+                                jQuery(document).ready(function($)
+                                {
+                                    $("#gender").select2({
+                                        placeholder: 'Select your country...',
+                                        allowClear: true
+                                    }).on('select2-open', function()
+                                    {
+                                        // Adding Custom Scrollbar
+                                        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+                                    });
+
+                                });
+                            </script>
+                            <select id="gender" name="gender" class="form-control bs-callout"  ng-model="data.gender" required>
+                                <option value="">กรุณาเลือกเพศ</option>
+                                <option value="1">ชาย</option>
+                                <option value="2">หญิง</option>
+                                <option value="3">ไม่ระบุ</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group"  ng-class="{'has-error': myForm.br_province.$invalid && !myForm.br_province.$pristine}" >
+                        <label class="col-sm-2 control-label">กรุณาเลือกจังหวัด</label>
+                        <div class="col-sm-10">
+                            <script type="text/javascript">
+                                jQuery(document).ready(function($)
+                                {
+                                    $("#br_province").select2({
+                                        placeholder: 'Select your country...',
+                                        allowClear: true
+                                    }).on('select2-open', function()
+                                    {
+                                        // Adding Custom Scrollbar
+                                        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+                                    });
+
+                                });
+                            </script>
+                            <select id="br_province" name="br_province" class="form-control"  ng-model="data.provinceSelected"  ng-change="selectprovince()" ng-options="p.province_id as p.province_name for p in  province" >
+                                <option value="">กรุณาเลือกจังหวัด</option>
+                            </select>
+                            <span ng-show="myForm.br_province.$error.required && !myForm.br_province.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group"  ng-class="{'has-error': myForm.br_amphur.$invalid && !myForm.br_amphur.$pristine}">
+                        <label class="col-sm-2 control-label">กรุณาเลือกอำเภอ</label>
+                        <div class="col-sm-10">
+                            <script type="text/javascript">
+                                jQuery(document).ready(function($)
+                                {
+                                    $("#br_amphur").select2({
+                                        placeholder: 'Select your country...',
+                                        allowClear: true
+                                    }).on('select2-open', function()
+                                    {
+                                        // Adding Custom Scrollbar
+                                        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+                                    });
+
+                                });
+                            </script>
+                            <select id="br_amphur" name="br_amphur" class="form-control" ng-model="data.amphurSelected"  ng-disabled="!amphurselectable()" ng-change="selectamphur()" ng-options="a.amphur_id as a.amphur_name for a in amphur" >
+                                <option value="">กรุณาเลือกอำเภอ</option>
+                            </select>
+                            <span ng-show="myForm.br_amphur.$error.required && !myForm.br_amphur.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group"  ng-class="{'has-error': myForm.br_tumbon.$invalid && !myForm.br_tumbon.$pristine}">
+                        <label class="col-sm-2 control-label">กรุณาเลือกตำบล</label>
+                        <div class="col-sm-10">
+                            <script type="text/javascript">
+                                jQuery(document).ready(function($)
+                                {
+                                    $("#br_tumbon").select2({
+                                        placeholder: 'Select your country...',
+                                        allowClear: true
+                                    }).on('select2-open', function()
+                                    {
+                                        // Adding Custom Scrollbar
+                                        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+                                    });
+
+                                });
+                            </script>
+                            <select id="br_tumbon" name="br_tumbon" class="form-control" ng-model="data.tumbonSelected" ng-disabled="!tumbonselectable()" ng-change="selecttumbon()" ng-options="t.district_id as t.district_name for t in tumbon" >
+                                <option value="">กรุณาเลือกตำบล</option>
+                            </select>
+                            <span ng-show="myForm.br_tumbon.$error.required && !myForm.br_tumbon.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group"  ng-class="{'has-error': myForm.br_zipcode.$invalid && !myForm.br_zipcode.$pristine}">
+                        <label class="col-sm-2 control-label">รหัสไปรษณี่ย์</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="br_zipcode" ng-model="data.zipcode" >
+                        </div>
+                    </div>
+
+                    <div class="col-sm-10 col-sm-offset-2 well text-center" role="alert" type="black" ng-show="myForm.$invalid" >
+                        <span class="text-primary">กรอกแบบฟอร์มให้ถูกต้องถึงจะกด save ได้ค่ะ</span>
+                    </div>
+                    <div class="alert alert-danger col-sm-10 col-sm-offset-2" ng-hide="!error">
+                        <div align="center">{{error}}</div>
+                    </div>
+
+
+
+
+                    <br>
+                    <a href="#/app/users-index" class="btn btn-white">Cancel</a>
+                    <button ng-disabled="myForm.$invalid" title="กรอกแบบฟอร์มให้ครบถ้วนถึงจะกด save ได้ค่ะ" ng-click="submitForm(data)" class="btn btn-secondary">Save</button>
+                    <button class="btn btn-danger" ng-show="data.status==1" ng-model="id" ng-click="deleteData(id)" >Delete</button>
+                    <button class="btn btn-black" ng-show="data.status==0" ng-model="id" ng-click="restoreData(id)" >Restore</button>
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</form>
+
+
+
+

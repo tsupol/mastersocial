@@ -1,0 +1,341 @@
+html, body {
+  height: 100%;
+}
+
+.red {
+  color: red;
+  font-weight: bold ;
+}
+.fl {float:left;}
+.txt_dis{ text-decoration: line-through ; color:red; }
+
+
+.sign-box {padding:20px;text-align: center;  }
+.sign-box .box {border:1px solid #ccc; min-height:70px; border-radius: 20px; }
+.draglist.thumbnail { border-top:0px; width: 180px;  height: 257px !important; padding: 0px; overflow-y: auto;overflow-x:hidden !important; }
+.draglist .btn-droppable { width: 180px; height: 30px; padding-left: 4px; }
+.draglist .btn-draggable { width: 180px; text-align: left; margin-left:0px !important;  }
+.draglist .btn-white:hover {background-color:#5ca323 !important; color:#FeFeFe; }
+.draglist li {list-style-type: none;}
+
+/* Let's get this party started */
+.draglist.thumbnail::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.draglist.thumbnail::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.15);
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+/* Handle */
+.draglist.thumbnail::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  /*background: #d9d9d9;*/
+  background: rgba(86, 86, 86, 0.9);
+  /*background: rgba(255,0,0,0.8);*/
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);}
+
+
+.vertical-center {
+  height:100%;
+  width:100%;
+
+  text-align: center;  /* align the inline(-block) elements horizontally */
+
+}
+
+.vertical-center:before {    /* create a full-height inline block pseudo=element */
+  content: " ";
+  display: inline-block;
+  vertical-align: middle;    /* vertical alignment of the inline element */
+  height: 100%;
+}
+
+.vertical-center > .container {
+  max-width: 100%;
+
+  display: inline-block;
+  vertical-align: middle;  /* vertical alignment of the inline element */
+
+}
+
+.vcenter {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+}
+
+.test{
+  float:none;
+  display:inline-block;
+  vertical-align:middle;
+}
+
+/* ---------- ton's ----------- */
+
+.my-separator {
+  height: 1px;
+  background: #eee;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+.edit-table .table-responsive {
+  margin-bottom: 0;
+}
+
+.edit-table>.add-wrap {
+  padding-bottom: 15px;
+  display: block;
+}
+
+.add-wrap input {
+  height: 36px;
+}
+
+.table-responsive {
+  overflow: visible !important;
+}
+
+.edit-table tr.deleted>td, .dataTable tr.deleted>td {
+  color: #FF9D9D;
+  text-decoration: line-through;
+}
+
+.edit-table tr td, .edit-table tr.deleted>td.tools {
+  color: #777;
+  text-decoration: none;
+}
+
+.edit-table .total-label {
+  text-align: right;
+  font-weight: bold;
+}
+
+.edit-table .row-total>td {
+  background-color: #fff !important;
+}
+
+.price-dd span {
+  color: #0074cc;
+}
+
+.price-dd a {
+  color: #aaa !important;
+}
+
+.pTable td {
+  vertical-align: middle !important;
+}
+
+.logo-expanded, .logo-expanded:hover {
+  font-size: 15px; color: #fff;
+}
+
+.logo-collapsed, .logo-collapsed:hover {
+  font-size: 10px; color: #fff;
+}
+
+.myForm .required {
+  color: #CA5C5C;
+}
+
+.myForm .genRadio {
+  list-style: none; margin: 5px 0 2px 0; padding: 0;
+}
+.myForm .genRadio>li {
+  margin-right: 15px; float:left; line-height: 22px;
+}
+.myForm .genRadio input {
+  margin-right: 5px;float:left;
+}
+
+.myForm .genAlert .alert {
+  margin-bottom: 0 !important;
+}
+
+#gen div.dataTables_filter label {
+  float: left; margin:0;
+}
+#gen .dataTables_wrapper .dataTables_filter .form-control {
+  margin-left: 0; height: 32px;
+}
+
+#gen div.dataTables_length label {
+  float: right;
+}
+#gen .dataTables_wrapper .dataTables_filter {
+  padding:0;
+}
+.btnIcon {
+  margin-left:5px;
+}
+
+.dataTable .select2-container .select2-choice {
+  height: 30px;
+}
+
+.dataTable .select2-container .select2-choice .select2-chosen, #gen .select2-container .select2-choice .select2-arrow {
+  line-height: 30px;
+}
+
+div.dataTables_length select {
+  border-radius: 0 !important;
+}
+/*#gen .dataTables_wrapper .dataTables_filter .form-control::after {*/
+  /*content: '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'*/
+/*}*/
+
+#bsTable .expandable {
+  cursor: pointer;
+}
+
+#bsTable table thead:hover th{
+  background: #F6F6F6;
+}
+
+#bsTable tbody, #bsTable thead, #bsTable tr {
+  display: table;
+  width: 100%;
+}
+#bsTable .piTable>tbody {
+  height: 0;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+}
+#bsTable .pTable>tbody {
+  width: 100%;display: block;
+}
+
+.table-striped>tbody>tr>td {
+  border-bottom-width: 1px !important;
+}
+
+.table-striped>tbody>tr:last-child>td {
+  border-bottom-width: 0 !important;
+}
+
+.dataTables_wrapper tr .yadcf-filter-wrapper .yadcf-filter-wrapper-inner .yadcf-filter-range-number-seperator {
+  width: 2%;
+}
+.dataTables_wrapper tr .yadcf-filter-wrapper .yadcf-filter-wrapper-inner .yadcf-filter-range-date {
+  width: 50%;
+}
+
+.dataTables_wrapper tr .yadcf-filter-wrapper .yadcf-filter-wrapper-inner .yadcf-filter-range {
+  height: 30px;
+}
+
+.gTable { color: #848484; }
+
+.gTable .paid {
+  background-color: #00aff2;
+}
+
+.gTable tr td:last-child {
+  width: 1%; white-space:nowrap;
+}
+
+div.datepicker table {
+  width: 100%;
+}
+
+/* invoice */
+.invoice-options {
+  float: left; clear: both; width: 100%;
+}
+.invoice-options a {
+  width: 200px; float: right;
+}
+.invoice-options a:last-child {
+  margin-right: 15px;
+}
+.th-item-name {
+  width: 60%;
+}
+
+.emptyrow {
+  display: none;
+}
+.emptyrow:last-child {
+  display: table-row;
+}
+
+/* report */
+/*#pReport input[type='radio'] {*/
+  /*margin-right: 5px;*/
+/*}*/
+
+
+@media print {
+  .panel-heading {
+    display: none;
+  }
+  #receipt .invoice-logo {
+    width: 50%;
+  }
+
+  #receipt {
+    margin-top:-20px; margin-bottom: -20px;
+    font-size: 11px;
+  }
+
+  #receipt .bill-title {
+    margin-top: 0; font-weight: bold; letter-spacing: 1px;
+  }
+
+  #receipt .invoice-client-info, #receipt .invoice-payment-info {
+    font-size: 11px !important;
+  }
+  
+  #bill-detail {
+    font-size: 8px;
+  }
+  .th-item-name {
+    width: 50%;
+  }
+
+  .invoice-env .invoice-header {
+    padding-bottom: 10px !important;
+  }
+
+  .invoice-env .invoice-totals {
+    margin-top: 20px;
+  }
+
+  .invoice-env .invoice-details {
+    padding-bottom: 0; padding-top:15px;
+  }
+
+  #bill-detail {
+  }
+
+  #bill-detail th {
+    padding: 5px 3px;
+  }
+  #bill-detail td {
+    padding: 5px 10px; height: 11px;
+    border-bottom: none !important; border-top: none !important;
+  }
+
+  .sign-box {
+    padding: 10px 0 0 10px;
+  }
+
+  .sign-box .box {
+    min-height: 36px; border-radius: 5px; margin-bottom: 4px;
+  }
+
+  .sign-box:first-child {
+    padding-left: 0;
+  }
+
+  .emptyrow {
+    display: table-row;
+  }
+
+}

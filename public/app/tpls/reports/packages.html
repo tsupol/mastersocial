@@ -1,0 +1,169 @@
+
+
+	<page-title ng-if="layoutOptions.pageTitles" title="Charts" description="Data visualization widgets for your stats"></page-title>
+
+
+<script type="text/javascript">
+	jQuery(document).ready(function($)
+	{
+		if( ! $.isFunction($.fn.dxChart))
+			$(".dx-warning").removeClass('hidden');
+
+		var wd =  $(".wd").width()-100;
+		console.log(wd);
+		$("#bar-3").css("width",wd+"px");
+
+	});
+</script>
+
+<script>
+	var xenonPalette = ['#68b828','#7c38bc','#0e62c7','#fcd036','#4fcdfc','#00b19d','#ff6264','#f7aa47'];
+</script>
+
+<div class="row">
+	<div class="col-sm-12">
+	
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Report Package</h3>
+				<div class="panel-options">
+					<a href="" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="" data-toggle="remove">
+						&times;
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">	
+				<script type="text/javascript">
+					jQuery(document).ready(function($)
+					{
+						if( ! $.isFunction($.fn.dxChart))
+							return;
+							
+						var dataSource = [
+							{ month: "2015-01", pos1: 5460, pos2: 3320, pos3: 2270 },
+							{ month: "2015-02", pos1: 7050, pos2: 4170, pos3: 2830 },
+							{ month: "2015-03", pos1: 8560, pos2: 5130, pos3: 3610 },
+							{ month: "2015-04", pos1: 12940, pos2: 6140, pos3: 4710 },
+							{ month: "2015-05", pos1: 3210, pos2: 7210, pos3: 6230 },
+							{ month: "2015-06", pos1: 7300, pos2: 18360, pos3: 12970 },
+							{ month: "2015-07", pos1: 7280, pos2: 9350, pos3: 9820 },
+							{ month: "2015-08", pos1: 7210, pos2: 10270, pos3: 11890 },
+							{ month: "2015-09", pos1: 7040, pos2: 11100, pos3: 14160 },
+							{ month: "2015-10", pos1: 6800, pos2: 11780, pos3: 16650 },
+							{ month: "2015-11", pos1: 6500, pos2: 12310, pos3: 19370 }
+						];
+
+
+
+
+
+						$("#bar-3").dxChart({
+							dataSource: dataSource,
+							commonSeriesSettings: {
+								argumentField: "month"
+							},
+
+							margin: {
+								bottom: 20
+							},
+							argumentAxis: {
+//								valueMarginsEnabled: false,   //--- ปิดขอบ ของกราฟ  ถ้าเซ็ต กราฟจะเริ่มจากแกน 0 0
+								discreteAxisDivisionMode: "crossLabels",
+								grid: {
+									visible: true
+								}
+							},series: [
+								{ valueField: "pos1", name: "สยาม#1", color: "#40bbea" },
+								{ valueField: "pos2", name: "สยาม#1", color: "#cc3f44" },
+								{ valueField: "pos3", name: "เชียงใหม่", color: "#8dc63f" }
+
+							],legend: {
+								verticalAlignment: "bottom",
+								horizontalAlignment: "center"
+							},
+							title: "รายงานการซื้อ Package menoaura เทียบทั้ง 3 สาขา",
+							tooltip: {
+								enabled: true
+//
+//								customizeTooltip: function (arg) {
+//									return {
+//										text: arg.valueText
+//									};
+//								}
+							},
+
+
+							commonPaneSettings: {
+								border:{
+									visible: true,
+									right: false
+								}
+							}
+						});
+
+
+
+
+//						var chartOptions = {
+//							dataSource: dataSource,
+//							commonSeriesSettings: {
+//								argumentField: "month",
+//								type: types[0]
+//							},
+//							margin: {
+//								bottom: 20
+//							},
+//							argumentAxis: {
+//								valueMarginsEnabled: false,
+//								discreteAxisDivisionMode: "crossLabels",
+//								grid: {
+//									visible: true
+//								}
+//							},
+//							series: [
+//								{ valueField: "pos1", name: "สยาม#1" },
+//								{ valueField: "pos2", name: "สยาม#2" },
+//								{ valueField: "pos3", name: "เชียงใหม่" }
+//
+//							],
+//							legend: {
+//								verticalAlignment: "bottom",
+//								horizontalAlignment: "center",
+//								itemTextPosition: "bottom"
+//							},
+//							title: "Energy Consumption in 2004 (Millions of Tons, Oil Equivalent)",
+//							tooltip: {
+//								enabled: true,
+//								customizeTooltip: function (arg) {
+//									return {
+//										text: arg.valueText
+//									};
+//								}
+//							}
+//						};
+//
+//						var chart = $("#bar-3").dxChart(chartOptions).dxChart("instance");
+
+
+					});
+				</script>
+				<div class="container col-sm-10" >
+					<div class="row">
+						<div class="wd col-sm-11" >
+							<div id="bar-3" style="height: 400px;z-index:10;"></div>
+						</div>
+					</div>
+
+				</div>
+
+
+			</div>
+		</div>
+			
+	</div>
+</div>
+

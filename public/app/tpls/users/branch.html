@@ -1,0 +1,102 @@
+
+<page-title ng-if="layoutOptions.pageTitles" title="หมวดหมู่พนักงาน" description="การจัดการหมวดหมู่พนักงาน"></page-title>
+
+<!-- Responsive Table -->
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Adjustable Responsive Table</h3>
+
+                <div class="panel-options">
+                    <a href="">
+                        <i class="linecons-cog"></i>
+                    </a>
+
+                    <a href="" data-toggle="panel">
+                        <span class="collapse-icon">&ndash;</span>
+                        <span class="expand-icon">+</span>
+                    </a>
+
+                    <a href="" data-toggle="reload">
+                        <i class="fa-rotate-right"></i>
+                    </a>
+
+                    <a href="" data-toggle="remove">
+                        &times;
+                    </a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="col-xs-5">
+                    <input type="text" class="form-control" name="auth_name"  ng-model="queryString" placeholder="กรอกข้อมูลเพื่อค้นหา" >
+
+                </div>
+                <div class="col-xs-1 pull-right">
+                    <span class="input-group-btn">
+                         <a href="#/app/users-branch-create"   class="btn btn-secondary">เพิ่ม</a>
+
+                    </span>
+                </div>
+                <BR>
+                <div class="col-xs-12">
+
+                    <div class="table-responsive" >
+
+                        <table cellspacing="0" class="table table-small-font table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th class="col-xs-1">#</th>
+                                <th class="col-xs-2" data-priority="1">ชื่อสาขา</th>
+                                <th class="col-xs-2" data-priority="1">โทรศัพท์หลัก</th>
+                                <th class="col-xs-2" data-priority="1">เบอร์โทรสาร</th>
+                                <th class="col-xs-1" data-priority="1">อำเภอ</th>
+                                <th class="col-xs-1" data-priority="1">จังหวัด</th>
+                                <th class="col-xs-1" data-priority="1">สถานะ</th>
+                                <th class="col-xs-2" data-priority="3">tool</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+
+
+                            <tr  ng-repeat="rs in data | filter:queryString ">
+                                <td>{{ rs.id }}</td>
+                                <td >{{ rs.name}}</td>
+                                <td >{{ rs.br_phone}}</td>
+                                <td >{{ rs.br_fax}}</td>
+                                <td >{{ rs.br_amphur_name}}</td>
+                                <td >{{ rs.br_province_name}}</td>
+                                <td >{{ rs.status_text}}</td>
+                                <td>
+
+                                    <a class="btn btn-blue btn-xs" href="#/app/users-branch-edit/{{rs.id}}"><i class="fa fa-edit"></i></a>
+
+                                    <button ng-show="rs.status==1" class="btn btn-danger btn-xs" title="delete" ng-click="deleteData(rs.id)">
+                                        <i class="fa fa-close"></i>
+                                    </button>
+                                    <button ng-show="rs.status==0" class="btn btn-black btn-xs" title="restore" ng-click="restoreData(rs.id)">
+                                        <i class="glyphicon glyphicon-globe"></i>
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div>
+                        <table-pagination></table-pagination>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

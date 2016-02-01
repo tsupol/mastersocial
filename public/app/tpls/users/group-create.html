@@ -1,0 +1,72 @@
+
+<page-title ng-if="layoutOptions.pageTitles" title="หมวดหมู่พนักงาน" description="การจัดการหมวดหมู่พนักงาน"></page-title>
+
+<!-- Responsive Table -->
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Adjustable Responsive Table</h3>
+
+                <div class="panel-options">
+                    <a href="">
+                        <i class="linecons-cog"></i>
+                    </a>
+
+                    <a href="" data-toggle="panel">
+                        <span class="collapse-icon">&ndash;</span>
+                        <span class="expand-icon">+</span>
+                    </a>
+
+                    <a href="" data-toggle="reload">
+                        <i class="fa-rotate-right"></i>
+                    </a>
+
+                    <a href="" data-toggle="remove">
+                        &times;
+                    </a>
+                </div>
+            </div>
+            <div class="panel-body">
+
+                <a href="#/app/users-group-create" class="btn btn-secondary"  >เพิ่ม</a>
+
+                <div class="table-responsive" data-pattern="priority-columns" data-focus-btn-icon="fa-asterisk" data-sticky-table-header="true" data-add-display-all-btn="true" data-add-focus-btn="true">
+
+                    <table cellspacing="0" class="table table-small-font table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th data-priority="1">Last Trade</th>
+                            <th data-priority="3">Trade Time</th>
+                            <th data-priority="1">Change</th>
+                            <th data-priority="3">Prev Close</th>
+                            <th data-priority="3">Open</th>
+                            <th data-priority="6">Bid</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th>GOOG <span class="co-name">Google Inc.</span></th>
+                            <td>597.74</td>
+                            <td>12:12PM</td>
+                            <td>14.81 (2.54%)</td>
+                            <td>582.93</td>
+                            <td>597.95</td>
+                            <td>597.73 x 100</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

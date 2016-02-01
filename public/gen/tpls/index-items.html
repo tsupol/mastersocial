@@ -1,0 +1,29 @@
+<div class="row">
+
+    <div class="col-xs-12">
+
+        <!-- Table -->
+
+        <div class="row" ng-if="view.type == 'basicTable'">
+            <basic-table></basic-table>
+        </div>
+
+        <div ng-if="view.type == 'genTable'">
+            <gen-table></gen-table>
+        </div>
+
+        <div ng-if="view.type == 'charter'">
+            <charter></charter>
+        </div>
+
+        <!-- Custom -->
+
+        <div ng-if="view.type == 'custom'" class="custom" ng-include src="view.template"></div>
+
+        <!-- Not Custom -->
+
+        <div ng-if="view.type == undefined">
+            <gen-form></gen-form>
+        </div>
+    </div>
+</div>

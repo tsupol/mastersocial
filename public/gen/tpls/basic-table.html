@@ -1,0 +1,85 @@
+<div class="basic-table" >
+    <div class="col-xs-5" >
+        <div class="input-group" ng-show="totalPages > currentPage" >
+            <input type="text" class="form-control" ng-model="search_txt" ng-keyup="search(search_txt)" placeholder="กรอกข้อมูลเพื่อค้นหา">
+            <span ng-show="!sts_selectpic" class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+            <span ng-show="sts_selectpic" class="input-group-addon" ng-click="close_search()"><i class="glyphicon glyphicon-remove"></i></span>
+        </div>
+
+        <input type="text" class="form-control" ng-model="queryString" placeholder="กรอกข้อมูลเพื่อค้นหา" ng-show="totalPages == currentPage" >
+
+    </div>
+
+
+    <!-- add button -->
+
+    <div class="col-xs-7" ng-if="view.create">
+        <span class="input-group-btn">
+             <a href="#{{ view.create }}" class="btn btn-secondary">เพิ่ม</a>
+        </span>
+    </div>
+
+    <BR><BR>
+
+    <!-- table -->
+
+    <div class="col-xs-12">
+
+        <div class="table-responsive">
+
+            <table cellspacing="0" class="table table-small-font table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th ng-repeat="col in view.fields" ng-class="{'col-xs-1': col[0] == id}">{{ col[1] }}</th>
+                    <th class="col-xs-2">tool</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr ng-repeat="rs in data.data | filter:queryString " ng-class="{'txt_dis' : rs.deleted_at!=null }" >
+                    <td ng-repeat="col in view.fields">{{ rs[col[0]] }}</td>
+                    <td>
+                        <a class="btn btn-blue btn-xs" title="แก้ไข" href="#{{url.base}}/edit/{{rs.id}}"><i
+                                class="fa fa-pencil"></i></a>
+                        <!--<button ng-show="rs.status==1" ng-if="permissions.customer_delete" class="btn btn-danger btn-xs" title="delete" ng-click="deleteData(rs.id)">-->
+                        <!--<i class="fa fa-close"></i>-->
+                        <!--</button>-->
+
+                        <!--<button class="btn btn-blue btn-xs" title="Copy" ng-click="duplicate(rs.id)"><i-->
+                                <!--class="fa fa-copy"></i></button>-->
+
+                        <button ng-show="rs.deleted_at" class="btn btn-black btn-xs" title="restore"
+                                ng-click="deleteData(rs.id)">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+
+                        <button ng-if="rs.deleted_at==null" class="btn btn-danger btn-xs" title="ลบข้อมูล"
+                                ng-click="deleteData(rs.id)">
+                            <i class="fa fa-trash-o"></i>
+                        </button>
+
+                        <a ng-if="view.receipt" class="btn btn-secondary btn-xs" title="ซื้อสินค้า" href="#app/bills/{{rs.id}}/purchases/create">Buy</a>
+
+                        <a ng-if="view.view_purchase" class="btn btn-secondary btn-xs" title="ดูข้อมูล" href="#app/bills/purchases/{{rs.id}}">view</a>
+
+                        <a ng-if="view.view_bill" class="btn btn-purple btn-xs" title="หักแพ็คเกจ" href="#app/bills/{{rs.id}}/package/create">Use</a>
+
+
+                        <!--<button  class="btn btn-secondary btn-xs" title="ซื้อสินค้า"-->
+                                <!--ng-click="receipt(rs.id)">Bill-->
+                        <!--</button>-->
+                    </td>
+
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <table-pagination></table-pagination>
+    </div>
+
+
+</div>

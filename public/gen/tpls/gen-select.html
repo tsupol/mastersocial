@@ -1,0 +1,9 @@
+<div>
+    <select ng-model="val[value.name]" name="{{value.name}}" class="form-control genSelect"
+             data-validate="{{value.validator}}" data-message-required="{{value.errorMessage}}"
+             ng-options="t[value.model[1]] as t[value.model[2]] for t in data[value.model[0]]"
+             ng-change="onChange(value.change[0], value.change[1], val[value.name])" dyn-attr="value.attrs">
+        <!--<option value="">-- Please Select --</option>-->
+        <option></option>
+    </select>
+</div>

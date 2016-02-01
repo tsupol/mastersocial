@@ -1,0 +1,97 @@
+<div class="row edit-table">
+
+    <div class="row add-wrap form-inline" ng-show="value.searchable && !readonly">
+        <div class="col-sm-12">
+            <div class="col-sm-4">
+                <input type="hidden" name="s2example-4" id="s2example-4" class="etSelect" />
+            </div>
+
+            <div class="col-sm-4" ng-repeat="eit in editable">
+
+                <!--<select id="level" name="level" class="form-control" ng-model="product_id"-->
+                        <!--ng-options="t.id as t.name for t in products">-->
+                    <!--<option value="">สินค้าทั่วไป</option>-->
+                <!--</select>-->
+                <!--<div class="input-group">-->
+                    <!--<input type="text" class="form-control" ng-model="search_txt" ng-keyup="search(search_txt)" placeholder="กรอกข้อมูลเพื่อค้นหา">-->
+                    <!--<span ng-if="!search_x" class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-search"></i></span>-->
+                    <!--<span class="input-group-btn" ng-if="search_x" >-->
+                        <!--<button  class="btn btn-default" type="button" ng-click="close_search()" ><i class="glyphicon glyphicon-remove"></i></button>-->
+                    <!--</span>-->
+                <!--</div>-->
+
+                <input type="text" inputmask data-mask="decimal" class="form-control" ng-model="addData[eit.name]" ng-value="eit.id"
+                       placeholder="จำนวน"/>
+                <input type="button" value=" + " class="btn btn-white" ng-click="addItem()"
+                       style="margin:0"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="table-responsive">
+
+            <table cellspacing="0" class="table table-small-font table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th ng-repeat="col in value.fields">{{ col.label }}</th>
+                    <th class="col-xs-3">tool</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr ng-repeat="rs in etData" ng-class="{deleted:rs.deleted}">
+                    <td ng-repeat="col in value.fields">
+                    <!--<td>-->
+                        <div ng-if="isEditable($index)">
+                            <div ng-hide="rs.editing">
+                                <span style="cursor:pointer;  "
+                                      ng-class="{red: hover}"
+                                      ng-mouseenter="hover = true"
+                                      ng-mouseleave="hover = false"
+                                      ng-click="rs.editing=!rs.editing">{{ rs[col.name] }}</span>
+                            </div>
+                            <div ng-show="rs.editing">
+                                <input inputmask data-mask="decimal" ng-model="rs[col.name]" ng-change="calTotal()">
+                                <a href="" ng-click="rs.editing=!rs.editing" style="color:#F00;">close edit</a>
+                            </div>
+                        </div>
+                        <div ng-if="!isEditable($index)">
+                            {{ rs[col.name] }}
+                        </div>
+
+                    </td>
+                    <!--<td>{{ rs.cost }}</td>-->
+                    <td class="tools">
+                        <div ng-if="value.editable && !readonly" class="btn btn-blue btn-xs" title="แก้ไข"
+                                ng-click="rs.editing=!rs.editing"><i class="fa fa-pencil"></i>
+                        </div>
+                        <div ng-if="value.deletable && !rs.deleted && !readonly" class="{{btn.delete.class}}"
+                                title="{{btn.delete.title}}" ng-click="ajaxDelete(rs); calTotal()"><i ng-if="btn.delete.icon" class="{{btn.delete.icon}}"></i>{{btn.delete.label}}
+                        </div>
+                        <div ng-if="rs.deleted && !readonly" class="btn btn-secondary btn-xs"
+                                title="restore" ng-click="ajaxDelete(rs); calTotal()"><i class="fa fa-refresh"></i>
+                        </div>
+
+                        <a ng-repeat="btn in value.buttons" class="{{btn.class}}" ng-href="{{btn.url}}{{rs.id}}"
+                           title="{{btn.title}}" ><i ng-if="btn.icon" class="{{btn.icon}}"></i>{{btn.label}}
+                        </a>
+                    </td>
+                </tr>
+
+                <tr class="row-total">
+                    <td colspan="{{value.fields.length-1}}" class="total-label">
+                        total
+                    </td>
+                    <!--<td>{{ rs.cost }}</td>-->
+                    <td colspan="2">
+                        {{ total }}
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

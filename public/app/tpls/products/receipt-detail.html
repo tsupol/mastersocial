@@ -1,0 +1,188 @@
+
+
+	<page-title ng-if="layoutOptions.pageTitles" title="Invoice" description="Sample invoice and printable page"></page-title>
+
+
+<div class="panel panel-default">
+	<div class="panel-heading hidden-print">ใบเสร็จรับเงิน</div>
+	<div class="panel-body">
+		
+		<section class="invoice-env">
+		
+			<!-- Invoice header -->
+			<div class="invoice-header">
+				
+				<!-- Invoice Options Buttons -->
+				<div class="invoice-options hidden-print">
+					<a href="" class="btn btn-block btn-gray btn-icon btn-icon-standalone btn-icon-standalone-right text-left">
+						<i class="fa-envelope-o"></i>
+						<span>Send</span>
+					</a>
+					
+					<a href="" class="btn btn-block btn-secondary btn-icon btn-icon-standalone btn-icon-standalone-right btn-single text-left">
+						<i class="fa-print"></i>
+						<span>Print</span>
+					</a>
+				</div>
+				
+				<!-- Invoice Data Header -->
+				<div class="invoice-logo">
+				
+					<a href="" class="logo">
+						<!--<img src="assets/images/logo-white-bg.png" class="img-responsive" />-->
+						<h3>Masterpiece Clinic</h3>
+					</a>
+					
+					<ul class="list-unstyled">
+						<li></li>
+						<li class="upper">เลขที่ <strong>#5652256</strong></li>
+
+					</ul>
+					
+				</div>
+				
+			</div>
+			
+			
+			<!-- Client and Payment Details -->
+			<div class="invoice-details">
+				
+				<div class="invoice-client-info">
+
+					<ul class="list-unstyled">
+						<li>แพทย์ผู้ตรวจ :</li>
+						<li>ชื่อ - สกุล :</li>
+
+					</ul>
+					
+					<ul class="list-unstyled">		
+						<li><strong>หมอกาตอบ</strong></li>
+						<li><strong>นางนิจชุดา เจียมเจตจรูญ</strong></li>
+
+					</ul>
+				</div>
+				
+				<div class="invoice-payment-info">
+
+					<ul class="list-unstyled">
+						<li>ชำระโดย : <strong>เครดิต</strong></li>
+						<li>วันที่ : <strong>17 พ.ย. 2558</strong> </li>
+
+					</ul>
+				</div>
+				
+			</div>
+			
+			
+			<!-- Invoice Entries -->
+			<table class="table table-bordered">
+				<thead>
+					<tr class="no-borders">
+						<th class="text-center hidden-xs">รหัส</th>
+						<th width="60%" class="text-center">รายการ</th>
+						<th class="text-center hidden-xs">จำนวน</th>
+						<th class="text-center">รวม</th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr>
+						<td class="text-center hidden-xs">0105</td>
+						<td>ฉีดยาชาเฉพาะที่</td>
+						<td class="text-center hidden-xs">1</td>
+						<td class="text-right text-primary text-bold">50</td>
+					</tr>
+					
+					<tr>
+						<td class="text-center hidden-xs">0201</td>
+						<td>ภาพถ่ายรังสี</td>
+						<td class="text-center hidden-xs">1</td>
+						<td class="text-right text-primary text-bold">100</td>
+					</tr>
+					
+					<tr>
+						<td class="text-center hidden-xs">1750</td>
+						<td>Meno Aura</td>
+						<td class="text-center hidden-xs">1</td>
+						<td class="text-right text-primary text-bold">5500</td>
+					</tr>
+					
+					<tr>
+						<td class="text-center hidden-xs">0805</td>
+						<td>Meso Collagen</td>
+						<td class="text-center hidden-xs">1</td>
+						<td class="text-right text-primary text-bold">1500</td>
+					</tr>
+					<tr>
+						<td class="text-center hidden-xs">หมายเหตุ</td>
+						<td ></td>
+						<td colspan="2"></td>
+
+					</tr>
+
+				</tbody>
+			</table>
+			
+			<!-- Invoice Subtotals and Totals -->
+			<div class="invoice-totals">
+				
+				<div class="invoice-subtotals-totals">
+					<span>
+						เงินสด :
+						<strong>0.00</strong>
+					</span>
+					
+					<span>
+						เครดิต :
+						<strong>7650.50</strong>
+					</span>
+					
+					<hr />
+
+					<span>
+						รวมทั้งสิ้น:
+						<strong>7650.50</strong>
+					</span>
+				</div>
+				
+				<div class="invoice-bill-info">
+					<address>
+						199/6,201 ถ.พระราม1 แขวงปทุมวัน<br />
+						ปทุมวัน กรุงเทพ 10330<br />
+						โทร :085-999-9714 <br />
+						<a href="">Masterpiece@gmail.com</a>
+					</address>
+				</div>
+				
+			</div>
+
+			<div class="col-xs-3 sign-box" >
+				<div class="box">
+
+				</div>
+				ผู้ขาย
+			</div>
+			<div class="col-xs-3 sign-box" >
+				<div class="box">
+
+				</div>
+				ผู้ช่วยขาย
+			</div>
+			<div class="col-xs-3 sign-box" >
+				<div class="box">
+
+				</div>
+				ผู้รับเงิน
+				</div>
+			<div class="col-xs-3 sign-box" >
+				<div class="box" style="background: #eee;">
+
+				</div>
+				ลูกค้า
+			</div>
+
+
+		</section>
+		
+	</div>
+</div>

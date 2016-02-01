@@ -1,0 +1,170 @@
+<form name="myForm" role="form" method="post" class="validate2 form-horizontal myForm"
+      action="" ng-model="myForm">
+
+    <div class="alert alert-success" ng-show='isnotification'>{{notification}}</div>
+
+    <div ng-repeat="(key, value) in view.items" gen-form-element>
+
+
+        <!-- Special -->
+
+        <div ng-if="value.type == 'special'" class="special" ng-include src="value.template"></div>
+
+        <div ng-if="value.type == 'editTable'" class="my-separator"></div>
+
+        <div ng-if="value.type != 'special'" class="form-group" ng-hide="{{value.hide}}">
+
+            <!-- Label -->
+
+            <label class="col-sm-2 control-label" ng-if="value.type != 'hidden'">
+                <span class="{{value.labelClass}}">{{value.label}}</span>
+            </label>
+
+            <div class="col-sm-10">
+
+                <!-- Custom -->
+
+                <div ng-if="value.type == 'customType'" class="custom-type" ng-include src="value.template"></div>
+
+                <!-- Text -->
+
+                <input ng-if="value.type == 'text'" type="{{value.type}}"
+                       class="form-control" name="{{value.name}}" ng-model="val[value.name]"
+                       ng-value="{{ value.value }}"
+                       dyn-attr="value.attrs"/>
+
+                <!-- Number -->
+
+                <input ng-if="value.type == 'number'" type="number"
+                       class="form-control" name="{{value.name}}" ng-model="val[value.name]"
+                       ng-value="{{ value.value }}"
+                       dyn-attr="value.attrs" ng-change="numChange(value.summation)"/>
+
+                <!-- Summation -->
+
+                <input ng-if="value.type == 'summation'" type="number" disabled
+                       class="form-control" name="{{value.name}}" ng-value="{{ value.value }}"
+                       dyn-attr="value.attrs"/>
+
+                <!-- Switch -->
+
+                <input ng-if="value.type == 'switch'" type="checkbox" name="{{value.name}}"
+                       class="iswitch iswitch-{{value.color}}" dyn-attr="value.attrs"
+                       ng-change='switchChange(val[value.name])' ng-model="val[value.name]">
+
+                <!-- Password -->
+
+                <input ng-if="value.type == 'password'" type="{{value.type}}"
+                       class="form-control" name="{{value.name}}" ng-model="val[value.name]"
+                       data-validate="{{value.validator}}"
+                       data-message-required="{{value.errorMessage}}" id="{{value.name}}"
+                       placeholder="{{value.placeHolder}}"/>
+
+
+                <!-- Hidden -->
+
+                <input ng-if="value.type == 'offset'" type="hidden" class="form-control"
+                       name="{{value.name}}"/>
+
+                <!-- DatePicker -->
+
+                <div class="input-group" ng-if="value.type == 'date_picker'">
+                    <input ng-model="val[value.name]" type="text" class="form-control datepicker" data-format="dd-mm-yyyy" gen-datepick> <!-- data-format="D, dd MM yyyy" -->
+
+                    <div class="input-group-addon">
+                        <a href=""><i class="linecons-calendar"></i></a>
+                    </div>
+                </div>
+
+                <!--<div ng-if="value.type == 'date_picker'" class="input-group" data-date="{{val.birth_date}}" data-date-format="dd-mm-yyyy" data-date-viewmode="years" gen-datepick>-->
+                    <!--<input type="text" class="form-control" ng-model="val[value.name]">-->
+                    <!--<div class="input-group-addon">-->
+                        <!--<a href=""><i class="linecons-calendar"></i></a>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+
+                <!-- Select -->
+
+                <gen-select ng-if="value.type == 'select'"></gen-select>
+
+                <!-- Select 2 -->
+
+                <input select2 ng-if="value.type == 'select2'" type="hidden" class="select2" ng-model="val[value.name]"
+                       name="{{value.name}}" ng-change="console.log('select2change')" value="{{val[value.name]}}" dyn-attr="value.attrs"
+                       data-url="{{value.url}}" data-param="{{value.parent}}"/>
+
+                <!-- Auto Complete -->
+
+                <input auto-complete ng-if="value.type == 'autoComplete'" type="text"
+                       class="auto-complete form-control" name="{{value.name}}"
+                       id="id-{{value.name}}" ng-model="val[value.name]" dyn-attr="value.attrs"
+                       data-url="{{value.url}}" data-param="id-{{value.parent}}"/>
+
+                <!-- Button -->
+
+                <a ng-href="#{{value.link+'/'+val.id}}"
+                   ng-if="value.type == 'add_button'&& val[value.name]"
+                   class="btn btn-danger" title="{{value.btnname}}">{{value.btnname }}</a>
+
+                <!-- Text Area -->
+
+                <textarea ng-if="value.type == 'area'" ng-model="val[value.name]"
+                          name="{{value.name}}" class="form-control" rows="3" dyn-attr="value.attrs">{{val[value.name]}}</textarea>
+
+                <!-- Draglist -->
+
+                <drag-list ng-if="value.type == 'draglist'"></drag-list>
+
+                <!-- Edit Table -->
+
+                <edit-table ng-if="value.type == 'editTable'"></edit-table>
+
+                <!-- File -->
+
+                <input ng-if="value.type == 'file'" type="file" class="form-control" ng-model="val[value.name]">
+
+                <!-- DropZone -->
+                <dropzone ng-if="value.type == 'dropzone'"></dropzone>
+
+                <!-- radio -->
+                <ul ng-if="value.type == 'radio'" class="genRadio">
+                    <li ng-repeat="its in value.items">
+
+                        <input type="radio" name="{{ value.name }}"
+                               ng-model="val[value.name]" dyn-attr="value.attrs"
+                               value="{{its[1]}}">{{ its[0] }}
+
+                    </li>
+                    <!--<input ng-if="value.show == 'showforeign'" type="text" name="{{ value.name }}" class="form-control"/>-->
+
+
+                </ul>
+
+                <div ng-if="value.type == 'alert'" class="row genAlert">
+                    <div class="col-sm-6">
+                        <alert type="{{value.alertType}}">
+                            {{value.caption}}
+                        </alert>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div ng-if="value.separator" class="my-separator"></div>
+    </div>
+
+    <div class="my-separator"></div>
+    <!--<pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>-->
+
+    <!-- Buttons -->
+    <div back-button class="btn btn-white">Cancel</div>
+
+    <button ng-if="!readonly" ng-hide="settings.save.hidden" type="submit" class="btn btn-success">{{btn.save.caption}}</button>
+    <button ng-if="!readonly" id="hackSubmit" style="display:none;" class="btn" ng-click="submitForm(val)">Hack</button>
+    <button ng-if="!readonly" class="btn btn-danger" ng-show="settings.show.delete" ng-model="id" ng-click="deleteData(id)">Delete</button>
+    <button ng-if="!readonly" class="btn btn-black" ng-show="settings.show.restore" ng-model="id" ng-click="restoreData(id)">Restore</button>
+    <a class="btn btn-black" ng-repeat="btn in view.buttons" href="{{btn.url}}"> {{btn.caption}} </a>
+
+</form>

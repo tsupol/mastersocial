@@ -1,0 +1,406 @@
+
+<script>
+
+//    $(function(){
+//
+//        setTimeout(function(){
+//        $("div.scrollable").each(function(i, el)
+//        {
+//
+//            console.log('el',el);
+//            var $this = $(el),
+//            max_height = parseInt(attrDefault($this, 'max-height', 200), 10);
+//
+//            max_height = max_height < 0 ? 200 : max_height;
+//
+//            $this.css({maxHeight: max_height}).perfectScrollbar({
+//            wheelPropagation: true
+//            });
+//        });
+//        }, 3000);
+//
+//    });
+//
+//
+    $(function(){
+
+//        $(window).resize(function(){
+//            $('#inbox').hieght(  ) ;
+//        })
+
+
+    })
+
+
+
+
+
+</script>
+<style >
+    #people_list .media { height: 60px; padding: 5px 0px; border-bottom: 1px solid #CCC; }
+    #people_list .media-body,#people_list .media-heading {   max-width: 180px; height: 25px; line-height: 25px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; }
+    #people_list .media-heading{
+
+        color: #000000;
+        font-weight: bold;
+    }
+
+    #people_list .media .pull-right { line-height: 25px; }
+
+
+    #inbox_message .media { height: 60px; padding: 5px 0px; }
+    #inbox_message .media-body,#people_list .media-heading {
+        }
+    #inbox_message .media-heading{
+        color: #000000;
+        font-weight: bold;
+    }
+
+</style>
+<section id="inbox" style=" height: 100%; margin: 0px; " ng-controller="InboxCtrl" >
+
+    <!--<div  class="col-sm-3"  style="min-width: 350px;  border-left:1px solid #F00;border-right:1px solid #CCC; ">-->
+        <!--<div id="people_list" style=" height:auto; overflow: auto; ">-->
+            <!--<div class="row">-->
+                <!--<div class="col-sm-12" >-->
+                    <!--<div id="custom-search-input">-->
+                        <!--<div class="input-group col-md-12">-->
+                            <!--<input type="text" class="form-control" placeholder="search" />-->
+                            <!--<span class="input-group-btn">-->
+                                <!--<button class="btn  btn-sm" type="button">-->
+                                    <!--<i class="glyphicon glyphicon-search"></i>-->
+                                <!--</button>-->
+                            <!--</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">Tue </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" > ฟังเพลงนี้ มันเพราะทุกครั้ง pok aha testetset srektsehtks</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">12/31/15 </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" >Sirima Supattanavat</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">Tue </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" > ฟังเพลงนี้ มันเพราะทุกครั้ง pok aha testetset srektsehtks</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">12/31/15 </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" >Sirima Supattanavat</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">Tue </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" > ฟังเพลงนี้ มันเพราะทุกครั้ง pok aha testetset srektsehtks</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">12/31/15 </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" >Sirima Supattanavat</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">Tue </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" > ฟังเพลงนี้ มันเพราะทุกครั้ง pok aha testetset srektsehtks</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">12/31/15 </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" >Sirima Supattanavat</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">Tue </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" > ฟังเพลงนี้ มันเพราะทุกครั้ง pok aha testetset srektsehtks</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">12/31/15 </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" >Sirima Supattanavat</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">Tue </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" > ฟังเพลงนี้ มันเพราะทุกครั้ง pok aha testetset srektsehtks</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">12/31/15 </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" >Sirima Supattanavat</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">Tue </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" > ฟังเพลงนี้ มันเพราะทุกครั้ง pok aha testetset srektsehtks</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">12/31/15 </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" >Sirima Supattanavat</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">Tue </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" > ฟังเพลงนี้ มันเพราะทุกครั้ง pok aha testetset srektsehtks</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">12/31/15 </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" >Sirima Supattanavat</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-sm-9">-->
+        <!--<div id="inbox_message" >-->
+            <!--<div class="row">-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">12/6, 11:31pm </span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" > ฟังเพลงนี้ มันเพราะทุกครั้ง pok aha testetset srektsehtks</h5>-->
+                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">12/6, 11:31pm</span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" >Sirima Supattanavat</h5>-->
+                            <!--ได้นะ ลองถาม promoter ดู<BR>-->
+                            <!--ราคาแต่ละเข้าต่างกันนิหน่อย-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="col-sm-12" style="position: fixed; bottom: 0px; border: 1px solid #F00;">-->
+                    <!--<div class="media">-->
+                        <!--<a href="#" class="pull-left">-->
+                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
+                        <!--</a>-->
+                        <!--<span class="pull-right">12/6, 11:31pm</span>-->
+                        <!--<div class="media-body" >-->
+                            <!--<h5 class="media-heading" >Sirima Supattanavat</h5>-->
+                            <!--ได้นะ ลองถาม promoter ดู<BR>-->
+                            <!--ราคาแต่ละเข้าต่างกันนิหน่อย-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+</section>
+<!--<section ng-controller="" >-->
+    <!--<form role="form" class="form-horizontal" >-->
+
+        <!--<div class="form-group">-->
+            <!--<label class="col-sm-2 control-label" >เลือก Filter</label>-->
+
+            <!--<div class="col-sm-10" >-->
+                <!--<div class="radio-inline">-->
+                    <!--<input type="radio" ng-model="data.select_customer_type" value="news" ng-init="data.select_customer_type = 'news'" >ลูกค้าใหม่-->
+                <!--</div>-->
+                <!--<div class="radio-inline">-->
+                    <!--<input type="radio" ng-model="data.select_customer_type" value="uses">ลูกค้าที่มาใช้บริการ-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group-separator"></div>-->
+        <!--<div class="form-group">-->
+            <!--<label class="col-sm-2 control-label" >ช่วงเวลา</label>-->
+            <!--<div class="col-sm-10"  >-->
+                <!--<div class="radio-inline">-->
+                    <!--<input type="radio" ng-model="data.select_date_type" value="day" ng-init="data.select_date_type = 'day'">รายวัน-->
+                <!--</div>-->
+                <!--<div class="radio-inline">-->
+                    <!--<input type="radio" ng-model="data.select_date_type" value="month">รายเดือน-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+
+            <!--<div class="col-sm-offset-2 col-sm-5">-->
+                <!--<div class="input-group" >-->
+                    <!--<input ng-model="data.date_start" type="text" class="form-control datepicker" data-format="dd-mm-yyyy" gen-datepick> &lt;!&ndash; data-format="D, dd MM yyyy" &ndash;&gt;-->
+
+                    <!--<div class="input-group-addon">-->
+                        <!--<a href=""><i class="linecons-calendar"></i></a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-sm-5">-->
+                <!--<div class="input-group" >-->
+                    <!--<input ng-model="data.date_end" type="text" class="form-control datepicker" data-format="dd-mm-yyyy" gen-datepick> &lt;!&ndash; data-format="D, dd MM yyyy" &ndash;&gt;-->
+
+                    <!--<div class="input-group-addon">-->
+                        <!--<a href=""><i class="linecons-calendar"></i></a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+        <!--</div>-->
+        <!--<div class="form-group-separator"></div>-->
+
+
+        <!--<div class="form-group">-->
+            <!--<label class="col-sm-2 control-label" >เลือกสาขา</label>-->
+
+            <!--<div class="col-sm-10">-->
+                <!--<script type="text/javascript">-->
+                    <!--jQuery(document).ready(function($)-->
+                    <!--{-->
+                        <!--$("#branch").select2({-->
+                            <!--placeholder: 'Select your country...',-->
+                            <!--allowClear: true-->
+                        <!--}).on('select2-open', function()-->
+                        <!--{-->
+                            <!--// Adding Custom Scrollbar-->
+                            <!--$(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();-->
+                        <!--});-->
+
+                    <!--});-->
+                <!--</script>-->
+                <!--<select  id="branch" class="form-control" ng-model="data.branch" ng-options="vs.id as vs.name for vs in val.branch" ></select>-->
+            <!--</div>-->
+
+
+        <!--</div>-->
+
+
+
+        <!--<div class="form-group-separator"></div>-->
+        <!--<button type="submit" class="btn btn-success" ng-click="submitForm()"  >ออกรายงาน</button>-->
+
+    <!--</form>-->
+<!--</section>-->

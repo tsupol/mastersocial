@@ -1,0 +1,116 @@
+
+<page-title ng-if="layoutOptions.pageTitles" title="หมวดหมู่พนักงาน" description="การจัดการหมวดหมู่พนักงาน"></page-title>
+
+<!-- Responsive Table -->
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Adjustable Responsive Table</h3>
+
+                <div class="panel-options">
+                    <a href="">
+                        <i class="linecons-cog"></i>
+                    </a>
+
+                    <a href="" data-toggle="panel">
+                        <span class="collapse-icon">&ndash;</span>
+                        <span class="expand-icon">+</span>
+                    </a>
+
+                    <a href="" data-toggle="reload">
+                        <i class="fa-rotate-right"></i>
+                    </a>
+
+                    <a href="" data-toggle="remove">
+                        &times;
+                    </a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <form role="form" name="myForm">
+
+                <div class="input-group">
+                    <input type="text" class="form-control no-right-border" name="auth_name"  ng-model="queryString.auth_name" placeholder="กรอกข้อมูลเพื่อค้นหา หรือ กดเพิ่ม เพื่อเพิ่มข้อมูล" required>
+                    <span ng-show="myForm.auth_name.$error.required && !myForm.auth_name.$pristine" class="text-danger">
+    Required
+    </span>
+                    <span class="input-group-btn">
+                         <button ng-disabled="myForm.$invalid" ng-click="submitForm(data)" class="btn btn-secondary">เพิ่ม</button>
+
+                    </span>
+
+                </div>
+                </form>
+                <BR>
+
+
+                <div class="table-responsive" >
+
+                    <table cellspacing="0" class="table table-small-font table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th class="col-xs-1">ลำดับ</th>
+                            <th class="col-xs-5" data-priority="1">ชื่อหมวดหมู่</th>
+                            <th class="col-xs-1" data-priority="1">สถานะ</th>
+                            <th class="col-xs-5" data-priority="3">tool</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+
+                        <tr  ng-repeat="g in data | filter:queryString ">
+                            <td>{{ g.group_id }}</td>
+                            <td >
+
+
+
+                                <div ng-hide="editorEnabled">
+                                  <span style="cursor:pointer;"  ng-click="editorEnabled=!editorEnabled">{{ g.auth_name}}</span>
+                                </div>
+                                <div ng-show="editorEnabled" >
+
+                                    <input ng-model="g.auth_name"  >
+                                    <a href="" ng-click="editorEnabled=!editorEnabled" style="color:#F00;" >close edit</a>
+
+
+                                </div>
+                            </td>
+                            <td>{{g.status_text}}</td>
+                            <td>
+                                <button class="btn btn-blue btn-xs" title="edit" ng-click="editData(g.auth_name,g.group_id)">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button ng-show="g.status==1" class="btn btn-danger btn-xs" title="delete" ng-click="deleteData(g.group_id)">
+                                    <i class="fa fa-close"></i>
+                                </button>
+                                <button ng-show="g.status==0" class="btn btn-black btn-xs" title="restore" ng-click="restoreData(g.group_id)">
+                                    <i class="glyphicon glyphicon-globe"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+                <div>
+                    <table-pagination></table-pagination>
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

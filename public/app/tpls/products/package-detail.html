@@ -1,0 +1,154 @@
+
+<page-title ng-if="layoutOptions.pageTitles" title="{{pageTitle}}" description="{{ pageDescription }}"></page-title>
+
+
+<script>
+
+    function fnADDCard(){
+        x3++;
+        var trappend = '<div class="col-sm-10 form-inline col-sm-offset-2"><select id="level" name="level" class="form-control" ng-model="data.customer_level_id"  ng-options="t.id as t.name for t in products" ><option value="">สินค้าทั่วไป</option> </select> <select id="level" name="level" class="form-control" ng-model="data.customer_level_id"  ng-options="t.id as t.name for t in procudures" > <option value="">สินค้าหัตถการ</option> </select> <input type="text" name="update_img_big_gallery_1" class="form-control" id="update_img_big_gallery" placeholder="จำนวน"  /> <input type="button" value=" + " class="btn btn-white"  onclick="fnADDCard();" />&nbsp;<input type="button" value="  -  " class="btn btn-danger "  onclick="deleterow('+x3+');"  /></div>' ;
+        $('.appenddata').append(trappend);
+        $('#resulttablecard').val(x3) ;
+        return true ;
+    }
+
+    //----Function Append
+    var x1 = 1 ;
+    var x3 = 1 ;
+    function fnADD(caseid){
+
+        if (caseid==1) { x1++; $('#resulttableevent').val(x1) ;  $('#Game_Event_Name').append('<tr  id="'+x1+'"><td width="40%">Game Event Name '+x1+'</td><td width="60%"><input type="text" id="New_Case_Event_Name_'+x1+'" name="New_Case_Event_Name_'+x1+'"  style="width:200px;" />&nbsp;<input type="button" value="  -  " class="btn_grey bo_ra_3" onclick="deleterow('+x1+',1);" ></td></tr>');}
+        if (caseid==3) { x3++; $('#resulttablecard').val(x3) ; $('#Card_Serial_Number').append('<tr  id="'+x3+'"><td width="40%">Card Serial Number '+x3+'</td><td width="60%"><input type="text" id="Card_serial_num_'+x3+'" name="Card_serial_num_'+x3+'"  style="width:200px;" />&nbsp;<input type="button" value="  -  " class="btn_grey bo_ra_3" onclick="deleterow('+x3+',3);" ></td></tr>');}
+        return true ;
+    }
+
+
+    function fnDEL(){
+
+        if (caseid==1) {
+            deltable =  $('#resulttableevent').val() ;
+            var rowCount = $('#Game_Event_Name tr').length;
+            if (rowCount<=1) { $('#resulttableevent').val(rowCount) ; x1= 1 ; return false;}			// ถ้า tr เหลือ 1 ให้หยุดการลบ   ( tr หัวข้อ  tr row 1 )
+            if (deltable<=1){ $('#resulttableevent').val(deltable) ; x1= 1 ; return false;}
+            $('#Game_Event_Name tr:last').remove();
+            x1--;
+            $('#resulttableevent').val(x1) ;
+        }   // นับจำนวน tr ทั้งหมด
+        if (caseid==3) {
+            deltable =  $('#resulttablecard').val() ;
+            var rowCount = $('#Card_Serial_Number tr').length;
+            if (rowCount<=2) { $('#resulttablecard').val(rowCount) ; x3= 1 ; return false;}			// ถ้า tr เหลือ 1 ให้หยุดการลบ   ( tr หัวข้อ  tr row 1 )
+            if (deltable<=1){ $('#resulttablecard').val(deltable) ; x3= 1 ; return false;}
+            $('#Card_Serial_Number tr:last').remove();
+            x3--;
+            $('#resulttablecard').val(x3) ;
+        }
+        return true ;
+    }
+
+    function deleterow(id,caseid){
+        if(id==1){return false;}					// ถ้าเป็นไอดีที่ 1 ห้ามลบ
+        if (caseid==1) { $('#Game_Event_Name tr#'+id).remove();	 }			//  ลบ  tr  id  ที่ต้องการ
+        if (caseid==3) { $('#Card_Serial_Number tr#'+id).remove();	 }			//  ลบ  tr  id  ที่ต้องการ
+        return true ;
+    }
+
+
+    function deleteit(id,caseid){
+        if (caseid==1) {
+            var rowCount = $('#Game_Event_Name tr').length;
+            if (rowCount<=1) { alert("ต้องเหลือไว้อย่างน้อย 1 row ค่ะ"); $('#resulttableevent').val(rowCount) ; x1= 1 ; return false;}
+            $('#Game_Event_Name  tr#'+id).remove();
+        }   // นับจำนวน tr ทั้งหมด
+        if (caseid==3) {
+            var rowCount = $('#Card_Serial_Number tr').length;
+            if (rowCount<=2) { alert("ต้องเหลือไว้อย่างน้อย 1 row ค่ะ"); $('#resulttablecard').val(rowCount) ; x3= 1 ; return false;}
+            $('#Card_Serial_Number  tr#'+id).remove();
+        }
+
+        //alert(caseid+"-"+rowCount);
+
+        return true ;
+    }
+
+</script>
+
+<div class="row">
+
+    <div class="col-sm-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">ข้อมูลทั่วไป</h3>
+                <div class="panel-options">
+                    <a href="" data-toggle="panel">
+                        <span class="collapse-icon">&ndash;</span>
+                        <span class="expand-icon">+</span>
+                    </a>
+                    <a href="" data-toggle="remove">
+                        &times;
+                    </a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <form  role="form"  class="form-horizontal" name="myForm"   >
+                    <input type="hidden" id="resulttablecard" name="resulttablecard" >
+
+                    <div class="form-group appenddata"  ng-class="{'has-error': myForm.level.$invalid && !myForm.level.$pristine}">
+                        <label class="col-sm-2 control-label">กรุณาเลือกระดับลูกค้า</label>
+                        <div class="col-sm-10 form-inline ">
+
+
+
+                            <select id="level" name="level" class="form-control" ng-model="data.customer_level_id"  ng-options="t.id as t.name for t in products" >
+                                <option value="">สินค้าทั่วไป</option>
+                            </select>
+                            <select id="level" name="level" class="form-control" ng-model="data.customer_level_id"  ng-options="t.id as t.name for t in procudures" >
+                                <option value="">สินค้าหัตถการ</option>
+                            </select>
+                            <input type="text" name="update_img_big_gallery_1" class="form-control" id="update_img_big_gallery" placeholder="จำนวน"  />
+                            <input type="button" value=" + " class="btn btn-white"  onclick="fnADDCard();" />&nbsp;<input type="button" value="  -  " class="btn btn-danger "  onclick="fnDEL();"  />
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group"  ng-class="{'has-error': myForm.f_name.$invalid && !myForm.f_name.$pristine}">
+                        <label class="col-sm-2 control-label" >ชื่อ</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control bs-callout" name="f_name" ng-model="data.f_name" placeholder="ชื่อของลูกจ้าง" required>
+                            <span ng-show="myForm.f_name.$error.required && !myForm.f_name.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-sm-10 col-sm-offset-2 well text-center" role="alert" type="black" ng-show="myForm.$invalid" >
+                        <span class="text-primary">กรอกแบบฟอร์มให้ถูกต้องถึงจะกด save ได้ค่ะ</span>
+                    </div>
+                    <div class="alert alert-danger col-sm-10 col-sm-offset-2" ng-hide="!error">
+                        <div align="center">{{error}}</div>
+                    </div>
+
+
+
+
+                    <br>
+                    <a href="#/app/customers-index" class="btn btn-white">Cancel</a>
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <!--<button ng-disabled="myForm.$invalid" title="กรอกแบบฟอร์มให้ครบถ้วนถึงจะกด save ได้ค่ะ" ng-click="submitForm(data)" class="btn btn-secondary">Save</button>-->
+                    <button class="btn btn-danger" ng-show="data.status==1" ng-model="id" ng-click="deleteData(id)" >Delete</button>
+                    <button class="btn btn-black" ng-show="data.status==0" ng-model="id" ng-click="restoreData(id)" >Restore</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+

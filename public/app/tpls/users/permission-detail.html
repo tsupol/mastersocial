@@ -1,0 +1,248 @@
+
+<page-title ng-if="layoutOptions.pageTitles"  title=" {{ pageTitle }} " description="{{ pageDescription }}"></page-title>
+
+
+<div class="row">
+
+    <div class="col-sm-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"></h3>
+                <div class="panel-options">
+                    <a href="" data-toggle="panel">
+                        <span class="collapse-icon">&ndash;</span>
+                        <span class="expand-icon">+</span>
+                    </a>
+                    <a href="" data-toggle="remove">
+                        &times;
+                    </a>
+                </div>
+            </div>
+            <div class="panel-body">
+
+                <form  role="form"  class="form-horizontal" name="myForm"   >
+
+                    <div class="form-group"  ng-class="{'has-error': myForm.name.$invalid && !myForm.name.$pristine}">
+                        <label class="col-sm-2 control-label" >ชื่อ Permission</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" name="name" ng-model="data.name"  required>
+                            <span ng-show="myForm.name.$error.required && !myForm.name.$pristine" class="text-danger">Required</span>
+                        </div>
+                    </div>
+
+                    <!--<div class="form-group"  ng-class="{'has-error': myForm.multi-select.$invalid && !myForm.multi-select.$pristine}">-->
+                    <!--<div class="col-sm-10 col-sm-offset-2">-->
+                    <!--<script type="text/javascript">-->
+
+
+                    <!--jQuery(document).ready(function($)-->
+                    <!--{-->
+                    <!--$("#multi-select").multiSelect({-->
+                    <!--afterInit: function()-->
+                    <!--{-->
+                    <!--// Add alternative scrollbar to list-->
+                    <!--this.$selectableContainer.add(this.$selectionContainer).find('.ms-list').perfectScrollbar();-->
+                    <!--},-->
+                    <!--afterSelect: function()-->
+                    <!--{-->
+                    <!--// Update scrollbar size-->
+                    <!--this.$selectableContainer.add(this.$selectionContainer).find('.ms-list').perfectScrollbar('update');-->
+                    <!--}-->
+                    <!--});-->
+                    <!--});-->
+                    <!--</script>-->
+                    <!--<select class="form-control" multiple="multiple" id="multi-select"  ng-model="selectedValues" >-->
+                    <!--&lt;!&ndash;<option ng-repeat="p in permissions" value="{{p.id}}"  >{{p.name}}</option>&ndash;&gt;-->
+
+
+                    <!--<option value="{{permissions[0].id}}"  selected >{{permissions[0].name}}</option>-->
+                    <!--<option value="{{permissions[1].id}}"  selected >{{permissions[1].name}}</option>-->
+                    <!--<option value="{{permissions[2].id}}"   >{{permissions[2].name}}</option>-->
+                    <!--<option value="{{permissions[3].id}}"   >{{permissions[3].name}}</option>-->
+                    <!--<option value="{{permissions[4].id}}"   >{{permissions[4].name}}</option>-->
+                    <!--<option value="{{permissions[5].id}}"   >{{permissions[5].name}}</option>-->
+                    <!--<option value="{{permissions[6].id}}"   >{{permissions[6].name}}</option>-->
+                    <!--<option value="{{permissions[7].id}}"   >{{permissions[7].name}}</option>-->
+                    <!--<option value="{{permissions[8].id}}"   >{{permissions[8].name}}</option>-->
+                    <!--<option value="{{permissions[9].id}}"   >{{permissions[9].name}}</option>-->
+                    <!--<option value="{{permissions[10].id}}"   >{{permissions[10].name}}</option>-->
+
+                    <!--<option value="{{permissions[11].id}}"   >{{permissions[11].name}}</option>-->
+                    <!--<option value="{{permissions[12].id}}"   >{{permissions[12].name}}</option>-->
+                    <!--<option value="{{permissions[13].id}}"   >{{permissions[13].name}}</option>-->
+                    <!--<option value="{{permissions[14].id}}"   >{{permissions[14].name}}</option>-->
+                    <!--<option value="{{permissions[15].id}}"   >{{permissions[15].name}}</option>-->
+                    <!--<option value="{{permissions[16].id}}"   >{{permissions[16].name}}</option>-->
+                    <!--<option value="{{permissions[17].id}}"   >{{permissions[17].name}}</option>-->
+                    <!--<option value="{{permissions[18].id}}"   >{{permissions[18].name}}</option>-->
+                    <!--<option value="{{permissions[19].id}}"   >{{permissions[19].name}}</option>-->
+                    <!--<option value="{{permissions[20].id}}"   >{{permissions[20].name}}</option>-->
+
+                    <!--<option value="{{permissions[21].id}}"   >{{permissions[21].name}}</option>-->
+                    <!--<option value="{{permissions[22].id}}"   >{{permissions[22].name}}</option>-->
+                    <!--<option value="{{permissions[23].id}}"   >{{permissions[23].name}}</option>-->
+                    <!--<option value="{{permissions[24].id}}"   >{{permissions[24].name}}</option>-->
+                    <!--<option value="{{permissions[25].id}}"   >{{permissions[25].name}}</option>-->
+                    <!--<option value="{{permissions[26].id}}"   >{{permissions[26].name}}</option>-->
+                    <!--<option value="{{permissions[27].id}}"   >{{permissions[27].name}}</option>-->
+                    <!--<option value="{{permissions[28].id}}"   >{{permissions[28].name}}</option>-->
+                    <!--<option value="{{permissions[29].id}}"   >{{permissions[29].name}}</option>-->
+
+
+                    <!--</select>-->
+
+                    <!--&lt;!&ndash;<select style="width:180px;" multiple="multiple" id="multi-select" name="my-select[]"  required  ng-model="data.PermSelectd"  ng-options="p.id as p.name for p in permissions">&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;</select>&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<select class="form-control"  multiple="multiple" id="multi-select" name="my-select[]" ng-model="data.permSelected" required>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<option value="1" >Dashboard Info</option>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<option value="2" >Latest News</option>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<option value="3">Currency</option>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<option value="4">Shopping Cart</option>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<option value="5">Products</option>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<option value="6" >Blog Posts</option>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<option value="7">Add New Product</option>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<option value="8" >Analytics</option>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<option value="9" >Emails</option>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<option value="10" >Users Management</option>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</select>&ndash;&gt;-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+
+
+                    <div class="form-group"  ng-class="{'has-error': myForm.name.$invalid && !myForm.name.$pristine}">
+
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <div class="row">
+                                <div class="col-sm-1" style="width:210px; !important;">
+                                    <div class="input-group input-group-sm input-group-minimal">
+                                        <input type="text" class="form-control" ng-model="qSl1.name" />
+                                        <span class="input-group-addon">
+                                            <i class="linecons-search"></i>
+                                        </span>
+                                    </div>
+                                    <div class="draglist thumbnail"    >
+                                        <div class="btn btn-white btn-draggable" style="margin:0px;" ng-click="deleteperm(item)"   ng-repeat="item in list1 | filter:qSl1" ng-show="item.id"  ng-model="data.list1" >{{item.name}}</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-1" align="center" style="width:100px; margin-left:0px !important;" >
+                                    <div style="margin-top:110px;" >
+                                        <button class="btn btn-white" disabled >
+                                            <i class="glyphicon glyphicon-transfer"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-1" style="width:210px; !important;">
+                                    <div class="input-group input-group-sm input-group-minimal">
+                                        <input type="text" class="form-control" ng-model="qSl5.name" />
+                                        <span class="input-group-addon">
+                                            <i class="linecons-search"></i>
+                                        </span>
+                                    </div>
+                                    <div  class="draglist thumbnail" >
+                                        <div class="btn btn-white btn-draggable" style="margin:0px;" ng-click="selectperm(item)" ng-repeat="item in list5| filter:qSl5" ng-show="item.id"  ng-model="list5" >{{item.name}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--<div class="form-group"  ng-class="{'has-error': myForm.name.$invalid && !myForm.name.$pristine}">-->
+
+                        <!--<div class="col-sm-10 col-sm-offset-2">-->
+                            <!--<div class="row">-->
+                                <!--<div class="col-sm-1" style="width:210px; !important;">-->
+                                    <!--<div class="input-group input-group-sm input-group-minimal">-->
+                                        <!--<input type="text" class="form-control" ng-model="qSl1.name" />-->
+                                        <!--<span class="input-group-addon">-->
+                                            <!--<i class="linecons-search"></i>-->
+                                        <!--</span>-->
+                                    <!--</div>-->
+
+                                    <!--<div class="thumbnail"  data-drop="true" ng-model='data.list1' data-jqyoui-options="optionsList1" jqyoui-droppable="{multiple:true}">-->
+                                        <!--<div class="btn btn-white btn-draggable" style="margin:0px;" ng-click="deleteperm(item)"   ng-repeat="item in list1 | filter:qSl1" ng-show="item.id" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.name}}</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-sm-1" align="center" style="width:100px; margin-left:0px !important;" >-->
+                                    <!--<div style="margin-top:110px;" >-->
+                                        <!--<button class="btn btn-white" disabled >-->
+                                            <!--<i class="glyphicon glyphicon-transfer"></i>-->
+                                        <!--</button>-->
+                                    <!--</div>-->
+
+
+
+                                <!--</div>-->
+                                <!--<div class="col-sm-1" style="width:210px; !important;">-->
+                                    <!--<div class="input-group input-group-sm input-group-minimal">-->
+                                        <!--<input type="text" class="form-control" ng-model="qSl5.name" />-->
+                                        <!--<span class="input-group-addon">-->
+                                            <!--<i class="linecons-search"></i>-->
+                                        <!--</span>-->
+                                    <!--</div>-->
+                                    <!--<div  class="thumbnail" data-drop="true" ng-model='list5'  jqyoui-droppable="{multiple:true}">-->
+                                        <!--<div class="btn btn-white btn-draggable" style="margin:0px;" ng-click="selectperm(item)" ng-repeat="item in list5| filter:qSl5" ng-show="item.id" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="list5" jqyoui-draggable="{index: {{$index}},placeholder:keep,animate:true}" >{{item.name}}</div>-->
+                                    <!--</div>-->
+
+
+                                    <!--&lt;!&ndash;<div class="thumbnail" data-drop="true" ng-model='list5' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list5])'}" jqyoui-droppable="{index: {{$index}}}">&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<div class="caption">&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<div class="btn btn-info btn-draggable" ng-repeat="item in list5" ng-hide="!item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list5" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" >{{item.title}}</div>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+
+
+
+
+                                    <!--&lt;!&ndash;<div class="thumbnail" style="overflow-y: scroll;">&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<ul >&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<li  ng-repeat="item in list5" data-drop="true" ng-model='list5' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list5])'}"  jqyoui-droppable="{index: {{$index}}}">&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<div class="btn btn-info btn-draggable" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list5" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" ng-hide="!item.title">{{item.title}}</div>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+
+
+                    <div class="well text-center col-sm-10 col-sm-offset-2" ng-show="myForm.$invalid||list1.length==0">
+                        <span class="text-primary">กรอกแบบฟอร์มให้ถูกต้องถึงจะกด save ได้ค่ะ</span>
+                    </div>
+                    <div class="alert alert-danger col-sm-10 col-sm-offset-2" ng-hide="!error">
+                        <div align="center">{{error}}</div>
+                    </div>
+
+                    <!--<div class="alert alert-black " role="alert" type="black" ng-show="myForm.$invalid||list1.length==0" >-->
+                        <!--<div align="center">กรอกแบบฟอร์มให้ถูกต้องถึงจะกด save ได้ค่ะ</div>-->
+                    <!--</div>-->
+
+                    <br>
+                    <a href="#/app/users-perm" class="btn btn-white">Cancel</a>
+                    <button ng-disabled="myForm.$invalid||list1.length==0" title="กรอกแบบฟอร์มให้ครบถ้วนถึงจะกด save ได้ค่ะ" ng-click="submitForm(data)" class="btn btn-secondary">Save</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
