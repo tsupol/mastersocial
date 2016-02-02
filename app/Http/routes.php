@@ -11,6 +11,11 @@
 |
 */
 
+Route::get('job/getinbox', function () {
+    dispatch(new App\Jobs\GetInbox('Test String Parameter'));
+    return 'Done!';
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
