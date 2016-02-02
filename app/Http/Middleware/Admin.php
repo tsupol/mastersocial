@@ -11,6 +11,7 @@ class Admin
 {
     public function handle($request, Closure $next) {
 
+
 //        Auth::logout();
         $user = $request->user();
         if(is_null($user)) {

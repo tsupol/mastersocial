@@ -19,7 +19,6 @@ class BeforeMiddleware
      */
     public function handle($request, Closure $next)
     {
-
         DB::enableQueryLog();
         app()->setLocale(Session::get('locale'));
 

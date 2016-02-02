@@ -215,34 +215,146 @@ angular.module('xenon.controllers', []).
 		public_vars.$settingsPane = public_vars.$body.find('.settings-pane');
 		public_vars.$settingsPaneIn = public_vars.$settingsPane.find('.settings-pane-inner');
 	}).
-	controller('ChatCtrl', function($scope, $element)
+	controller('ChatCtrl', function($scope, $element,$interval,$http,$location)
 	{
+
+
+
+		console.log('$location.path', $location.path());
+
 		var $chat = jQuery($element),
 			$chat_conv = $chat.find('.chat-conversation');
 
 		$chat.find('.chat-inner').perfectScrollbar(); // perfect scrollbar for chat container
 
+        //
+		//var promise;
+		//$scope.init = function () {
+		//	promise = $interval(loadInbox, 1000);
+		//}
+		//$scope.init();
+        //
+		//if($location.path()=="/app/facebooks/inbox"){
+		//	promise = $interval(loadConversation, 1000);
+		//	console.log('inbox');
+		//}else{
+		//	$interval.cancel(promise);
+		//	console.log('in cancel');
+		//}
+
+
+
+
+
+
+		function loadInbox(){
+			$http.get('api/facebook/inbox').success(function(data) {
+				$scope.posts = data;
+				//console.log('data',data);
+				//var data_append ='<strong>Favorites</strong>' ;
+				//for (var i in data){
+				//	data_append +=  '<a href="" ng-click="chat_log('+data[i].id+')"><span class="user-status is-online" ></span> <em>'+data[i].name+'</em></a>' ;
+				//}
+				//jQuery('.chat-inner >.chat-group').html(data_append);
+				$scope.chat_list = data ;
+			});
+		}
+		$scope.chat_list = [{
+			status: 1,
+			name: 'Tab Lnw',
+			id: "t_mid.1453826395510:58e72fa4db22012854"
+		},{
+			status: 0,
+			name: "Komsan Krasaesin",
+			id: "t_mid.1453826055296:6726c8564763d76e99"
+		}] ;
+		$scope.chat_log = function (id){
+
+			console.log('id', id);
+			$location.path('app/facebooks/conversation/'+id) ;
+
+
+
+			//$http.post('facebook/conversation',{id:id}).success(function(data) {
+			//	$scope.posts = data;
+			//	//console.log('data',data);
+			//	var data_append ='<strong>Favorites</strong>' ;
+			//	for (var i in data){
+            //
+			//	}
+			//	jQuery('.chat-inner >.chat-group').html(data_append);
+            //
+			//});
+		}
+
+
+
+
 
 		// Chat Conversation Window (sample)
-		$chat.on('click', '.chat-group a', function(ev)
-		{
-			ev.preventDefault();
+		//$chat.on('click', '.chat-group a', function(ev)
+		//{
+		//	ev.preventDefault();
+		//	$chat_conv.toggleClass('is-open');
+        //
+		//	if($chat_conv.is(':visible'))
+		//	{
+		//		$chat.find('.chat-inner').perfectScrollbar('update');
+		//		$chat_conv.find('textarea').autosize();
+		//	}
+		//});
+        //
+		//$chat_conv.on('click', '.conversation-close', function(ev)
+		//{
+        //
+		//	ev.preventDefault();
+        //
+		//	$chat_conv.removeClass('is-open');
+		//});
+	}).
+	controller('Conversation', function($scope, $element,$interval,$http,$location)
+	{
+		$scope.replyMessage = function(){
+			var id = $scope.val.mid ;
+			var replyMessage = $scope.replyinbox;
+			console.log('replyMessage : ',replyMessage);
+			$http.post('api/facebook/inboxreply',{id:id ,replyMessage :replyMessage }).success(function(data) {
 
-			$chat_conv.toggleClass('is-open');
+			});
+		};
 
-			if($chat_conv.is(':visible'))
-			{
-				$chat.find('.chat-inner').perfectScrollbar('update');
-				$chat_conv.find('textarea').autosize();
-			}
-		});
 
-		$chat_conv.on('click', '.conversation-close', function(ev)
-		{
-			ev.preventDefault();
 
-			$chat_conv.removeClass('is-open');
-		});
+        var message;
+        $scope.init = function () {
+			message = $interval(loadMessage, 2000);
+        }
+        $scope.init();
+
+		function loadMessage(){
+			var id = $scope.val.mid ;
+			//console.log('update_time', $scope.val.update_time);
+			var lasttime = Date.parse($scope.val.update_time)/1000 ;
+			console.log('since : ',lasttime);
+			$http.post('api/facebook/inboxmessage',{id:id ,since :lasttime }).success(function(data) {
+				console.log('data',data);
+				console.log('data.data.length',data.data.length);
+				if(data.data.length!=0){
+					for (var i in data.data ){
+						$scope.val.message.data.push(data.data[i]) ;
+					}
+
+					$scope.val.update_time = data.data[0].created_time ;
+
+
+				}
+			});
+		};
+
+
+
+
+
 	}).
 	controller('UIModalsCtrl', function($scope, $rootScope, $modal, $sce)
 	{

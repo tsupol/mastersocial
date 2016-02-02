@@ -37,7 +37,7 @@
 
 </script>
 <style >
-    #people_list .media { height: 60px; padding: 5px 0px; border-bottom: 1px solid #CCC; }
+   /* #people_list .media { height: 60px; padding: 5px 0px; border-bottom: 1px solid #CCC; }
     #people_list .media-body,#people_list .media-heading {   max-width: 180px; height: 25px; line-height: 25px;
         white-space: nowrap;
         overflow: hidden;
@@ -48,20 +48,48 @@
         font-weight: bold;
     }
 
-    #people_list .media .pull-right { line-height: 25px; }
+    #people_list .media .pull-right { line-height: 25px; }*/
 
 
-    #inbox_message .media { height: 60px; padding: 5px 0px; }
-    #inbox_message .media-body,#people_list .media-heading {
-        }
+
+
     #inbox_message .media-heading{
         color: #000000;
         font-weight: bold;
     }
 
 </style>
-<section id="inbox" style=" height: 100%; margin: 0px; " ng-controller="InboxCtrl" >
+<section id="inbox" style="border:1px solid #F00; height: 100%; margin: 0px; " ng-controller="Conversation" >
+    <h3>{{val.sender.name}}</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12" ng-repeat="v in val.message.data">
+                <div class="media">
+                    <a href="#" class="pull-left">
+                        <img class="media-object" ng-if="v.from.id!='919082208176684'" src="{{ 'https://graph.facebook.com/'+val.sender.id+'/picture'}}" alt="..." style="height: 50px;">
+                    </a>
+                    <span class="pull-right">{{v.created_time}}</span>
+                    <div class="media-body" >
+                        <h5 class="media-heading" >{{v.from.name}}</h5>
+                        {{v.message}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12"  >
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="replyinbox" placeholder="write a reply...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="replyMessage()">Send!</button>
+                    </span>
+                </div><!-- /input-group -->
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div id="" >
 
+        </div>
+    </div>
     <!--<div  class="col-sm-3"  style="min-width: 350px;  border-left:1px solid #F00;border-right:1px solid #CCC; ">-->
         <!--<div id="people_list" style=" height:auto; overflow: auto; ">-->
             <!--<div class="row">-->
@@ -273,53 +301,7 @@
             <!--</div>-->
         <!--</div>-->
     <!--</div>-->
-    <!--<div class="col-sm-9">-->
-        <!--<div id="inbox_message" >-->
-            <!--<div class="row">-->
-                <!--<div class="col-sm-12">-->
-                    <!--<div class="media">-->
-                        <!--<a href="#" class="pull-left">-->
-                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
-                        <!--</a>-->
-                        <!--<span class="pull-right">12/6, 11:31pm </span>-->
-                        <!--<div class="media-body" >-->
-                            <!--<h5 class="media-heading" > ฟังเพลงนี้ มันเพราะทุกครั้ง pok aha testetset srektsehtks</h5>-->
-                            <!--โอเชทางเข้าถึงก่อน ขอบคุณงัฟ ที่บอกข้อมูล-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="col-sm-12">-->
-                    <!--<div class="media">-->
-                        <!--<a href="#" class="pull-left">-->
-                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
-                        <!--</a>-->
-                        <!--<span class="pull-right">12/6, 11:31pm</span>-->
-                        <!--<div class="media-body" >-->
-                            <!--<h5 class="media-heading" >Sirima Supattanavat</h5>-->
-                            <!--ได้นะ ลองถาม promoter ดู<BR>-->
-                            <!--ราคาแต่ละเข้าต่างกันนิหน่อย-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
 
-                <!--<div class="col-sm-12" style="position: fixed; bottom: 0px; border: 1px solid #F00;">-->
-                    <!--<div class="media">-->
-                        <!--<a href="#" class="pull-left">-->
-                            <!--<img class="media-object" src="../public/assets/images/facebook/profile.jpg" alt="..." style="height: 50px;">-->
-                        <!--</a>-->
-                        <!--<span class="pull-right">12/6, 11:31pm</span>-->
-                        <!--<div class="media-body" >-->
-                            <!--<h5 class="media-heading" >Sirima Supattanavat</h5>-->
-                            <!--ได้นะ ลองถาม promoter ดู<BR>-->
-                            <!--ราคาแต่ละเข้าต่างกันนิหน่อย-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
 </section>
 <!--<section ng-controller="" >-->
     <!--<form role="form" class="form-horizontal" >-->

@@ -10,6 +10,10 @@ use App\ViewGenerator\ViewGeneratorManager as VG;
 
 class ViewGeneratorManager {
 
+
+    public static $FbLongToken  = "CAACfguwhIVEBAGJl5DTj6WSLAnhIX5OCNLA3D59m1k2YExqEZBQVn5ZAnF8NQGHRj8W60gs7UoiWIbe5B9odi0TEYxKGxEN2QVUr0YZAZBpJmpdCruBEfXJU0oZA541LsNYOs9PhWcI3h3xZAWVfnv7woH474OVyZBdzSfPWgeZALcNQh9v0mYg0" ;
+
+
     public function doSomething()
     {
         echo 'Do something!';
@@ -310,6 +314,7 @@ class ViewGeneratorManager {
                 ],
                 'items' => [
                     ['/facebooks/inbox','facebooks', '-/inbox', static::TM('fb_inbox')],
+                    ['/facebooks/conversation/:id', 'facebook/conversation/:id'],
                 ],
             ],
 
@@ -317,7 +322,7 @@ class ViewGeneratorManager {
             'users' => [
                 'settings' => [
                     'url' => '/app/users',
-                    'icon' => 'linecons-user',
+                    'icon' => 'fa fa-user',
                     'label' => static::TM('users'),
                 ],
                 'items' => [

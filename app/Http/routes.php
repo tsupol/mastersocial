@@ -41,9 +41,15 @@ Route::group(['middleware'=>['web', 'Admin']],function(){
 //    Route::get('query','MainController@query');
 });
 
+
+
 Route::group(['prefix' => 'api', 'middleware'=>['web', 'Admin', 'Before', 'After']], function() {
 
 
+    Route::get('facebook/inbox', 'FacebookController@inbox');
+    Route::get('facebook/conversation/{id}', 'FacebookController@conversation');
+    Route::post('facebook/inboxmessage', 'FacebookController@inboxmessage');
+    Route::post('facebook/inboxreply', 'FacebookController@inboxreply');
 
 
     Route::resource('facebooks', 'FacebookController');

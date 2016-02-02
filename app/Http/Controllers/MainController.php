@@ -20,6 +20,7 @@ class MainController extends Controller
 
     public function index()
     {
+//        dd('test');
 
 //        dd(Session::all());
         return view('main.index', ['menu' => VG::getMenu()]);
