@@ -218,6 +218,7 @@ return [
         /* added */
 
         'Input'     => Illuminate\Support\Facades\Input::class,
+        'Bus'     => Illuminate\Support\Facades\Bus::class,
 
         'Excel' => 'Maatwebsite\Excel\Facades\Excel',
         'Image' => 'Intervention\Image\Facades\Image',
