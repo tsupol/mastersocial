@@ -11,14 +11,7 @@ class SetUpdater extends Migration {
 	 * @return void
 	 */
 	public $targets = [
-		'customers', 'branches', 'permissions', 'groups', 'customer_levels', 'know_reasons', 'roles', 'users', 'customer_branch',
-		'products', 'receipts', 'items','credits',
-		'procedures', 'procedure_item', 'procedure_product',
-		'packages', 'package_procedure', 'package_product', 'package_types',
-		'purchases', 'purchase_product', 'purchase_package',
-		'bills','bill_procedure','bill_product','bill_item',
-		'departments','procedure_cats',
-		'item_branch','product_branch'
+		'users','facebook_post','category'
 	];
 
 	public function up()

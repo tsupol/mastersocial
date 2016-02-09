@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Facebook;
+use App\Models\FacebookCustomer;
 use App\User;
 use Carbon\Carbon;
 use VG;
@@ -11,58 +13,73 @@ use Session;
 class FacebookController extends Controller
 {
 
+    public function __construct()
+    {
+
+        define("LONGLIVE_ACCESSTOKEN", Session::get('fb_longlive_token') );
+        define("PAGE_ID", '919082208176684' );
+
+
+    }
+
+
     public function index()
     {
 //        $data = User::withTrashed()->orderBy('id','DESC')->with('role', 'group', 'branch')->paginate(10);
 
+        return Facebook::getIndexView();
 
-        $data = [];
 
-//        dd($data);
-        // $data["packages"] = Package::skip(0)->take(20)->get();
-        return [
-            'settings' => VG::getSetting('facebook_inbox'),
-            'val' => $data,
-            'views' => [
-                [
-                    'label' => trans('pos.facebook_inbox'),
-                    'panel' => [
-                        'label' => trans('pos.facebook_inbox'),
-                    ],
-                    'type' => 'custom',
-                    'controller' => '',
-                    'template' => 'gen/tpls/custom/facebook/inbox.html',
-                ]
-            ]
-        ];
+//        $data = [];
+//
+////        dd($data);
+//        // $data["packages"] = Package::skip(0)->take(20)->get();
+//        return [
+//            'settings' => VG::getSetting('facebook_inbox'),
+//            'val' => $data,
+//            'views' => [
+//                [
+//                    'label' => trans('pos.facebook_inbox'),
+//                    'panel' => [
+//                        'label' => trans('pos.facebook_inbox'),
+//                    ],
+//                    'type' => 'custom',
+//                    'controller' => '',
+//                    'template' => 'gen/tpls/custom/facebook/inbox.html',
+//                ]
+//            ]
+//        ];
 
 //        return json_encode(VG::getTableSchema($data, 'users.index'));
     }
 
     public function create()
     {
-        return User::getCreateView();
+        return Facebook::getCreateView();
     }
 
     public function store()
     {
         $data = Input::all();
 
-        if ($data["password"] != $data["confirm_password"] ){
-            return VG::result(false, 'failed!');
-        }
 
-        $chk = User::where('email', $data["email"])->first();
+        $post_type = '' ;
+        if($data['hasphotos']){
+            $post_type = 'photos' ;
+            $data["post_id"] =   Session::get('fb_page_id')."_".$data["post_id"] ;
+        }else if(!empty($data['link'])){
+            $post_type = 'link' ;
+        }else if(!empty($data['message'])){
+            $post_type = 'message' ;
+        }
+        $chk = Facebook::where('post_id', $data["post_id"])->first();
         if(isset($chk)){
-            return VG::result(false, 'failed!'); //--- check email ���
+            return VG::result(false, 'failed! this post has repeat');
         }
-
-
-        $data["password"] = bcrypt($data["password"]) ;
-
         $data = array_diff_key($data, array_flip(['id','_method','deleted_at','deleted_by','updated_at','created_at']));
-        $data["created_by"] = Session::get('user_id');
-        $status = User::create($data);
+        $data["created_by"] = 'SYSTEM' ;
+        $data['post_type'] = $post_type ;
+        $status = Facebook::create($data);
 
         if($status === NULL) {
             return VG::result(false, 'failed!');
@@ -144,57 +161,72 @@ class FacebookController extends Controller
 
     }
 
-    public function inbox(){
-        $longLiveAccessToken = "CAACfguwhIVEBAGJl5DTj6WSLAnhIX5OCNLA3D59m1k2YExqEZBQVn5ZAnF8NQGHRj8W60gs7UoiWIbe5B9odi0TEYxKGxEN2QVUr0YZAZBpJmpdCruBEfXJU0oZA541LsNYOs9PhWcI3h3xZAWVfnv7woH474OVyZBdzSfPWgeZALcNQh9v0mYg0" ;
-        $url =  "https://graph.facebook.com/v2.5/919082208176684/conversations?access_token=$longLiveAccessToken" ;
+    public function bgConversations(){
+        $url =  "https://graph.facebook.com/v2.5/919082208176684/conversations?access_token=".LONGLIVE_ACCESSTOKEN ;
         $data =  file_get_contents($url);
-
         $json = json_decode($data) ;
-
         $res = [];
-
         foreach ($json->data as $key=>$d){
-
-
             $d_link =   $d->link ;
-
             $pieces = explode('user%3A',$d_link) ;
             $pieces1 = explode('&threadid',$pieces[1]) ;
-
             $userId = $pieces1[0] ;
-            //$url =  "https://graph.facebook.com/v2.5/".$userId."?fields=picture,name&access_token=$longLiveAccessToken" ;
-            $url =  "https://graph.facebook.com/v2.5/".$userId."?fields=name&access_token=$longLiveAccessToken" ;
-            $data =  file_get_contents($url);
-            $json = json_decode($data) ;
-            //$res[$key]["picture"] = $json->picture->data->url ;
-            $res[$key]["name"] = $json->name ;
+            $FbCus =  FacebookCustomer::where('fb_uid',$userId)->first();
+
+            if(empty($FbCus)){   //--- if hasn't this customer in DB  Call API for get information
+                $url  = "https://graph.facebook.com/v2.5/".$userId."?fields=name&access_token=".LONGLIVE_ACCESSTOKEN ;
+                $data = file_get_contents($url);
+                $json = json_decode($data) ;
+                $res[$key]["name"] = $json->name ;
+                $data=[];
+                $data['fb_uid'] = $d->id ;
+                $data['fb_uname'] = $json->name ;
+                $data['status'] = 1  ;
+                $status = FacebookCustomer::create($data);
+            }else{
+                $res[$key]["name"] = $FbCus->fb_uname ;
+            }
             $res[$key]["id"] =  $d->id ;
 
+        }
+        return json_encode($res) ;
+    }
 
+    public function inbox(){
+        $url =  "https://graph.facebook.com/v2.5/919082208176684/conversations?access_token=".LONGLIVE_ACCESSTOKEN ;
+        $data =  file_get_contents($url);
+        $json = json_decode($data) ;
+        $res = [];
+        foreach ($json->data as $key=>$d){
+            $d_link =   $d->link ;
+            $pieces = explode('user%3A',$d_link) ;
+            $pieces1 = explode('&threadid',$pieces[1]) ;
+            $userId = $pieces1[0] ;
+            $FbCus =  FacebookCustomer::where('fb_uid',$userId)->first();
 
-//            $this->pr($d) ;
-//            $url =  "https://graph.facebook.com/v2.5/".$d->id."?fields=messages.limit(25){id,message}&access_token=$longLiveAccessToken" ;
-//            $data =  file_get_contents($url);
-//            $json = json_decode($data) ;
-//
-//            foreach ($json->messages->data as $c)
-//            {
-//                $this->pr($c) ;
-//            }
+            if(empty($FbCus)){   //--- if hasn't this customer in DB  Call API for get information
+                $url  = "https://graph.facebook.com/v2.5/".$userId."?fields=name&access_token=".LONGLIVE_ACCESSTOKEN ;
+                $data = file_get_contents($url);
+                $json = json_decode($data) ;
+                $res[$key]["name"] = $json->name ;
+                $data=[];
+                $data['fb_uid'] = $d->id ;
+                $data['fb_uname'] = $json->name ;
+                $data['status'] = 1  ;
+                $status = FacebookCustomer::create($data);
+            }else{
+                $res[$key]["name"] = $FbCus->fb_uname ;
+            }
+            $res[$key]["id"] =  $d->id ;
 
         }
-
-
         return json_encode($res) ;
-
     }
 
     public function conversation($id){
 
-        $longLiveAccessToken = "CAACfguwhIVEBAGJl5DTj6WSLAnhIX5OCNLA3D59m1k2YExqEZBQVn5ZAnF8NQGHRj8W60gs7UoiWIbe5B9odi0TEYxKGxEN2QVUr0YZAZBpJmpdCruBEfXJU0oZA541LsNYOs9PhWcI3h3xZAWVfnv7woH474OVyZBdzSfPWgeZALcNQh9v0mYg0" ;
-
         //--- get who send message
-        $url =  "https://graph.facebook.com/v2.5/".$id."?fields=senders,updated_time&access_token=$longLiveAccessToken" ;
+        $url =  "https://graph.facebook.com/v2.5/".$id."?fields=senders,updated_time&access_token=".LONGLIVE_ACCESSTOKEN ;
         $data =  file_get_contents($url);
         $sender = json_decode($data) ;
         $from = [] ;
@@ -205,8 +237,7 @@ class FacebookController extends Controller
             }
         }
 
-
-        $url =  "https://graph.facebook.com/v2.5/".$id."/messages?fields=message,from,created_time&access_token=$longLiveAccessToken" ;
+        $url =  "https://graph.facebook.com/v2.5/".$id."/messages?fields=attachments,shares,subject,from,message,created_time&until=1454424460&access_token=".LONGLIVE_ACCESSTOKEN ;
         $data =  file_get_contents($url);
         $message = json_decode($data) ;
 //        $user_id = "" ;
@@ -245,12 +276,15 @@ class FacebookController extends Controller
 
     }
 
+
+
+
+
     public function inboxmessage(){
 
         $data = Input::all();
 
-        $longLiveAccessToken = "CAACfguwhIVEBAGJl5DTj6WSLAnhIX5OCNLA3D59m1k2YExqEZBQVn5ZAnF8NQGHRj8W60gs7UoiWIbe5B9odi0TEYxKGxEN2QVUr0YZAZBpJmpdCruBEfXJU0oZA541LsNYOs9PhWcI3h3xZAWVfnv7woH474OVyZBdzSfPWgeZALcNQh9v0mYg0" ;
-        $url =  "https://graph.facebook.com/v2.5/".$data['id']."/messages?fields=message,from,created_time&since=".$data['since']."&__previous=1&access_token=$longLiveAccessToken" ;
+        $url =  "https://graph.facebook.com/v2.5/".$data['id']."/messages?fields=attachments,shares,subject,from,message,created_time&since=".$data['since']."&__previous=1&access_token=".LONGLIVE_ACCESSTOKEN ;
 //       dd($url);
         $data =  file_get_contents($url);
 
@@ -274,11 +308,9 @@ class FacebookController extends Controller
     public function inboxreply(){
 
         $data = Input::all();
-        $longLiveAccessToken = "CAACfguwhIVEBAGJl5DTj6WSLAnhIX5OCNLA3D59m1k2YExqEZBQVn5ZAnF8NQGHRj8W60gs7UoiWIbe5B9odi0TEYxKGxEN2QVUr0YZAZBpJmpdCruBEfXJU0oZA541LsNYOs9PhWcI3h3xZAWVfnv7woH474OVyZBdzSfPWgeZALcNQh9v0mYg0" ;
         $url =  "https://graph.facebook.com/v2.5/".$data['id']."/messages" ;
        // $data =  file_put_contents($url);
-
-        $data = array('message' => $data['replyMessage'] , 'access_token' => $longLiveAccessToken );
+        $data = array('message' => $data['replyMessage'] , 'access_token' => LONGLIVE_ACCESSTOKEN );
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);

@@ -391,9 +391,9 @@ angular.module("gen.directives", []).
                 var i = 1,
                     $example_dropzone_filetable = dp.find("table"),
                     example_dropzone = dp.find("div.droppable-area").dropzone({
-                        url: scope.value.uploadUrl,
+                        url: attrs.url ,
 
-                        maxFiles: (scope.value.maxFiles) ? scope.value.maxFiles : 10,
+                        maxFiles: 1 ,
                         maxfilesexceeded: function(file) {
                             this.removeAllFiles();
                             this.addFile(file);
@@ -428,8 +428,10 @@ angular.module("gen.directives", []).
                         },
 
                         sending: function(file, xhr, formData) {
+                            console.log('scope',scope);
+                            console.log('attrs.csrf_token',attrs.token);
                             // Pass token. You can use the same method to pass any other values as well such as a id to associate the image with for example.
-                            formData.append("_token", scope.value.csrf_token); // Laravel expect the token post value to be named _token by default
+                            formData.append("_token", attrs.token ); // Laravel expect the token post value to be named _token by default
                         },
 
                         uploadprogress: function(file, progress, bytesSent)
@@ -437,10 +439,17 @@ angular.module("gen.directives", []).
                             file.progressBar.width(progress + '%');
                         },
 
-                        success: function(file)
+                        success: function(file,response)
                         {
+                            console.log('success',response);
                             file.fileEntryTd.find('td:last').html('<span class="text-success">Uploaded</span>');
                             file.progressBar.removeClass('progress-bar-warning').addClass('progress-bar-success');
+                            scope.$apply(function() {
+                                scope.val[attrs.modelname] = response.img_url;
+
+
+
+                            });
                         },
 
                         error: function(file)

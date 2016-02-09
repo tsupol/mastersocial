@@ -1,0 +1,359 @@
+
+<script>
+
+
+//    $(function(){
+//        $('.show-url').click(function(e) {
+//            $(this).parent("td").find("span").slideToggle(400) ;
+//            return false;
+//        });
+//        $( "#start_at,#end_at" ).datepicker({
+//            changeMonth: true,
+//            changeYear: true ,
+//            dateFormat : "yy-mm-dd" ,
+//        });
+//        $( "#scheduled_date" ).datetimepicker({
+//            changeMonth: true,
+//            changeYear: true ,
+//            dateFormat : "yy-mm-dd" ,
+//        });
+//        $("#export_fb_insight").on("click", function(e){
+//            e.preventDefault();
+//            $('#fb_accessToken').val('');
+//            FB.login(function (response) {
+//                if (response.authResponse != null && response.authResponse != undefined) {
+//                    FB.getLoginStatus(function(response) {
+//                        if (response.status === 'connected') {
+//                            var accessToken = response.authResponse.accessToken;
+//                            $('#fb_accessToken').val(accessToken);
+//                            //$('#sform').attr('action', "").submit();
+//                            var start_at = $("#start_at").val();
+//                            var end_at = $("#end_at").val();
+//                            if(!start_at ||!end_at){
+//                                alert('กรุณาระบุช่วงเวลาที่จะค้นหา \n ( note: Google Analytic is required )');
+//                                return false;
+//                            }else{
+//                                authorize();
+//                            }
+//                        }
+//                    });
+//                }
+//            }, { scope: 'read_insights' });
+//        });
+//        $("#delete_fb_list").on("click", function(e){
+//            e.preventDefault();
+//            if (have_check(e)){
+//                $('#sform').attr('action', "/nimda/social/delete/").submit();
+//            }
+//        });
+//        $("#submit_tw").on("click", function(e){
+//            console.log('tw_loading');
+//            $("#tw_loading").show();
+//            e.preventDefault();
+//            if ( parseInt($('#tw_validate').val())==1){
+//                $('#twitter').attr('action', "/nimda/twitter/tweet/").submit();
+//            }else{
+//                $('#tw_box_error_msg').text('กรุณาตรวจสอบข้อมูลให้ถูกต้อง');
+//                $("#tw_loading").hide();
+//                return false;
+//            }
+//        });
+//
+//    });
+//
+//    function have_check(e){
+//        var myCheckboxes = new Array();
+//        $("input[id=chkId]:checked").each(function(e) {
+//            myCheckboxes.push($(this).val());
+//        });
+//        var numberOfChecked = myCheckboxes.length;
+//        if (numberOfChecked<=0) { alert('กรุณาคลิกเลือกข้อมูลที่ต้องการก่อนค่ะ'); return false; }
+//        return true;
+//    }
+
+//
+//    function fb_page_insigth(post_id){
+////read_insights
+//        FB.login(function (response) {
+//            //console.log(response);
+//            if (response.authResponse != null && response.authResponse != undefined) {
+//                FB.getLoginStatus(function(response) {
+//                    if (response.status === 'connected') {
+//                        var uid = response.authResponse.userID;
+//                        var accessToken = response.authResponse.accessToken;
+//                        //console.log('fb : '+uid);
+//                        FB.api(
+//                                //'/110602052308408_920250884676850/insights/',
+//                                '/'+post_id+'/insights/',
+//                                'GET',
+//                                function(rs) {
+//                                    var rsd = rs.data ;
+//                                    console.log(rs);
+//                                    $('.modal-title').text('insights');
+//                                    if (typeof rsd != 'undefined'&&(rsd.length>0)) {
+//                                        for (var i=0 ; i<rsd.length ;i++){
+//                                            if(rsd[i].name=="post_impressions_unique"){
+//                                                var reached = rsd[i].values[0].value ;
+//                                            }
+//                                            if(rsd[i].name=="post_story_adds_by_action_type"){
+//                                                var like = rsd[i].values[0].value.like ;
+//                                                var comment = rsd[i].values[0].value.comment ;
+//                                                var share = rsd[i].values[0].value.share ;
+//                                                like = (like==undefined) ? 0 : like ;
+//                                                comment = (comment==undefined) ? 0 : comment ;
+//                                                share = (share==undefined) ? 0 : share ;
+//                                            }
+//                                        }
+//                                        var insights_data = "Reached : "+reached+"<BR>Like : "+like+"<BR>Comment : "+comment+"<BR>Share : "+share ;
+//                                        //console.log(insights_data);
+//                                        $('.fb_data').html(insights_data);
+//                                        $('#list_popup').modal('toggle');
+//                                    }else if(rsd.length==0){
+//                                        $('.fb_data').html('คุณไม่มี permission สำหรับดูข้อมูลของเพจนี้ค่ะ');
+//                                        $('#list_popup').modal('toggle');
+//                                    }else{
+//                                        $('.fb_data').html('ไม่พบโพสของคุณ : โพสอาจถูกลบ หรือยังไม่ได้ publish สู่สาธารณะ');
+//                                        $('#list_popup').modal('toggle');
+//                                    }
+//                                }
+//                        );
+//                    }
+//                });
+//            }
+//        }, { scope: 'read_insights' });
+//    }
+//
+//    function fb_page_post_comment(post_id){
+//        console.log('post_id : '+post_id) ;
+//        FB.login(function (response) {
+//            if (response.authResponse != null && response.authResponse != undefined) {
+//                FB.getLoginStatus(function(response) {
+//                    if (response.status === 'connected') {
+//                        FB.api(
+//                                //'/110602052308408_920025251366080/comments',
+//                                '/'+post_id+'/comments',
+//                                'GET',
+//                                {"limit":"25"},
+//                                function(rs) {
+//                                    //console.log(rs);
+//                                    var rsd = rs.data ;
+//                                    var comment_data = "" ;
+//                                    if (typeof rsd != 'undefined') {
+//                                        $('.modal-title').text('comment');
+//                                        if(rsd.length==0){
+//                                            $('.fb_data').html('ไม่พบคอมเม้นของโพสนี้ค่ะ : โพสอาจถูกลบ หรือยังไม่ได้ publish สู่สาธารณะ');
+//                                            $('#list_popup').modal('toggle');
+//                                            return false;
+//                                        }
+//                                        for (var i=0 ; i<rsd.length ;i++){
+//                                            var comment_name = rsd[i].from.name  ;
+//                                            var comment_content = rsd[i].message  ;
+//                                            var comment_created_time = new Date(Date.parse(rsd[i].created_time)).toUTCString();
+//                                            comment_data += "<span class=\"fb_comment_name\">"+comment_name+" : <span><span class=\"fb_comment_name\">"+comment_content+"<span><BR><span class=\"unfocus-txt small-txt-fixed\">"+comment_created_time+"</span><BR>"
+//                                        }
+//                                        $('.fb_data').html(comment_data);
+//                                        $('#list_popup').modal('toggle');
+//                                    }
+//                                    if (typeof rs.paging.next != 'undefined'){
+//                                        console.log(rs.paging.next);
+//                                        var fb_next_btn = "<button class=\"btn btn-primary center-block\" onclick=\"fb_page_post_comment_next_btn('"+rs.paging.next+"');\" >Next</button>" ;
+//                                        $('.fb_data_next_btn').html(fb_next_btn);
+//                                    }
+//                                }
+//                        );
+//                    }
+//                });
+//            }
+//        });
+//
+//        //}, { scope: 'read_insights' });
+//    }
+//
+//    function fb_page_post_scheduled(){
+//        var id = $('#fb_scheduled_id').val();
+//        var fb_scheduled_url = $('#fb_scheduled_url').val();
+//        var fb_scheduled_message = $('#scheduled_message').val();
+//        var fb_scheduled_title = $('#scheduled_title').val();
+//        var fb_scheduled_time = $('#scheduled_date').val();
+//
+//        var unix_fb_date = '' ;
+//        var published = true ;
+//        if(fb_scheduled_time!=""){
+//            unix_fb_date = Date.parse(fb_scheduled_time+"+0700")/1000;    //--- แปลงเวลาที่รับมาให้ตรงกับเวลาโพสจริง
+//            published = false ;
+//        }
+//
+//        var upload_url = $("#upload_url").val() ; var upload_img = "" ;
+//        if (upload_url!=""){
+//            upload_img = "http://enjoy.pantip.com/"+upload_url ;
+//            console.log('upload_img',upload_img);
+//        }
+//
+//        FB.login(function (response) {
+//            $('#loading').show();
+//            if (response.authResponse != null && response.authResponse != undefined) {
+//                FB.getLoginStatus(function(response) {
+//                    if (response.status === 'connected') {
+//                        var uid = response.authResponse.userID;
+//                        var accessToken = response.authResponse.accessToken;
+//                        FB.api(
+//                                '/me/accounts',
+//                                'GET',
+//                                function(response) {
+//                                    var rs_data =  response.data ;
+//                                    var status_not_perm = false;
+//                                    for (var i = 0; i < rs_data.length; i++) {
+//                                        if (rs_data[i].id==PAGE_ID){
+//                                            for (var s=0; s < rs_data[i].perms.length ; s++  ){
+//                                                if (rs_data[i].perms[s]=="CREATE_CONTENT"){
+//                                                    status_not_perm = true ;
+//                                                    var PAGE_ACCESSTOKEN = rs_data[i].access_token ;
+//                                                    var to = PAGE_ID+'/feed?access_token='+PAGE_ACCESSTOKEN;
+//                                                    FB.api(to, 'post',
+//                                                            {
+//                                                                "name" : fb_scheduled_title ,
+//                                                                "link": fb_scheduled_url ,
+//                                                                "picture" : upload_img ,
+//                                                                "message": fb_scheduled_message ,
+//                                                                "scheduled_publish_time": unix_fb_date ,
+//                                                                "published": published
+//
+//                                                            },
+//                                                            function(response) {
+//                                                                console.log('share response :',response);
+//                                                                if (response && !response.error) {
+//                                                                    save_post_id(id,response.id,PAGE_ACCESSTOKEN);
+//                                                                    $('#sharebox').modal('hide');
+//                                                                }else{
+//                                                                    $('#fb_box_error_msg').text('โพสไม่สำเร็จ!');
+//                                                                    $('#loading').hide();
+//                                                                    //$('#sharebox').modal('hide');
+//                                                                }
+//                                                            });
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                    if(!status_not_perm){
+//                                        $('.fb_data').html('คุณไม่มี permission สำหรับโพสที่แฟนเพจนี้ค่ะ');
+//                                        $('#list_popup').modal('toggle');
+//                                        $('#loading').hide();
+//                                        $('#sharebox').modal('hide');
+//                                    }
+//                                }
+//                        );
+//                    }
+//                });
+//            }
+//        }, { scope: 'manage_pages,publish_pages' });
+//    }
+//
+//    function ajaxUpload(){
+//        var postData = $("#schedule").serializeArray();
+//        $.ajax({
+//            url : "/nimda/social/uploadimg/",
+//            async: false,
+//            type: "POST",
+//            data : postData,
+//            dataType: 'json',
+//            success:function(data)
+//            {
+//                var str = data;
+//                console.log("ajaxUpload res :",data);
+//                if (str.method=="200") {
+//                    $("#upload_url").val(str.data.img);
+//                    $('#Upload').hide();
+//                    fb_page_post_scheduled();
+//                }else{
+//                    $('#fb_box_error_msg').text('อัพโหลดรูปล้มเหลว!');
+//                    $('#Upload').hide();
+//                }
+//                return false;
+//            },
+//            error: function(jqXHR, textStatus, errorThrown)
+//            {
+//                alert("error");
+//            }
+//        });
+//    }
+//
+
+
+</script>
+<style >
+
+</style>
+<section id="inbox"  ng-controller="facebook" >
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12" >
+
+                <form class="form-horizontal" role="form">
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="name">ชื่อของลิ้ง : </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" ng-model="fb.name" placeholder="ชื่อของลิ้ง">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="message">ข้อความ : </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="message" ng-model="fb.message" placeholder="ข้อความ">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="link">แนบลิ้ง : </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="link" ng-model="fb.link" placeholder="ข้อความ">
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label class="control-label col-sm-2" for="picture">แนบรูป : </label>-->
+                        <!--<div class="col-sm-10">-->
+                            <!--<input type="text" class="form-control" id="picture" ng-model="fb.picture" placeholder="รูปพรีวิว">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="picture">แนบรูป : </label>
+
+                        <dropzone url="api/fileupload" modelname="imgs"  token="{{ view.csrf_token }}"></dropzone>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="message">ตั้งเวลา : </label>
+                        <div class="col-sm-10" id="select_scheduled" ng-show="schedule" >
+                            <button class="btn btn-primary" type="button" ng-click="schedule=!schedule" >
+                                Scheduled
+                            </button>
+                        </div>
+                        <div class="col-sm-10"  ng-hide="schedule">
+                            <div class="date-and-time">
+                                <input type="text" ng-model="fb.datepicker" class="form-control datepicker" data-format="yyyy-mm-dd">
+                                <input type="text" ng-model="fb.timepicker" class="form-control timepicker" data-template="dropdown" data-show-seconds="true" data-default-time="16:25 AM" data-show-meridian="true" data-minute-step="5" data-second-step="5" />
+                            </div>
+                            <button class="btn btn-primary" type="button" ng-click="schedule=!schedule" >
+                               ยกเลิก
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="photos">โพสด้วยรูปที่แนบ </label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" class="" id="photos" ng-model="fb.hasphotos"  >
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-secondary" ng-click="submitForm()" >Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>

@@ -2,12 +2,17 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Models\UserPage;
+use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Redirect;
 use Session ;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
 use VG;
+use Input;
+use Response;
 
 class MainController extends Controller
 {
@@ -17,11 +22,19 @@ class MainController extends Controller
      *
      * @return Response
      */
+    public function __construct()
+    {
+
+        define("FBAPPID", "175384656159057");
+        define("FBAPPSECRET", "2fc66c07e334dd6e1c343a0ddb47059e");
+
+    }
+
+
+
 
     public function index()
     {
-//        dd('test');
-
 //        dd(Session::all());
         return view('main.index', ['menu' => VG::getMenu()]);
     }
@@ -42,7 +55,10 @@ class MainController extends Controller
 //        \Iseed::generateSeed('tb_province');
 //        \Iseed::generateSeed('tb_zipcode');
 
-//        \Iseed::generateSeed('users');
+        \Iseed::generateSeed('users');
+        \Iseed::generateSeed('user_page');
+        \Iseed::generateSeed('facebook_post');
+        \Iseed::generateSeed('category');
 //
 //        \Iseed::generateSeed('purchases');
 //        \Iseed::generateSeed('receipts');
@@ -52,10 +68,10 @@ class MainController extends Controller
 //        \Iseed::generateSeed('customers');
 //        \Iseed::generateSeed('perm_role');
 //        \Iseed::generateSeed('customer_branch');
-        \Iseed::generateSeed('bills');
-        \Iseed::generateSeed('bill_procedure');
-        \Iseed::generateSeed('bill_item');
-        \Iseed::generateSeed('bill_product');
+//        \Iseed::generateSeed('bills');
+//        \Iseed::generateSeed('bill_procedure');
+//        \Iseed::generateSeed('bill_item');
+//        \Iseed::generateSeed('bill_product');
 
 //        \Iseed::generateSeed('customers');
 //        \Iseed::generateSeed('packages');
@@ -78,11 +94,13 @@ class MainController extends Controller
 
     public function loginUser()
     {
+
         if(Auth::check()) {
             return redirect('main');
             // return redirect()->back()->with('message',"Error!! Username or Password Incorrect. \nPlease try again.");
         } else {
-            return view('users.login');
+            return view('facebook.loginfacebook');
+//            return view('users.login');
         }
     }
 
@@ -100,18 +118,141 @@ class MainController extends Controller
         if (!preg_match("/@/",$username)) {
             $search_column = 'name' ;
         }else{
-
             $search_column = 'email' ;
         }
 
         if(Auth::attempt([ $search_column => $username,'password'=>$password],$request->has('remember'))){
-
             return redirect()->intended('main');
-
            // return redirect()->intended('main');
         }else{
             return redirect()->back()->with('message',"Error!! Username or Password Incorrect. \nPlease try again.");
         }
+    }
+
+
+//    public function postPagelist(){
+//
+//    }
+//
+//    public function postSelectpage(){
+//        $data = Input::all();
+//        $fb_accesstoken = $data['fb_accesstoken'];
+//        $fb_id = $data['fb_id'];
+//        $url =  "https://graph.facebook.com/v2.5/$fb_id/accounts?access_token=$fb_accesstoken" ;
+//        $data =  @file_get_contents($url);
+//        if(!$data){
+//            return Redirect::back()->withErrors(['Error!!! Bad request from facebook']);
+//        }
+//        return view('facebook.facebookSelectPage', ['fb_accesstoken' => $fb_accesstoken ,'fb_id' => $fb_id,'fb_data' => json_decode($data) ]);
+//    }
+
+    public function postCreatepage(){
+        $data = Input::all();
+        $page_accessToken = $data['page_accesstoken'];
+        $id = $data['id'];
+        $page_id = $data['page_id'];
+        $fb_id = $data['fb_id'];
+        //--- check in data base
+        $chk = UserPage::where('fb_id',$fb_id)->where('page_id',$page_id)->first();
+        if(empty($chk)){
+            //--- receipt Long live access token
+            $url = "https://graph.facebook.com/oauth/access_token?client_id=".FBAPPID."&client_secret=".FBAPPSECRET."&grant_type=fb_exchange_token&fb_exchange_token=$page_accessToken" ;
+            $res =  @file_get_contents($url);
+            if(!$res){
+                return Redirect::back()->withErrors(['Error!!! Bad request from facebook']);
+            }
+            $diff_url = explode("access_token=",$res) ;
+            $access = explode("&expires=",$diff_url[1]) ;
+            $data['longlive_token'] = $access[0] ;
+
+            $status = UserPage::create($data);
+            Session::set('fb_uid',$status->fb_id );
+            Session::set('fb_page_id',$status->page_id );
+            Session::set('fb_longlive_token',$status->longlive_token);
+            if($status === NULL) {
+                return Redirect::back()->withErrors(['Error!!! Could not connect server']);
+            }
+        }else{
+            Session::set('fb_uid',$chk->fb_id );
+            Session::set('fb_longlive_token',$chk->longlive_token );
+            Session::set('fb_page_id',$chk->page_id );
+        }
+        return redirect()->intended('main');
+    }
+
+    public function postProcessfb(){
+        $data = Input::all();
+        $fb_accesstoken = $data['fb_accesstoken'];
+        $fb_id = $data['fb_id'];
+
+        $url = "https://graph.facebook.com/v2.5/$fb_id?fields=email%2Cname&access_token=$fb_accesstoken" ;
+        $data =  @file_get_contents($url);
+        if(!$data){
+            return Redirect::back()->withErrors(['Error!!! Bad request from facebook']);
+        }
+        $data = json_decode($data,true) ;
+
+        $chk = User::where('fb_id',$fb_id)->first();
+        if(empty($chk)){
+            $data = array_diff_key($data, array_flip(['id','_method','deleted_at','deleted_by','updated_at','created_at']));
+            $data['fb_id'] = $fb_id ;
+            $data['created_by'] = "System";
+            $status = User::create($data);
+            if($status === NULL) {
+                return Redirect::back()->withErrors(['Error!!! Could not connect server']);
+            }
+        }
+
+        Session::set('fb_name',$data['name']);
+
+        $data = Input::all();
+        $fb_accesstoken = $data['fb_accesstoken'];
+        $fb_id = $data['fb_id'];
+        $url =  "https://graph.facebook.com/v2.5/$fb_id/accounts?access_token=$fb_accesstoken" ;
+        $data =  @file_get_contents($url);
+        if(!$data){
+            return Redirect::back()->withErrors(['Error!!! Bad request from facebook']);
+        }
+
+        return view('facebook.facebookSelectPage', ['fb_accesstoken' => $fb_accesstoken ,'fb_id' => $fb_id,'id'=>$chk->id,'fb_data' => json_decode($data) ]);
+
+    }
+
+    public function postfileupload(){
+//        dd('in file uplaod');
+       // $input = Input::file('File');
+
+
+        $input = Input::all();
+        $rules = array(
+            'file' => 'image|max:3000',
+        );
+
+        $file      = Input::file('file');
+//        $albumID   = Input::get('albumID');
+
+        if($file) {
+
+//            $destinationPath = public_path() . '/uploads/' . $albumID ;
+            $path = '/uploads/'.date("Ym") ;
+            $destinationPath = public_path().$path;
+            $filename = time().'_'.$file->getClientOriginalName();
+
+            $upload_success = Input::file('file')->move($destinationPath, $filename);
+
+            $img_url = $path.$filename ;
+
+            if ($upload_success) {
+
+                // resizing an uploaded file
+//                Image::make($destinationPath . $filename)->resize(100, 100)->save($destinationPath . "100x100_" . $filename);
+
+                return Response::json(['img_url' => $img_url], 200);
+            } else {
+                return Response::json('error', 400);
+            }
+        }
+
     }
 
 

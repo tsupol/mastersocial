@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Category;
+use App\Models\Facebook;
 use App\User;
 use App\ViewGenerator\ViewGeneratorManager as VG;
 use Input;
@@ -72,6 +74,42 @@ class TableController extends Controller
         return $result;
     }
 
+    public function getCategorys()
+    {
+        $view = Category::getTableView();
+        $cols = ['category.deleted_at', 'category.id'];
+        foreach ($view as $v) {
+            if (!empty($v['select'])) $cols[] = $v['select'] . ' as ' . $v['col'];
+            else $cols[] = $v['col'];
+        }
+        if (VG::getPermission('category.edit')) {
+            $data = Category::withTrashed()->select($cols)->orderBy('category.id', 'DESC')->get();
+        } else {
+            $data = Category::select($cols)->orderBy('category.id', 'DESC')->get();
+        }
+
+
+        return ['data' => VG::dataArray($data, $view, 'facebooks/categorys', 'categorys')];
+    }
+
+    public function getFacebooks()
+    {
+        $view = Facebook::getTableView();
+        $cols = ['facebook_post.deleted_at', 'facebook_post.id'];
+        foreach ($view as $v) {
+            if (!empty($v['select'])) $cols[] = $v['select'] . ' as ' . $v['col'];
+            else $cols[] = $v['col'];
+        }
+        if (VG::getPermission('facebook_post.edit')) {
+            $data = Facebook::withTrashed()->select($cols)->orderBy('facebook_post.id', 'DESC')->get();
+        } else {
+            $data = Facebook::select($cols)->orderBy('facebook_post.id', 'DESC')->get();
+        }
+
+        //dd($data);
+
+        return ['data' => VG::dataArray($data, $view, 'facebooks/inbox', 'inbox')];
+    }
 
 
 

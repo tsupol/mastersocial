@@ -228,11 +228,11 @@ angular.module('xenon.controllers', []).
 		$chat.find('.chat-inner').perfectScrollbar(); // perfect scrollbar for chat container
 
         //
-		//var promise;
-		//$scope.init = function () {
-		//	promise = $interval(loadInbox, 1000);
-		//}
-		//$scope.init();
+        //var promise;
+        //$scope.init = function () {
+			//promise = $interval(loadInbox, 10000);
+        //}
+        //$scope.init();
         //
 		//if($location.path()=="/app/facebooks/inbox"){
 		//	promise = $interval(loadConversation, 1000);
@@ -325,11 +325,11 @@ angular.module('xenon.controllers', []).
 
 
 
-        var message;
-        $scope.init = function () {
-			message = $interval(loadMessage, 2000);
-        }
-        $scope.init();
+        //var message;
+        //$scope.init = function () {
+			//message = $interval(loadMessage, 5000);
+        //}
+        //$scope.init();
 
 		function loadMessage(){
 			var id = $scope.val.mid ;
@@ -356,6 +356,211 @@ angular.module('xenon.controllers', []).
 
 
 	}).
+
+
+	controller('facebook', function($scope,$window, $element,$interval,$http,$location)
+	{
+		$scope.schedule = true ;
+
+		var PAGE_ID = window.params.FB_PAGE_ID ;
+		var FB_APP_ID = '175384656159057' ;
+
+
+		$window.fbAsyncInit = function() {
+			FB.init({
+				appId: FB_APP_ID ,
+				status: true,
+				cookie: true,
+				xfbml: true,
+				version: 'v2.5'
+			});
+		};
+
+		(function(d){
+			// load the Facebook javascript SDK
+
+			var js,
+				id = 'facebook-jssdk',
+				ref = d.getElementsByTagName('script')[0];
+
+			if (d.getElementById(id)) {
+				return;
+			}
+
+			js = d.createElement('script');
+			js.id = id;
+			js.async = true;
+			js.src = "//connect.facebook.net/en_US/all.js";
+
+			ref.parentNode.insertBefore(js, ref);
+
+		}(document));
+
+
+		$scope.submitForm = function(){
+
+
+
+			$scope.unix_fb_date = '' ;
+			$scope.published = true ;
+
+
+			console.log('$scope.fb',$scope.fb);
+
+			if($scope.fb===undefined){
+				console.log('insert data');
+				return false;
+			}
+
+			if($scope.fb.datepicker!==undefined){
+				console.log('$scope.fb.datepicker',$scope.fb.datepicker);
+				var fb_scheduled_time = $scope.fb.datepicker+' '+$scope.fb.timepicker ;
+				$scope.unix_fb_date = Date.parse(fb_scheduled_time+"+0700")/1000;
+				$scope.published = false ;
+			}
+
+			//save_post_id('919082208176684_938308306254074','test123');
+			//share();
+			//
+			console.log('$scope.fb.picture',$scope.val.imgs );
+
+			//        var upload_url = $("#upload_url").val() ; var upload_img = "" ;
+			if ($scope.val.imgs!==undefined){
+				$scope.fb.picture  = "http://enjoy.pantip.com"+$scope.val.imgs  ;
+			}
+			//
+			console.log('fb_scheduled_time ',fb_scheduled_time);
+			console.log('unix_fb_date ',$scope.unix_fb_date);
+			console.log('$scope.fb.picture',$scope.fb.picture );
+
+
+//save_post_id('919082208176684_938308306254074','test123');
+			share();
+
+
+		};
+
+
+
+
+
+		function share(){
+			FB.login(function (response) {
+				if (response.authResponse != null && response.authResponse != undefined) {
+					FB.getLoginStatus(function(response) {
+						if (response.status === 'connected') {
+							console.log(response);
+							var uid = response.authResponse.userID;
+							var accessToken = response.authResponse.accessToken;
+							FB.api(
+								'/me/accounts',
+								'GET',
+								function(response) {
+									var rs_data =  response.data ;
+									var status_not_perm = false;
+									for (var i = 0; i < rs_data.length; i++) {
+										if (rs_data[i].id==PAGE_ID){
+											for (var s=0; s < rs_data[i].perms.length ; s++  ){
+												if (rs_data[i].perms[s]=="CREATE_CONTENT"){
+													status_not_perm = true ;
+													$scope.PAGE_ACCESSTOKEN = rs_data[i].access_token ;
+
+
+													if ($scope.fb.hasphotos){
+														var to = PAGE_ID+'/photos?access_token='+$scope.PAGE_ACCESSTOKEN;
+														photos(to);
+													}else{
+														var to = PAGE_ID+'/feed?access_token='+$scope.PAGE_ACCESSTOKEN;
+														post(to);
+													}
+
+
+												}
+											}
+										}
+									}
+									if(!status_not_perm){
+										$('.fb_data').html('¤Ø³äÁèÁÕ permission ÊÓËÃÑºâ¾Ê·Õèá¿¹à¾¨¹Õé¤èÐ');
+										$('#list_popup').modal('toggle');
+										$('#loading').hide();
+										$('#sharebox').modal('hide');
+									}
+								}
+							);
+						}
+					});
+				}
+			}, { scope: 'manage_pages,publish_pages' });
+		};
+
+		function photos(to){
+			console.log('$scope.fb.picture',$scope.fb.picture);
+			$scope.fb.picture = "http://manuthailand.com/wp-content/uploads/2015/12/manchester-united-football-club.jpg"
+			FB.api(
+				to,
+				'POST',
+				{
+					"url": $scope.fb.picture,
+					"caption":$scope.fb.message,
+					"published":$scope.published,
+					"scheduled_publish_time":$scope.unix_fb_date},
+				function(response) {
+					console.log('photos response :',response);
+					if (response && !response.error) {
+						save_post_id( PAGE_ID+'_'+response.id,$scope.PAGE_ACCESSTOKEN);
+					}else{
+					}
+				}
+			);
+		};
+
+
+		function post(to){
+			console.log('$scope.fb.link',$scope.fb.link);
+			if ($scope.fb.link===undefined){
+				$scope.fb.picture = null ;
+			}
+			FB.api(to, 'post',
+				{
+					"name" : $scope.fb.name ,
+					"link": $scope.fb.link ,
+					"picture" : $scope.fb.picture ,
+					"message": $scope.fb.message ,
+					"scheduled_publish_time": $scope.unix_fb_date ,
+					"published": $scope.published
+				},
+				function(response) {
+					console.log('share response :',response);
+					if (response && !response.error) {
+						save_post_id(response.id,$scope.PAGE_ACCESSTOKEN);
+
+					}else{
+					}
+				});
+		}
+
+		function save_post_id(post_id,page_accessToken){
+			console.log('post_id : ',post_id);
+			var obj = {
+				post_id : post_id ,
+				page_accessToken : page_accessToken
+			}
+			angular.extend($scope.fb, obj);
+			$http({
+				url: 'api/facebooks',
+				method: 'POST',
+				data: $scope.fb
+			}).success(function (data) {
+				console.log(data);
+			}).error(function(){
+				console.log('false');
+			});
+
+
+    }
+
+	}).
+
 	controller('UIModalsCtrl', function($scope, $rootScope, $modal, $sce)
 	{
 		// Open Simple Modal

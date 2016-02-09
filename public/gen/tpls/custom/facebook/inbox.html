@@ -63,7 +63,8 @@
     <h3>{{val.sender.name}}</h3>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12" ng-repeat="v in val.message.data">
+            <div class="col-sm-12" ng-repeat="v in val.message.data | orderBy: 'created_time':false">
+
                 <div class="media">
                     <a href="#" class="pull-left">
                         <img class="media-object" ng-if="v.from.id!='919082208176684'" src="{{ 'https://graph.facebook.com/'+val.sender.id+'/picture'}}" alt="..." style="height: 50px;">
@@ -72,6 +73,9 @@
                     <div class="media-body" >
                         <h5 class="media-heading" >{{v.from.name}}</h5>
                         {{v.message}}
+                        <img src="{{ v.attachments.data[0].image_data.preview_url }}"  ng-if="v.attachments"  >
+                        <img src="{{ v.shares.data[0].link }}"  ng-if="v.shares" style="width:50px;height: auto;" >
+
                     </div>
                 </div>
             </div>

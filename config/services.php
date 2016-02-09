@@ -35,4 +35,15 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'facebook' => [
+        'client_id'     => '175384656159057',
+        'client_secret' => '2fc66c07e334dd6e1c343a0ddb47059e',
+        'redirect'      => 'http://localhost/mastersocial/public/login/callback/facebook',
+       // 'redirect'      => 'http://localhost/mastersocial/public/loginfacebook',
+
+
+
+    ],
+
+
 ];

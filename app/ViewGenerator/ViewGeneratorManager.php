@@ -11,18 +11,24 @@ use App\ViewGenerator\ViewGeneratorManager as VG;
 class ViewGeneratorManager {
 
 
-    public static $FbLongToken  = "CAACfguwhIVEBAGJl5DTj6WSLAnhIX5OCNLA3D59m1k2YExqEZBQVn5ZAnF8NQGHRj8W60gs7UoiWIbe5B9odi0TEYxKGxEN2QVUr0YZAZBpJmpdCruBEfXJU0oZA541LsNYOs9PhWcI3h3xZAWVfnv7woH474OVyZBdzSfPWgeZALcNQh9v0mYg0" ;
-
-
     public function doSomething()
     {
         echo 'Do something!';
     }
 
     public static $settings = [
+        'categorys' =>[
+            'title' => 'หมวดหมู่',
+            'subtitle' => 'จัดการหมวดหมู่',
+        ],
         'facebook_inbox' =>[
             'title' => 'facebook',
             'subtitle' => 'facebook inbox',
+        ],
+
+        'facebooks' =>[
+            'title' => 'facebook',
+            'subtitle' => 'facebook',
         ],
 
         'default' => [
@@ -119,11 +125,17 @@ class ViewGeneratorManager {
         $aa = [];
 
         // -- Permissions
-        $bView = static::getPermission($base.'.view');
-        // $bCreate = getPermission($base.'.create');
-        $bEdit = static::getPermission($base.'.edit');
+//        $bView = static::getPermission($base.'.view');
+//        // $bCreate = getPermission($base.'.create');
+//        $bEdit = static::getPermission($base.'.edit');
+
+        $bEdit = true ;
+
         if($bEdit) $bView = false;
         $bDelete = $bEdit;
+
+
+
 
         $bShow = [
             'view' => $bView,
@@ -149,6 +161,8 @@ class ViewGeneratorManager {
                 $a[] = $rs[$v['col']];
             }
 
+            $a[3] = $a[3]->format('Y-m-d H:i:s') ;
+
             if(is_array($rs)){
                 $id = $rs['id'];
                 $del = $rs['deleted_at'];
@@ -156,7 +170,6 @@ class ViewGeneratorManager {
             }
             else {
                 $id = $rs->id;
-
                 $del = $rs->deleted_at;
                 $pivot_id = $rs->pivot_id ;
             }
@@ -178,7 +191,6 @@ class ViewGeneratorManager {
             if(!empty($bShow['refund']) && $bRefund) $btn .= static::refundBtn($id);
             if(!empty($bShow['stockproduct'])) $btn .= static::stockproductBtn($pivot_id,$id);
             if(!empty($bShow['stockitem'])) $btn .= static::stockitemBtn($pivot_id,$id);
-
 
             $a[] = $btn;
             $aa[] = $a;
@@ -315,10 +327,14 @@ class ViewGeneratorManager {
                 'items' => [
                     ['/facebooks/inbox','facebooks', '-/inbox', static::TM('fb_inbox')],
                     ['/facebooks/conversation/:id', 'facebook/conversation/:id'],
+                    ['/facebooks','facebooks', '/', static::TM('facebooks')],
+                    ['/facebooks/create','facebooks/create'],
+                    ['/facebooks/edit/:id','facebooks/:id/edit'],
+                    ['/facebooks/categorys','categorys', '-/categorys', static::TM('categorys')],
+                    ['/facebooks/categorys/create','categorys/create'],
+                    ['/facebooks/categorys/edit/:id','categorys/:id/edit'],
                 ],
             ],
-
-
             'users' => [
                 'settings' => [
                     'url' => '/app/users',
@@ -332,11 +348,9 @@ class ViewGeneratorManager {
 
                 ],
             ],
-
-
-
-
         ];
+
+
 
         // *** Permission
 
@@ -370,7 +384,6 @@ class ViewGeneratorManager {
                 unset($menu[$k1]);
             }
         }
-
         return $menu;
     }
 

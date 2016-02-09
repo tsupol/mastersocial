@@ -30,10 +30,10 @@
     <script>
 
         window.params = {};
-        window.params.lang = "{{ Auth::user()->lang }}";
-        window.params.userName = "{{ Auth::user()->name }}";
+        window.params.FB_PAGE_ID = "{{ Session::get('fb_page_id') }}";
+        {{--window.params.userName = "{{ Auth::user()->name }}";--}}
 
-        window.params.userId = "{{ Auth::user()->id }}";
+        {{--window.params.userId = "{{ Auth::user()->id }}";--}}
 
         window.params.settings = {};
         window.params.settings.company_name = "{{ \App\Models\Setting::key('company_name') }}";
@@ -126,6 +126,10 @@
 <script src="{{url('assets/js/TweenMax.min.js')}}"></script>
 <script src="{{url('assets/js/joinable.js')}}"></script>
 <script src="{{url('assets/js/resizeable.js')}}"></script>
+
+
+<script src="{{url('assets/js/timepicker/bootstrap-timepicker.min.js')}}"></script>
+
 
 
 <!-- App -->

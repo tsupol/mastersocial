@@ -167,6 +167,7 @@ return [
         App\ViewGenerator\ViewGeneratorServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
     ],
 
@@ -220,7 +221,7 @@ return [
 
         'Excel' => 'Maatwebsite\Excel\Facades\Excel',
         'Image' => 'Intervention\Image\Facades\Image',
-
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];
