@@ -8,7 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'CreateFacebookCustomerTable' => $baseDir . '/database/migrations/2016_02_09_190733_create_facebook_customer_table.php',
     'CreateFacebookPostTable' => $baseDir . '/database/migrations/2016_02_05_221825_create_facebook_post_table.php',
-    'CreateSocialCustomerTable' => $baseDir . '/database/migrations/2016_02_09_190334_create_social_customer_table.php',
     'CreateSystemTable' => $baseDir . '/database/migrations/2016_01_04_143402_create_system_table.php',
     'CreateUserPageTable' => $baseDir . '/database/migrations/2016_02_04_184231_create_user_page_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2015_10_14_134719_create_users_table.php',

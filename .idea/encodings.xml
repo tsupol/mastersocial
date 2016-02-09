@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Controllers/FacebookController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Models/Category.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Models/facebook.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Models/facebookCustomer.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/migrations/2016_01_04_143402_create_system_table.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/seeds/RealSeeder.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/views/facebook/facebookSelectPage.blade.php" charset="UTF-8" />
+  </component>
+</project>

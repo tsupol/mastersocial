@@ -2,11 +2,13 @@
 
 namespace App\Console;
 
+//use App\Commands\TestCommand;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Commands\TestCommand;
+
 use Bus;
+
 
 class Kernel extends ConsoleKernel
 {
@@ -17,6 +19,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\Inspire::class,
+
     ];
 
     /**
@@ -36,7 +39,7 @@ class Kernel extends ConsoleKernel
                  ->hourly();
 
         if(true) {
-            Bus::dispatch(new TestCommand('555666777'));
+//            Bus::dispatch(new TestCommand('555666777'));
 
             // loop 6 times in 1 minute
             $startTime = Carbon::now();
@@ -44,7 +47,7 @@ class Kernel extends ConsoleKernel
             $i = 0;
             while (sDiff($startTime, Carbon::now()) < 59 && $i < 15) {
                 if ($i == 0 || sDiff($st, Carbon::now()) >= 6) {
-                    Bus::dispatch(new TestCommand('in loop - '.$i));
+//                    Bus::dispatch(new TestCommand('in loop - '.$i));
                 } else {
                     usleep(1000000);
                 }
@@ -52,8 +55,8 @@ class Kernel extends ConsoleKernel
 
             // one time
             $schedule->call(function () {
-                Log::notice('--- storing media ---');
-                Bus::dispatch(new StoreMedia());
+//                Log::notice('--- storing media ---');
+//                Bus::dispatch(new StoreMedia());
             })->dailyAt('1:23')->sendOutputTo(storage_path('logs/output.log'));
 
         }
