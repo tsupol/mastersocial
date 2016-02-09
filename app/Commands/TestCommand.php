@@ -15,7 +15,7 @@ class TestCommand extends Command implements ShouldQueue
 
     public function __construct($user)
     {
-        $this->user = $user;
+        $this->user = $user; // test
     }
 
     /**
