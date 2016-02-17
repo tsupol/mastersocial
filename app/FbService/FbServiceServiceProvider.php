@@ -1,8 +1,8 @@
-<?php namespace App\ViewGenerator;
+<?php namespace App\FbService;
 
 use Illuminate\Support\ServiceProvider;
 
-class ViewGeneratorServiceProvider extends ServiceProvider {
+class FbServiceServiceProvider extends ServiceProvider {
 
     /**
      * Bootstrap the application services.
@@ -22,17 +22,17 @@ class ViewGeneratorServiceProvider extends ServiceProvider {
     public function register()
     {
         // Register 'underlyingclass' instance container to our UnderlyingClass object
-        $this->app['viewgenerator'] = $this->app->share(function($app)
+        $this->app['FbService'] = $this->app->share(function($app)
         {
-            return new ViewGeneratorManager;
+            return new FbServiceManager;
         });
 
         // Shortcut so developers don't need to add an Alias in app/config/app.php
         $this->app->booting(function()
         {
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-            $loader->alias('ViewGenerator', 'App\ViewGenerator\Facades\ViewGenerator');
-            $loader->alias('VG', 'App\ViewGenerator\Facades\ViewGenerator');
+            $loader->alias('Fb', 'App\FbService\Facades\FbService');
+
         });
     }
 

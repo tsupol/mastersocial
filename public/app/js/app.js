@@ -17,6 +17,7 @@ var app = angular.module('xenon-app', [
 	'gen.directives',
 	'gen.factory',
 	'gen.controllers',
+	//'ngTagsInput',
 
 	'gen.customCtrl',
 	// Added in v1.3
@@ -107,28 +108,21 @@ app.config(function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, ASS
 		//	templateUrl: appHelper.templatePath('products/receipt-detail'),
 		//}).
 
-		state('app.inventory/package/add', {
-			url: '/inventory/package/add',
-			controller: 'goods-packages-add',
-			templateUrl: appHelper.templatePath('products/package-detail'),
-		}).
-		state('app./reports/packages', {
-			url: '/reports/packages',
-			controller: 'reports-packages-index',
-			templateUrl: appHelper.templatePath('reports/packages'),
-			resolve: {
-				resources: function($ocLazyLoad){
-					return $ocLazyLoad.load([
-						ASSETS.charts.dxGlobalize,
-					]);
-				},
-				dxCharts: function($ocLazyLoad){
-					return $ocLazyLoad.load([
-						ASSETS.charts.dxCharts,
-					]);
-				},
-			}
-		}).
+		//state('app.inventory/package/add', {
+		//	url: '/inventory/package/add',
+		//	controller: 'goods-packages-add',
+		//	templateUrl: appHelper.templatePath('products/package-detail'),
+		//}).
+		//state('app./facebooks/conversation', {
+		//	url: '/facebooks/conversation',
+		//	resolve: {
+		//		tagsinput: function($ocLazyLoad){
+		//			return $ocLazyLoad.load([
+		//				ASSETS.forms.tagsinput,
+		//			]);
+		//		},
+		//	}
+		//}).
 
 		// -- dashboard
 		state('app./dashboard', {
@@ -176,6 +170,11 @@ app.config(function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, ASS
 								ASSETS.tables.datatables,
 								ASSETS.icons.elusive,
 								ASSETS.gen.animauto,
+							]);
+						},
+						tagsinput: function($ocLazyLoad){
+							return $ocLazyLoad.load([
+								ASSETS.forms.tagsinput,
 							]);
 						},
 						selectboxit: function($ocLazyLoad){
@@ -273,7 +272,11 @@ app.constant('ASSETS', {
 
 		'selectboxit': appHelper.assetPath('js/selectboxit/jquery.selectBoxIt.js'),
 
-		'tagsinput': appHelper.assetPath('js/tagsinput/bootstrap-tagsinput.min.js'),
+		'tagsinput': [
+			appHelper.assetPath('js/tagsinput/bootstrap-tagsinput.min.js'),
+			appHelper.assetPath('js/tagsinput/bootstrap-tagsinput-angular.min.js'),
+
+		],
 
 		'datepicker': appHelper.assetPath('js/datepicker/bootstrap-datepicker.js'),
 

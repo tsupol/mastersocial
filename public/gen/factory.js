@@ -7,7 +7,7 @@ angular.module("gen.factory", []).
             // Rest API
 
             fac.loadData = function(url) {
-                console.log('url-loadData', url);
+                //console.log('url-loadData', url);
                 return $http.get("api/"+url);
             };
 

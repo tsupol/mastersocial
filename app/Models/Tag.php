@@ -5,9 +5,9 @@ use App\Models\Updater;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use VG;
 
-class Category extends Model {
+class Tag extends Model {
    // use Updater, SoftDeletes;
-    protected $table = 'category';
+    protected $table = 'tags';
     public $timestamps = false ;
     protected $fillable = array(
         'name'
@@ -19,18 +19,18 @@ class Category extends Model {
             $val = Category::find($id);
 
         return [
-            'settings' => VG::getSetting('categorys'),
+            'settings' => VG::getSetting('tags'),
             'val' => $val,
             'views' => [
                 [
                     'panel' => [
-                        'label' => trans('pos.categorys'),
+                        'label' => trans('pos.tags'),
                     ],
                     'items' => [
                         [   'name' => 'name',
                             'validator' => 'required,minlength[2]',
-                            'label' => trans('pos.categorys'),
-                            'placeHolder' => 'Category',
+                            'label' => trans('pos.tags'),
+                            'placeHolder' => 'Tag',
                         ]
                     ]
                 ]
@@ -54,18 +54,18 @@ class Category extends Model {
     public static function getIndexView()
     {
         return [
-            'settings' => VG::getSetting('categorys'),
+            'settings' => VG::getSetting('tags'),
             'views' => [
                 [
-                    'label' => trans('pos.categorys'),
+                    'label' => trans('pos.tags'),
                     'type' => 'genTable',
                     'fields' => static::getTableView(),
-                    'data' => 'categorys',
-                    'ajaxUrl' => 'api/table/categorys',
-                    'createUrl' => '#/app/facebooks/categorys/create',
+                    'data' => 'tags',
+                    'ajaxUrl' => 'api/table/tags',
+                    'createUrl' => '#/app/facebooks/tags/create',
                     'id' => 'dtCategory', // must have and unique
                     'panel' => [
-                        'label' => trans('pos.categorys'),
+                        'label' => trans('pos.tags'),
                     ],
                 ]
             ]

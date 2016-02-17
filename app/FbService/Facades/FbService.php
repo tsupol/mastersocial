@@ -1,8 +1,8 @@
-<?php namespace App\ViewGenerator\Facades;
+<?php namespace App\FbService\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class ViewGenerator extends Facade {
+class FbService extends Facade {
 
     /**
      * Get the registered name of the component.
@@ -11,7 +11,7 @@ class ViewGenerator extends Facade {
      */
     protected static function getFacadeAccessor()
     {
-        return 'viewgenerator';
+        return 'FbService';
     }
 
 }

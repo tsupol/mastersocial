@@ -198,7 +198,7 @@ app.controller("generator", function ($scope, $rootScope, $location, $state, $st
                 loadUrl += '?page='+pageNumber;
             }
 
-            console.log('$stateParams', $stateParams);
+            //console.log('$stateParams', $stateParams);
             for(var key in $stateParams) {
                 var re = new RegExp(':'+key, "g");
                 loadUrl = loadUrl.replace(re, $stateParams[key]);
@@ -295,7 +295,7 @@ app.controller("generator", function ($scope, $rootScope, $location, $state, $st
             $scope.bigTotalItems = $scope.data.total;
         }
         setTimeout(function(){
-            console.log('-', $('#datat1').length);
+            //console.log('-', $('#datat1').length);
         }, 1000);
 
     }

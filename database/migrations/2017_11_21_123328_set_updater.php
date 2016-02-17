@@ -11,7 +11,7 @@ class SetUpdater extends Migration {
 	 * @return void
 	 */
 	public $targets = [
-		'users','facebook_post','category'
+		'users','facebook_post','category','tags','patterns'
 	];
 
 	public function up()

@@ -45,7 +45,7 @@ Route::get('/', function () {
 */
 
 Route::group(['prefix' => 'api', 'middleware'=>['web']], function() {
-   // Route::controller('search', 'SearchController');
+    Route::controller('search', 'SearchController');
     Route::controller('table', 'TableController');
    // Route::controller('data', 'DataController');
    // Route::controller('system', 'SystemController');
@@ -68,14 +68,24 @@ Route::group(['prefix' => 'api', 'middleware'=>['web', 'Admin', 'Before', 'After
     Route::post('fileupload', 'MainController@postfileupload');
 
     Route::resource('categorys', 'CategoryController');
+    Route::resource('tags', 'TagController');
+    Route::resource('patterns', 'PatternController');
 
 
+    Route::get('facebook/test', 'FacebookController@test');
 
-
+    Route::get('facebook/activeStatus', 'FacebookController@ActiveStatus');
 
     Route::get('facebook/bgConversations', 'FacebookController@bgConversations');
 //    Route::get('facebook/inbox', 'FacebookController@inbox');
+    Route::get('facebook/session/{id}/chat', 'FacebookSessionController@chat');
+    Route::resource('facebook/session', 'FacebookSessionController');
 
+
+
+
+    Route::post('facebook/sessiontag', 'FacebookController@SessionTag');
+    Route::post('facebook/status', 'FacebookController@ChatStatus');
     Route::get('facebook/inbox', 'FacebookController@inbox');
     Route::get('facebook/conversation/{id}', 'FacebookController@conversation');
     Route::post('facebook/inboxmessage', 'FacebookController@inboxmessage');
@@ -108,6 +118,9 @@ Route::group(['middleware' => ['web']], function () {
 //Route::get('testcode','MainController@testcode');
 //Route::get('gencode','MainController@genCode');
 Route::get('seed', 'MainController@seed');
+Route::get('test', 'MainController@test');
+
+
 //Route::get('carbon','MainController@carbon');
 //
 ///* Laravel 5 Default */

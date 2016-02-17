@@ -12,10 +12,18 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UserTableSeeder::class);
-        if(true) {
+        if (true) {
             $this->call('UsersTableSeeder');
             $this->call('UserPageTableSeeder');
             $this->call('RealSeeder');
+            $this->call('FacebookPostTableSeeder');
+            $this->call('CategoryTableSeeder');
+            $this->call('FacebookCustomerTableSeeder');
+            $this->call('FacebookChatTableSeeder');
+//            $this->call('FacebookChatCloseTableSeeder');
+            $this->call('TagsTableSeeder');
+            $this->call('SessionTableSeeder');
+            $this->call('SessionTagTableSeeder');
         } else {
             $this->call('UsersTableSeeder');
             $this->call('UserPageTableSeeder');

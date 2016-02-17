@@ -14,13 +14,8 @@ class Users extends Model
     protected $fillable = array(
         'name',
         'email',
-        'password',
-        'remember_token',
-        'role_id',
-        'group_id',
-        'branch_id',
-        'customer_id',
-        '_id'
+        'fb_id',
+        'fb_token'
     );
 
     public static function createUser($request)

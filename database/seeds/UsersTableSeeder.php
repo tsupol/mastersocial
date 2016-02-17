@@ -21,8 +21,12 @@ class UsersTableSeeder extends Seeder {
 				'name' => 'Pok Aha',
 				'email' => 'pok_yura@hotmail.com',
 				'lang' => 'th',
-				'created_at' => '2016-02-03 23:42:11',
-				'updated_at' => '2016-02-03 23:42:11',
+				'created_at' => '2016-02-09 23:33:22',
+				'updated_at' => '2016-02-09 23:33:22',
+				'created_by' => 0,
+				'updated_by' => 0,
+				'deleted_by' => 0,
+				'deleted_at' => NULL,
 			),
 		));
 	}

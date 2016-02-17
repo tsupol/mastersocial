@@ -3,6 +3,10 @@
 use App\Http\Requests;
 use App\Models\Category;
 use App\Models\Facebook;
+use App\Models\FacebookCustomer;
+use App\Models\FacebookSession;
+use App\Models\Pattern;
+use App\Models\Tag;
 use App\User;
 use App\ViewGenerator\ViewGeneratorManager as VG;
 use Input;
@@ -111,9 +115,105 @@ class TableController extends Controller
         return ['data' => VG::dataArray($data, $view, 'facebooks/inbox', 'inbox')];
     }
 
+    public function getTags()
+    {
+        $view = Tag::getTableView();
+        $cols = ['tags.deleted_at', 'tags.id'];
+        foreach ($view as $v) {
+            if (!empty($v['select'])) $cols[] = $v['select'] . ' as ' . $v['col'];
+            else $cols[] = $v['col'];
+        }
+        if (VG::getPermission('category.edit')) {
+            $data = Tag::withTrashed()->select($cols)->orderBy('tags.id', 'DESC')->get();
+        } else {
+            $data = Tag::select($cols)->orderBy('tags.id', 'DESC')->get();
+        }
+        return ['data' => VG::dataArray($data, $view, 'facebooks/tags', 'tags')];
+    }
 
 
 
+    public function getFacebooksSession()
+    {
+        $view = FacebookSession::getTableView();
+       // $cols = ['session.deleted_at', 'session.id'];
+        foreach ($view as $v) {
+            if (!empty($v['select'])) $cols[] = $v['select'] . ' as ' . $v['col'];
+            else $cols[] = $v['col'];
+        }
+
+
+//dd($cols) ;
+
+        unset($cols[1]);  //--- from_name
+        unset($cols[5]);  //--- tags
+
+        $cols[6] = "tid" ;
+
+
+       // array_push($cols,DB::RAW('DISTINCT(tid)')) ;
+
+        if (VG::getPermission('session.edit')) {
+            $data = FacebookSession::withTrashed()->select($cols,'123')->with('tags')->orderBy('session.id', 'DESC')->get();
+        } else {
+            $data = FacebookSession::select($cols)->groupby('tid')->distinct()->with('tags')->orderBy('session.id', 'DESC')->get();
+        }
+
+
+
+        foreach ($data as $d){
+            $d->from_name  = FacebookCustomer::where('tid',$d->tid)->first()->from_name;
+        }
+
+
+
+       // dd('test');
+
+        return ['data' => VG::dataArray($data, $view, 'facebooks/session', 'inbox',['custom' => [ '#/app/facebooks/session/edit/' , 'list view' , 'preview Open/Close status this customer' ,'tid'  ] ])];
+    }
+
+
+    public function getFbSessionList($id)
+    {
+//        dd($id);
+        $view = FacebookSession::getTableListView();
+        // $cols = ['session.deleted_at', 'session.id'];
+        foreach ($view as $v) {
+            if (!empty($v['select'])) $cols[] = $v['select'] . ' as ' . $v['col'];
+            else $cols[] = $v['col'];
+        }
+        unset($cols[5]);  //--- tags
+
+        if (VG::getPermission('session.edit')) {
+            $data = FacebookSession::where('tid',$id)->withTrashed()->select($cols)->with('tags')->orderBy('session.id', 'DESC')->get();
+        } else {
+            $data = FacebookSession::where('tid',$id)->select($cols)->with('tags')->orderBy('session.id', 'DESC')->get();
+        }
+
+        foreach ($data as $d){
+            $d->status_id  =  ($d->status_id==1) ? "Open" :  (( $d->status_id==2) ?  "Close" : "Pendding"  ) ;
+        }
+
+
+
+        return ['data' => VG::dataArray($data, $view, 'facebooks/session', 'inbox' ,[ 'edit' => false , 'delete' => false , 'custom' => [ '#/app/facebooks/session/chat/' , 'Chat Log' , 'preview Chat Log From this Status' ,'id'  ]  ] ) ];
+    }
+
+    public function getPatterns()
+    {
+        $view = Pattern::getTableView();
+        $cols = ['patterns.deleted_at', 'patterns.id'];
+        foreach ($view as $v) {
+            if (!empty($v['select'])) $cols[] = $v['select'] . ' as ' . $v['col'];
+            else $cols[] = $v['col'];
+        }
+        if (VG::getPermission('patterns.edit')) {
+            $data = Pattern::withTrashed()->select($cols)->orderBy('patterns.id', 'DESC')->get();
+        } else {
+            $data = Pattern::select($cols)->orderBy('patterns.id', 'DESC')->get();
+        }
+        return ['data' => VG::dataArray($data, $view, 'facebooks/patterns', 'patterns')];
+    }
 
 
 }

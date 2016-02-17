@@ -1,13 +1,13 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use VG;
 use Input;
 use Session;
 
-class CategoryController extends Controller {
+class TagController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -16,7 +16,7 @@ class CategoryController extends Controller {
 	 */
 	public function index()
 	{
-		return Category::getIndexView();
+		return Tag::getIndexView();
 	}
 
 	/**
@@ -26,7 +26,7 @@ class CategoryController extends Controller {
 	 */
 	public function create()
 	{
-		return Category::getCreateView();
+		return Tag::getCreateView();
 	}
 
 	/**
@@ -39,12 +39,11 @@ class CategoryController extends Controller {
 		$data = Input::all();
 		$data = array_diff_key($data, array_flip(['id','_method','deleted_at','deleted_by','updated_at','created_at']));
 		$data["created_by"] = Session::get('user_id');
-		$status = Category::create($data);
+		$status = Tag::create($data);
 		if($status === NULL) {
 			return VG::result(false, 'failed!');
 		}
 		return VG::result(true, ['action' => 'create', 'id' => $status->id]);
-
 	}
 
 	/**
@@ -66,7 +65,7 @@ class CategoryController extends Controller {
 	 */
 	public function edit($id)
 	{
-		return Category::getCreateView($id);
+		return Tag::getCreateView($id);
 	}
 
 	/**
@@ -80,7 +79,7 @@ class CategoryController extends Controller {
 		$data = Input::all();
 		$data = array_diff_key($data, array_flip(['id','_method','deleted_at','deleted_by','updated_at','created_at']));
 		$data["updated_by"] = Session::get('user_id');
-		$status = Category::whereId($id)->update($data);
+		$status = Tag::whereId($id)->update($data);
 		if($status == 1) {
 			return VG::result(true, ['action' => 'update', 'id' => $id]);
 		}
@@ -95,9 +94,9 @@ class CategoryController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		$data = Category::find($id);
+		$data = Tag::find($id);
 		if (is_null($data)) {
-			Category::withTrashed()->whereId($id)->first()->restore();
+			Tag::withTrashed()->whereId($id)->first()->restore();
 			return VG::result(true, ['action' => 'restore', 'id' => $id]);
 
 		}else{

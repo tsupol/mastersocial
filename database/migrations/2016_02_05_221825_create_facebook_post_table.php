@@ -11,16 +11,13 @@ class CreateFacebookPostTable extends Migration
             $table->increments('id');
             $table->string('post_id');
             $table->string('post_type');
+            $table->integer('category_id')->unsigned();
             $table->timestamps();
         });
-
         Schema::create('category', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name', 100)->unique();
         });
-
-
-
     }
 
     public function down()

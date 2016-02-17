@@ -14,36 +14,70 @@ class CreateFacebookCustomerTable extends Migration
     {
         Schema::create('facebook_customer', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('fb_uid');   //--- facebook user id
-            $table->string('fb_uname');   //--- facebook user name
+            $table->string('from_id');   //--- facebook user id
+            $table->string('from_name');   //--- facebook user name
+            $table->string('tid');   //--- facebook tid conversation
+            $table->string('page_id');
+            $table->string('snippet');
+            $table->string('lasted_at');
             $table->integer('status')->unsigned();   //--- 0 : close , 1 : open , 2 : pendding
             $table->timestamps();
         });
         Schema::create('facebook_chat', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('fc_id');    //--- relation : facebook_customer id
-            $table->string('fb_uid');   //--- facebook user id
-            $table->string('fb_tid');   //--- facebook conversation id
-            $table->string('fb_mid');   //--- facebook message id
+//            $table->string('fromName');   //--- facebook chat message from name
+            $table->string('fromId');   //--- facebook chat message from id
+            $table->string('tid');   //--- facebook conversation id
+            $table->string('mid');   //--- facebook message id
             $table->timestamps();
+            $table->string('shares');   //--- url object share
+            $table->string('attachments');   //--- url object attachments
+            $table->string('message');   //--- message text
+            $table->dateTime('chat_at'); //--- chat id
+            $table->integer('section_id')->unsigned(); //----   relation : session
         });
-        Schema::create('facebook_chat_tag', function(Blueprint $table) {
+
+        Schema::create('session_tag', function(Blueprint $table) {
             $table->increments('id');
-            $table->integer('fb_tid')->unsigned();   //--- relation : facebook conversation id
+            $table->integer('session_id');
             $table->integer('tag_id')->unsigned();
             $table->timestamps();
         });
-        Schema::create('facebook_chat_close', function(Blueprint $table) {
-            $table->increments('id');
-            $table->integer('fb_tid')->unsigned();    //--- relation : facebook conversation id
-            $table->string('time');
-            $table->integer('count_message')->unsigned();
-            $table->string('fb_mid');   //--- facebook message id
-            $table->timestamps();
-        });
+
         Schema::create('tags', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->timestamps();
+        });
+
+//        Schema::create('facebook_chat_section', function(Blueprint $table) {
+//            $table->increments('id');
+//            $table->string('uid');   //--- facebook user id
+//            $table->string('tid');
+//            $table->integer('status')->unsigned();      //  0 = close , 1 = open
+//            $table->timestamps();
+//        });
+
+        Schema::create('session', function(Blueprint $table) {
+            $table->increments('id');
+            $table->string('tid');    //--- relation : facebook conversation id
+            $table->integer('count_time');     //---minute
+            $table->integer('count_message_page')->unsigned();
+            $table->integer('count_message_customer')->unsigned();
+            $table->string('mid');   //--- facebook message id
+            $table->integer('start_chat_id')->unsigned();   //--- start id message
+            $table->integer('end_chat_id')->unsigned();   //--- end id message
+            $table->dateTime('start_chat_at'); //--- start chat time
+            $table->dateTime('end_chat_at'); //--- end chat time
+            $table->integer('status_id')->unsigned();   //--- 1= open ,  2= Close , 3 = Pending
+            $table->timestamps();
+        });
+
+
+        Schema::create('patterns', function(Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('desc');
             $table->timestamps();
         });
 
@@ -58,8 +92,10 @@ class CreateFacebookCustomerTable extends Migration
     {
         Schema::drop('facebook_customer');
         Schema::drop('facebook_chat');
-        Schema::drop('facebook_chat_tag');
+        Schema::drop('session_tag');
+        Schema::drop('session');
         Schema::drop('tags');
+        Schema::drop('patterns');
 
     }
 }

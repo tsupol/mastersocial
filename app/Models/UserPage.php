@@ -12,7 +12,9 @@ class UserPage extends Model
     protected $fillable = array(
         'fb_id',
         'page_id',
-        'longlive_token'
+        'page_name',
+        'longlive_token',
+        'actived_at'
     );
 
 

@@ -5,9 +5,9 @@ use App\Models\Updater;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use VG;
 
-class Tag extends Model {
+class Pattern extends Model {
    // use Updater, SoftDeletes;
-    protected $table = 'tags';
+    protected $table = 'patterns';
     public $timestamps = false ;
     protected $fillable = array(
         'name'
@@ -19,18 +19,24 @@ class Tag extends Model {
             $val = Category::find($id);
 
         return [
-            'settings' => VG::getSetting('tags'),
+            'settings' => VG::getSetting('patterns'),
             'val' => $val,
             'views' => [
                 [
                     'panel' => [
-                        'label' => trans('pos.tags'),
+                        'label' => trans('pos.patterns'),
                     ],
                     'items' => [
                         [   'name' => 'name',
                             'validator' => 'required,minlength[2]',
-                            'label' => trans('pos.tags'),
-                            'placeHolder' => 'Tag',
+                            'label' => trans('pos.patterns'),
+                            'placeHolder' => 'ขื่อ Pattern',
+                        ],
+                        [   'name' => 'desc',
+                            'validator' => 'required,minlength[2]',
+                            'label' => trans('pos.pattern_desc'),
+                            'placeHolder' => 'Pattern ที่ต้องการ',
+                            'type' => 'area',
                         ]
                     ]
                 ]
@@ -45,9 +51,12 @@ class Tag extends Model {
                 'label' => trans('pos.id'),
                 'width' => '50px',
             ],
-            [   'col' => 'name',
-                'label' => trans('pos.name'),
+
+            [   'name' => 'notes',
+                'label' => trans('pos.notes'),
+
             ],
+
         ];
     }
 
@@ -61,8 +70,8 @@ class Tag extends Model {
                     'type' => 'genTable',
                     'fields' => static::getTableView(),
                     'data' => 'tags',
-                    'ajaxUrl' => 'api/table/tags',
-                    'createUrl' => '#/app/facebooks/tags/create',
+                    'ajaxUrl' => 'api/table/patterns',
+                    'createUrl' => '#/app/facebooks/patterns/create',
                     'id' => 'dtCategory', // must have and unique
                     'panel' => [
                         'label' => trans('pos.tags'),

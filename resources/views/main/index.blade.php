@@ -28,9 +28,45 @@
 
 
     <script>
-
         window.params = {};
         window.params.FB_PAGE_ID = "{{ Session::get('fb_page_id') }}";
+
+
+        window.params.FB_UID = "{{ Session::get('fb_uid')}}" ;
+
+        $(function(){
+            function setActiveStatus() {
+
+                console.log('FB_UID',window.params.FB_UID);
+                console.log('page_id',window.params.FB_PAGE_ID);
+
+                $.ajax({
+
+                    url : "api/facebook/activeStatus",
+                    dataType: "jsonp",
+                    data : { page_id:window.params.FB_PAGE_ID,fb_uid:window.params.FB_UID },
+                    success:function(data)
+                    {
+                       console.log('setActiveStatus : ',data);
+                        return false;
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+                        console.log("error");
+                        return false;
+                    }
+                });
+
+
+            }
+            var refreshId = setInterval(setActiveStatus, 30000);     //---   1000x60x5
+        })
+
+
+
+
+
+
         {{--window.params.userName = "{{ Auth::user()->name }}";--}}
 
         {{--window.params.userId = "{{ Auth::user()->id }}";--}}

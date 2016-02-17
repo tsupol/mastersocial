@@ -1,13 +1,14 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Pattern;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use VG;
 use Input;
 use Session;
 
-class TagController extends Controller {
+class PatternController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -16,7 +17,7 @@ class TagController extends Controller {
 	 */
 	public function index()
 	{
-		return Tag::getIndexView();
+		return Pattern::getIndexView();
 	}
 
 	/**
@@ -26,7 +27,7 @@ class TagController extends Controller {
 	 */
 	public function create()
 	{
-		return Tag::getCreateView();
+		return Pattern::getCreateView();
 	}
 
 	/**
@@ -39,7 +40,7 @@ class TagController extends Controller {
 		$data = Input::all();
 		$data = array_diff_key($data, array_flip(['id','_method','deleted_at','deleted_by','updated_at','created_at']));
 		$data["created_by"] = Session::get('user_id');
-		$status = Tag::create($data);
+		$status = Pattern::create($data);
 		if($status === NULL) {
 			return VG::result(false, 'failed!');
 		}
@@ -65,7 +66,7 @@ class TagController extends Controller {
 	 */
 	public function edit($id)
 	{
-		return Tag::getCreateView($id);
+		return Pattern::getCreateView($id);
 	}
 
 	/**
@@ -79,7 +80,7 @@ class TagController extends Controller {
 		$data = Input::all();
 		$data = array_diff_key($data, array_flip(['id','_method','deleted_at','deleted_by','updated_at','created_at']));
 		$data["updated_by"] = Session::get('user_id');
-		$status = Tag::whereId($id)->update($data);
+		$status = Pattern::whereId($id)->update($data);
 		if($status == 1) {
 			return VG::result(true, ['action' => 'update', 'id' => $id]);
 		}
@@ -94,9 +95,9 @@ class TagController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		$data = Tag::find($id);
+		$data = Pattern::find($id);
 		if (is_null($data)) {
-			Tag::withTrashed()->whereId($id)->first()->restore();
+			Pattern::withTrashed()->whereId($id)->first()->restore();
 			return VG::result(true, ['action' => 'restore', 'id' => $id]);
 
 		}else{

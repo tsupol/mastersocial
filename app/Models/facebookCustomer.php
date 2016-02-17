@@ -14,9 +14,14 @@ class FacebookCustomer extends Model {
     protected $dates = ['created_at', 'updated_at'];
 
     protected $fillable = array(
-        'fb_uid',
-        'fb_uname',
-        'status'
+        'from_id',
+        'from_name',
+        'status',
+        'tid',
+        'page_id',
+        'snippet',
+        'lasted_at'
+
     );
 
     public static $keys = [];
@@ -25,7 +30,6 @@ class FacebookCustomer extends Model {
     {
         if($id) {
             $val = Facebook::find($id);
-
         }
 
         return [
@@ -64,7 +68,6 @@ class FacebookCustomer extends Model {
             ],
             [   'col' => 'created_at',
                 'label' => trans('pos.created_at'),
-
             ],
         ];
     }
@@ -79,7 +82,6 @@ class FacebookCustomer extends Model {
                     'type' => 'genTable',
                     'fields' => static::getTableView(),
                     'data' => 'facebooks',
-
                     'ajaxUrl' => 'api/table/facebooks',
                     'createUrl' => '#/app/facebooks/create',
                     'id' => 'dtFacebooks', // must have and unique

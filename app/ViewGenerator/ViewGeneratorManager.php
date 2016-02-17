@@ -26,9 +26,24 @@ class ViewGeneratorManager {
             'subtitle' => 'facebook inbox',
         ],
 
+        'session' =>[
+            'title' => 'ลูกค้า ใน facebook',
+            'subtitle' => 'ลูกค้า ใน facebook',
+        ],
+
         'facebooks' =>[
             'title' => 'facebook',
             'subtitle' => 'facebook',
+        ],
+
+        'tags' =>[
+            'title' => 'Tag',
+            'subtitle' => 'จัดการ Tag',
+        ],
+
+        'patterns' =>[
+            'title' => 'Pattern',
+            'subtitle' => 'จัดการ Pattern',
         ],
 
         'default' => [
@@ -153,15 +168,36 @@ class ViewGeneratorManager {
             $bShow['buy'] = static::getPermission('purchases.create');
         }
 
+
+
+
         foreach($data as $rs) {
             $bReceipt = true;
             $bRefund = true;
             $a = [];
-            foreach($view as $v) {
-                $a[] = $rs[$v['col']];
+
+            foreach($view as $k => $v) {
+                $a[$k] = $rs[$v['col']];
+                if($v['col']=="created_at"){
+                    $a[$k] = $rs[$v['col']]->format('Y-m-d H:i:s');
+                }
+                if($v['col']=="tags"){
+                    $a[$k] = "" ;
+                    if(!empty($rs[$v['col']])){
+                        foreach ( $rs[$v['col']] as $key=>$r  ){
+                            if($key==0){
+                                $a[$k] = $r->name ;
+                            }else{
+                                $a[$k] .= ",".$r->name ;
+                            }
+                        }
+                    }
+                }
             }
 
-            $a[3] = $a[3]->format('Y-m-d H:i:s') ;
+
+
+           // $a[3] = $a[3]->format('Y-m-d H:i:s') ;
 
             if(is_array($rs)){
                 $id = $rs['id'];
@@ -192,9 +228,21 @@ class ViewGeneratorManager {
             if(!empty($bShow['stockproduct'])) $btn .= static::stockproductBtn($pivot_id,$id);
             if(!empty($bShow['stockitem'])) $btn .= static::stockitemBtn($pivot_id,$id);
 
+
+            if(!empty($bShow['custom'])) $btn .= static::customBtn($bShow['custom'][0].$rs[$bShow['custom'][3]] ,$bShow['custom'][1],$bShow['custom'][2]) ;
+
+
+
+
+
+
+           // dd($bShow['custom']);
+
+
             $a[] = $btn;
             $aa[] = $a;
         }
+
         return $aa;
     }
 
@@ -265,9 +313,14 @@ class ViewGeneratorManager {
         return '<a class="btn btn-secondary btn-xs" title="แก้ไข" href="#/app/'.$type.'/edit/'.$id.'">View</a>';
     }
 
+//    public static function customBtn($href, $caption, $title = '') {
+//        return '<a class="btn btn-secondary btn-xs" title="'.$title.'" href="'.$href.'">'.$caption.'</a>';
+//    }
+
     public static function customBtn($href, $caption, $title = '') {
         return '<a class="btn btn-secondary btn-xs" title="'.$title.'" href="'.$href.'">'.$caption.'</a>';
     }
+
 
 
     public static function deleteBtn($id, $deletedAt) {
@@ -325,7 +378,10 @@ class ViewGeneratorManager {
                     'label' => static::TM('facebooks'),
                 ],
                 'items' => [
-                    ['/facebooks/inbox','facebooks', '-/inbox', static::TM('fb_inbox')],
+                    ['/facebooks/session','facebook/session', '-/session', static::TM('session')],
+                    ['/facebooks/session/edit/:id','facebook/session/:id/edit'],
+                    ['/facebooks/session/chat/:id','facebook/session/:id/chat'],
+
                     ['/facebooks/conversation/:id', 'facebook/conversation/:id'],
                     ['/facebooks','facebooks', '/', static::TM('facebooks')],
                     ['/facebooks/create','facebooks/create'],
@@ -333,6 +389,14 @@ class ViewGeneratorManager {
                     ['/facebooks/categorys','categorys', '-/categorys', static::TM('categorys')],
                     ['/facebooks/categorys/create','categorys/create'],
                     ['/facebooks/categorys/edit/:id','categorys/:id/edit'],
+                    ['/facebooks/tags','tags', '-/tags', static::TM('tags')],
+                    ['/facebooks/tags/create','tags/create'],
+                    ['/facebooks/tags/edit/:id','tags/:id/edit'],
+
+                    ['/facebooks/patterns','patterns', '-/patterns', static::TM('patterns')],
+                    ['/facebooks/patterns/create','patterns/create'],
+                    ['/facebooks/patterns/edit/:id','patterns/:id/edit'],
+
                 ],
             ],
             'users' => [
@@ -412,6 +476,15 @@ class ViewGeneratorManager {
             fwrite($logFile, $data);
             fclose($logFile);
         }
+    }
+
+    public static function DiffMinute($StartDate,$EndDate){
+        $datetime1 = strtotime($StartDate);
+        $datetime2 = strtotime($EndDate);
+        $interval  = abs($datetime2 - $datetime1);
+        $minutes   = round($interval / 60);
+       //echo 'Diff. in minutes is: '.$minutes;
+        return $minutes ;
     }
 
 

@@ -164,6 +164,9 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class, // Laravel IDE helper
         Orangehill\Iseed\IseedServiceProvider::class,
 
+        App\FbService\FbServiceServiceProvider::class,
+
+
         App\ViewGenerator\ViewGeneratorServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,

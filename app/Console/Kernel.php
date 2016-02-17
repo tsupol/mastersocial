@@ -2,12 +2,15 @@
 
 namespace App\Console;
 
-//use App\Commands\TestCommand;
+
+use App\Commands\TestCommand;
+use App\Models\UserPage;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 use Bus;
+use Illuminate\Support\Facades\Log;
 
 
 class Kernel extends ConsoleKernel
@@ -30,35 +33,71 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        function sDiff(Carbon $t1, Carbon $t2) {
-            $diff = $t1->diff($t2);
-            return ($diff->s + $diff->m*60 + $diff->h*3600);
-        }
+//         $schedule->command('inspire')
+//                 ->hourly();
+//         if(true){
+//             $userPage = UserPage::all();
+//             foreach ($userPage as $up){
+//
+//                 $actived_at = $up->actived_at ;
+//                 $startTime = Carbon::now()->format('Y-m-d H:i:s');
+//
+//                 $minutes = $this->difftime($startTime,$actived_at) ;
+//
+//                 echo "$startTime <BR> $actived_at<BR>" ;
+//                 echo 'Diff. in minutes is: '.$minutes."<BR>";
+//
+//                 if($minutes<=5){
+//                     //--- call if active
+//                     //Bus::dispatch(new TestCommand($up));
+//                 }else{
+//
+//                 }
+//
+//             }
+////             dd($userPage);
+//             Log::info('Job! '.$userPage);
+//         }
+//         function difftime($start_at,$active_at){
+//             $datetime1 = strtotime($active_at);
+//             $datetime2 = strtotime($start_at);
+//             $interval  = abs($datetime2 - $datetime1);
+//             $minutes   = round($interval / 60);
+//             return $minutes ;
+//         }
 
-        $schedule->command('inspire')
-                 ->hourly();
 
-        if(true) {
+
+//        function sDiff(Carbon $t1, Carbon $t2) {
+//            $diff = $t1->diff($t2);
+//            return ($diff->s + $diff->m*60 + $diff->h*3600);
+//        }
+//
+//        $schedule->command('inspire')
+//                 ->hourly();
+//
+//        if(true) {
 //            Bus::dispatch(new TestCommand('555666777'));
-
-            // loop 6 times in 1 minute
-            $startTime = Carbon::now();
-            $st = Carbon::now();
-            $i = 0;
-            while (sDiff($startTime, Carbon::now()) < 59 && $i < 15) {
-                if ($i == 0 || sDiff($st, Carbon::now()) >= 6) {
-//                    Bus::dispatch(new TestCommand('in loop - '.$i));
-                } else {
-                    usleep(1000000);
-                }
-            }
-
-            // one time
-            $schedule->call(function () {
-//                Log::notice('--- storing media ---');
-//                Bus::dispatch(new StoreMedia());
-            })->dailyAt('1:23')->sendOutputTo(storage_path('logs/output.log'));
-
-        }
+//
+//            // loop 6 times in 1 minute
+//            $startTime = Carbon::now();
+//            $st = Carbon::now();
+//            $i = 0;
+//            while (sDiff($startTime, Carbon::now()) < 59 && $i < 15) {
+//                $st = Carbon::now();
+//                if ($i == 0 || sDiff($st, Carbon::now()) >= 6) {
+//                    Bus::dispatch(new TestCommand('in loop - '.$i));$i++;
+//                } else {
+//                    usleep(1000000);
+//                }
+//            }
+//
+//            // one time
+//            $schedule->call(function () {
+////                Log::notice('--- storing media ---');
+////                Bus::dispatch(new StoreMedia());
+//            })->dailyAt('1:23')->sendOutputTo(storage_path('logs/output.log'));
+//
+//        }
     }
 }

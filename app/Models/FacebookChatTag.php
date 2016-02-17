@@ -5,25 +5,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use VG;
 
-class FacebookChatClose extends Model {
+class FacebookChatTag extends Model {
 
    // use Updater, SoftDeletes;
 
-    protected $table = 'facebook_chat_close';
+    protected $table = 'session_tag';
     public $timestamps = true;
     protected $dates = ['created_at', 'updated_at'];
 
     protected $fillable = array(
+        'session_id' ,
         'tid',
-        'count_time',
-        'count_message_page',
-        'count_message_customer',
-        'mid',
-        'start_chat_id',
-        'end_chat_id',
-        'start_chat_at',
-        'end_chat_at',
-        'status_id'
+        'tag_id',
     );
 
     public static $keys = [];
@@ -92,13 +85,13 @@ class FacebookChatClose extends Model {
     public static function getIndexView()
     {
         return [
-            'settings' => VG::getSetting('facebook_chat_close'),
+            'settings' => VG::getSetting('session'),
             'views' => [
                 [
-                    'label' => trans('pos.facebook_chat_close'),
+                    'label' => trans('pos.session'),
                     'type' => 'genTable',
                     'fields' => static::getTableView(),
-                    'data' => 'facebook_chat_close',
+                    'data' => 'session',
 
                     'ajaxUrl' => 'api/table/facebooks-chat-close',
                     'createUrl' => '#/app/facebooks/create',     // อาจจะเอาไว้ทำ set tag
@@ -112,7 +105,7 @@ class FacebookChatClose extends Model {
     }
 
     public function tags() {
-        return $this->belongsToMany('App\Models\FacebookChatClose', 'facebook_chat_tag', 'facebook_chat_close_id', 'tag_id')->withTimestamps();
+        return $this->belongsToMany('App\Models\FacebookSession', 'session_tag', 'session_id', 'tag_id')->withTimestamps();
         // their model, pivot table name, our id, their id
     }
 

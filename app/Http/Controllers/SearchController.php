@@ -4,6 +4,7 @@ use App\Http\Requests;
 
 use App\Models\Branch;
 
+use App\Models\Tag;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use VG;
@@ -26,6 +27,21 @@ class SearchController extends Controller {
         foreach($data as $rs) {
             $rs->value = $rs->name;
         }
+
+        return $data;
+    }
+
+
+    public function getTags()
+    {
+        if(Input::has('id')) {
+            $data = Tag::whereId(Input::get('id'))->take(1)->get();
+        } else {
+
+            $data = Tag::all();
+        }
+
+
 
         return $data;
     }

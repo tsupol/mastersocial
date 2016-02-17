@@ -217,22 +217,16 @@ angular.module('xenon.controllers', []).
 	}).
 	controller('ChatCtrl', function($scope, $element,$interval,$http,$location)
 	{
-
-
-
-		console.log('$location.path', $location.path());
-
+		//console.log('$location.path', $location.path());
 		var $chat = jQuery($element),
 			$chat_conv = $chat.find('.chat-conversation');
-
 		$chat.find('.chat-inner').perfectScrollbar(); // perfect scrollbar for chat container
 
-        //
-        //var promise;
-        //$scope.init = function () {
-			//promise = $interval(loadInbox, 10000);
-        //}
-        //$scope.init();
+        var promise;
+        $scope.init = function () {
+			promise = $interval(loadInbox, 10000);
+        }
+        $scope.init();
         //
 		//if($location.path()=="/app/facebooks/inbox"){
 		//	promise = $interval(loadConversation, 1000);
@@ -314,39 +308,110 @@ angular.module('xenon.controllers', []).
 	}).
 	controller('Conversation', function($scope, $element,$interval,$http,$location)
 	{
+		//console.log('lasted_mid',$scope.val.lasted_mid);
 		$scope.replyMessage = function(){
-			var id = $scope.val.mid ;
+			var id = $scope.val.tid ;
 			var replyMessage = $scope.replyinbox;
 			console.log('replyMessage : ',replyMessage);
 			$http.post('api/facebook/inboxreply',{id:id ,replyMessage :replyMessage }).success(function(data) {
 
 			});
 		};
+		var message;
+		$scope.start = function() {
+			$scope.stop();
+			message = $interval(loadMessage, 5000);
+		};
+
+		$scope.stop = function() {
+			$interval.cancel(message);
+		};
+		$scope.start();
+		$scope.$on('$destroy', function() {
+			$scope.stop();
+		});
+
+		$scope.cities = [
+			{ "value": 1, "text": "Amsterdam", "continent": "Europe" },
+			{ "value": 4, "text": "Washington", "continent": "America" },
+			{ "value": 7, "text": "Sydney", "continent": "Australia" },
+			{ "value": 10, "text": "Beijing", "continent": "Asia" },
+			{ "value": 13, "text": "Cairo", "continent": "Africa" }
+		];
+		$scope.queryCities = function () {
+
+			var data = $http.get('api/search/tags') ;
+			console.log('get Tag :',data);
+
+			return $http.get('api/table/tags');
+			//return $http.get('cities.json');
+		};
 
 
 
-        //var message;
-        //$scope.init = function () {
-			//message = $interval(loadMessage, 5000);
-        //}
-        //$scope.init();
+		$scope.keyPress = function(keyCode){
+			console.log('keyPress ',$scope.testModel);
+			$scope.stuffs.push({title: 'Hello', content: 'world'});
+		}
+
+
+		//init() ;
+
+
+
+
+
+		$scope.setStatus = function(id) {
+			console.log('status id : ',id);
+			console.log('mid',$scope.val.lasted_mid);
+			$http.post('api/facebook/status',{mid:$scope.val.lasted_mid, status : id }).success(function(data) {
+				console.log('data', data);
+			});
+		}
+
+		$scope.setTag = function(settag) {
+
+
+			console.log('cities', $scope.cities);
+
+			console.log('tid',$scope.val.tid);
+			console.log('mid',$scope.val.lasted_mid);
+			console.log('tag',settag);
+			console.log('data',$scope.data!=undefined );
+			var section_id = 0 ;
+			if($scope.val.section_id!=undefined){
+				section_id = $scope.val.section_id ;
+			}
+
+			$http.post('api/facebook/sessiontag',{tid:$scope.val.tid, tags : settag , section_id: section_id }).success(function(data) {
+				console.log('data', data);
+			});
+		}
+
+
+
 
 		function loadMessage(){
-			var id = $scope.val.mid ;
+			var id = $scope.val.tid ;
 			//console.log('update_time', $scope.val.update_time);
-			var lasttime = Date.parse($scope.val.update_time)/1000 ;
+			//var lasttime = Date.parse($scope.val.update_time)/1000 ;
+			var lasttime = $scope.val.update_time ;
+			if($scope.val.section_id!=undefined){
+				return false;     // ---  if stay in Close Chat Log
+			}
+
 			console.log('since : ',lasttime);
 			$http.post('api/facebook/inboxmessage',{id:id ,since :lasttime }).success(function(data) {
 				console.log('data',data);
-				console.log('data.data.length',data.data.length);
-				if(data.data.length!=0){
-					for (var i in data.data ){
-						$scope.val.message.data.push(data.data[i]) ;
+				console.log('data.length',data.length);
+				if(data.length!=0){
+					for (var i in data ){
+						$scope.val.message.push(data[i]) ;
 					}
-
-					$scope.val.update_time = data.data[0].created_time ;
-
-
+					console.log('update_time',data[0].chat_at);
+					console.log('lasted_mid',data[0].mid);
+					$scope.val.update_time = data[0].chat_at ;
+					$scope.val.lasted_mid = data[0].mid ;
 				}
 			});
 		};
@@ -433,8 +498,8 @@ angular.module('xenon.controllers', []).
 			console.log('unix_fb_date ',$scope.unix_fb_date);
 			console.log('$scope.fb.picture',$scope.fb.picture );
 
-
-//save_post_id('919082208176684_938308306254074','test123');
+		 // save_post_id('919082208176684_940878629330375','test123');
+           // save_post_id('919082208176684_938308306254074','test123');
 			share();
 
 

@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Models\Facebook;
 use App\Models\FacebookCase;
 use App\Models\FacebookChat;
-use App\Models\FacebookChatClose;
+use App\Models\FacebookSession;
 use App\Models\FacebookCustomer;
 use App\Models\UserPage;
 use App\User;
@@ -15,7 +15,7 @@ use Input;
 use Session;
 
 
-class FacebookChatCloseController extends Controller
+class FacebookSessionController extends Controller
 {
 
     public function __construct()
@@ -26,7 +26,7 @@ class FacebookChatCloseController extends Controller
 
     public function index()
     {
-        return FacebookChatClose::getIndexView();
+        return FacebookSession::getIndexView();
 
     }
 
@@ -72,9 +72,8 @@ class FacebookChatCloseController extends Controller
 
     public function edit($id)
     {
-        $user = User::find($id);
-        $user->password = '';
-        return User::getCreateView($user);
+
+        return FacebookSession::getListView($id);
     }
 
     public function update($id)
@@ -112,6 +111,50 @@ class FacebookChatCloseController extends Controller
             return VG::result(true, ['action' => 'delete', 'id' => $id]);
         }
     }
+
+    public function chat($id){
+        $page_id = Session::get('fb_page_id');
+        $page_name = Session::get('fb_page_name');
+
+        $message = FacebookChat::where('section_id', $id)->orderBy('chat_at', 'desc')->get();
+
+
+        $tid = $message[0]->tid ;
+        $sender = FacebookCustomer::where('tid', $tid)->first();
+        $from["id"] = $sender->from_id;
+        $from["name"] = $sender->from_name;
+        foreach ($message as $m) {
+            if ($m->fromId != $page_id) {
+                $m->fromName = $from["name"];
+            } else {
+                $m->fromName = $page_name;
+            }
+            $tid = $m->tid ;
+        }
+
+        $val = [];
+        $val['section_id'] = $id;
+        $val['message'] = $message;
+        $val['sender'] = $from;
+        $val['tid'] = $tid;
+        $val['lasted_mid'] = $message[0]->mid;
+        return [
+            'settings' => VG::getSetting('facebook_inbox'),
+            'val' => $val,
+            'views' => [
+                [
+                    'label' => trans('pos.facebook_inbox'),
+                    'panel' => [
+                        'label' => trans('pos.facebook_inbox'),
+                    ],
+                    'type' => 'custom',
+                    'controller' => '',
+                    'template' => 'gen/tpls/custom/facebook/inbox.html',
+                ]
+            ]
+        ];
+    }
+
 
 
 }

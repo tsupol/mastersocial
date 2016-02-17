@@ -16,12 +16,25 @@ class UserPageTableSeeder extends Seeder {
 		\DB::table('user_page')->insert(array (
 			0 => 
 			array (
-				'id' => 2,
+				'id' => 1,
 				'fb_id' => '1031392066904720',
 				'page_id' => '919082208176684',
-				'longlive_token' => 'CAACfguwhIVEBAN8equA85ZAoLy5d0W4FoMhht55jAL2tviMq2KX6wvbu4ANMdg4j0P6FNiPuZAmTHJSFFdtQxPZBhnzLYJDWn5copsahODTbCtd42YVwZBNxegE2JqsCtjibz8SP6jj6ZAlgfXPLfvYcb7H0RcBvkztEfiBmav3rZA93iMKRYT',
-				'created_at' => '2016-02-04 20:57:35',
-				'updated_at' => '2016-02-04 20:57:35',
+				'page_name' => 'Test',
+				'longlive_token' => 'CAACfguwhIVEBADaenwryQTZCGfQhlNUlcS85ecZCbU6FNHf9b4D9N0oq3irDHTeVZBsofBaNu3Acgfzs3ZCq9lCJFYwUkg1xJZCGMQswCr1MwZBTARVSEnBzIKMVBw1QOZCsnuI8rOSbWZB3zAWZADxEcVa0MfDAEFXoZCJLwUHM3b4iUVWwwZAxtkk',
+				'created_at' => '2016-02-16 20:12:12',
+				'updated_at' => '2016-02-16 20:12:12',
+				'actived_at' => '2016-02-16 20:12:12',
+			),
+			1 => 
+			array (
+				'id' => 2,
+				'fb_id' => '1031392066904720',
+				'page_id' => '327976304054625',
+				'page_name' => 'Memoprint.me',
+				'longlive_token' => 'CAACfguwhIVEBAEVyIg2B6yRxjyEaLItCbmhM0ZAr8MIOtkvbs4o5V5duZALtynr2cJwoNEUCEyZAcqWwaitsBZAv3rYk0BQpSZBe7ZBpOxjKNZBsnme1dRIFn0OUlL2XZCbMbOmMtTFfIaClPKszSZA2QBXlNs4BjZBs9ycR59bZBFCJS0H0ih98nEy',
+				'created_at' => '2016-02-11 22:32:33',
+				'updated_at' => '2016-02-11 22:32:33',
+				'actived_at' => '2016-02-11 22:32:33',
 			),
 		));
 	}

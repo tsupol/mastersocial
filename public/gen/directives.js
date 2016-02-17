@@ -640,7 +640,55 @@ angular.module("gen.directives", []).
     //    };
     //}).
 
+    directive('pokTaginput', function(){
+        return {
+            restrict: 'A',
+            //replace: true,
+            //template: 'select2',
+            link: function(scope, elm, attrs, ctrl) {
+                var me = $(elm);
+                me.tagsinput({
+                    itemValue: 'id',
+                    itemText: 'name',
 
+                });
+
+                me.tagsinput('add', { "id": 1 , "name": "Amsterdam"  });
+                me.tagsinput('add', { "id": 2 , "name": "Washington" });
+
+                //var bh = new Bloodhound({
+                //    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+                //    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                //    remote: {
+                //        url: 'api',
+                //        replace: function (url, query) {
+                //            if (me.attr('data-url')) {
+                //                //url = me.attr('data-url')+encodeURIComponent($('#'+me.attr('data-param')).val());
+                //                url = me.attr('data-url') + '?q=' + encodeURIComponent(me.val());
+                //            }
+                //            return url;
+                //        }
+                //    }
+                //});
+                //
+                //bh.initialize();
+                //
+                //me.typeahead({
+                //    hint: true,
+                //    minLength: 1,
+                //    highlight: true
+                //}, {
+                //    name: 'string-randomizer',
+                //    displayKey: 'value',
+                //    source: bh.ttAdapter()
+                //}).on('typeahead:selected', function() {
+                //    scope.$apply(function() {
+                //        scope.val[scope.value.name] = me.val();
+                //    });
+                //});
+            }
+        }
+    }).
 
     // fix jQuery Plugins early load - delay
 

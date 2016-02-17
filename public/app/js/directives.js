@@ -297,21 +297,26 @@ angular.module('xenon.directives', []).
 		}
 	}).
 
+
+
 	// Forms Directives
-	directive('tagsinput', function(){
-		return {
-			restrict: 'AC',
-			link: function(scope, el, attr)
-			{
-				var $el = angular.element(el);
-
-				if( ! jQuery.isFunction(jQuery.fn.tagsinput))
-					return false;
-
-				$el.tagsinput();
-			}
-		}
-	}).
+	//directive('tagsinput', function(){
+	//	return {
+	//		restrict: 'AC',
+	//		link: function(scope, el, attr)
+	//		{
+	//			var $el = angular.element(el);
+    //
+	//			if( ! jQuery.isFunction(jQuery.fn.tagsinput))
+	//				return false;
+    //
+    //
+	//			console.log('el : '+el+' scope : '+scope);
+    //
+	//			$el.tagsinput();
+	//		}
+	//	}
+	//}).
 	directive('dropzone', function(){
 		return {
 			restrict: 'AC',

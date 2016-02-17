@@ -14,10 +14,11 @@
     <script src="{{url('assets/js/jquery-1.11.1.min.js')}}"></script>
     <link rel="stylesheet" href="{{url('css/custom.css')}}">
     <script>
-        function fn_selectpage(pageid,pageaccessToken){
+        function fn_selectpage(pageid,pagename,pageaccessToken){
 
             $('#page_id').val(pageid);
             $('#page_accesstoken').val(pageaccessToken);
+            $('#page_name').val(pagename);
             $('#page_from').submit();
 
             {{--var postData = $("#fb_from").serializeArray();--}}
@@ -98,18 +99,20 @@
                                     <input type="hidden" name="id" id="id" value="{{ $id }}"  >
                                     <input type="hidden" name="page_accesstoken" id="page_accesstoken" value="" >
                                     <input type="hidden" name="page_id" id="page_id" value="" >
+                                    <input type="hidden" name="page_name" id="page_name" value="" >
                                     <fieldset>
-                                        @foreach ($fb_data->data as $p)
+                                        @foreach ($fb_data['data'] as $p)
+
                                             <div class="media"  >
                                                  <span class="pull-right">
-                                                    <button type="button" class="btn btn-info" onclick="fn_selectpage('{{ $p->id  }}','{{ $p->access_token  }}');"> เข้าใช้งาน </button>
+                                                    <button type="button" class="btn btn-info" onclick="fn_selectpage('{{ $p['id']  }}','{{ $p['name'] }}','{{ $p['access_token'] }}');"> เข้าใช้งาน </button>
                                                 </span>
                                                 <a class="pull-left" href="#">
-                                                    <img class="media-object" src="https://graph.facebook.com/{{ $p->id }}/picture" alt="...">
+                                                    <img class="media-object" src="https://graph.facebook.com/{{ $p['id'] }}/picture" alt="...">
                                                 </a>
                                                 <div class="media-body">
-                                                    <h4 class="media-heading">{{ $p->name }}</h4>
-                                                    {{ $p->category  }}
+                                                    <h4 class="media-heading">{{ $p['name'] }}</h4>
+                                                    {{ $p['category']  }}
                                                 </div>
 
                                             </div>

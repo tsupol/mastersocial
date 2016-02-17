@@ -11,8 +11,10 @@ class CreateUserPageTable extends Migration
             $table->increments('id');
             $table->string('fb_id');
             $table->string('page_id');
+            $table->string('page_name');
             $table->string('longlive_token');
             $table->timestamps();
+            $table->dateTime('actived_at');
         });
     }
 

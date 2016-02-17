@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\UserPage;
+use App\Models\Users;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
@@ -25,8 +26,8 @@ class MainController extends Controller
     public function __construct()
     {
 
-        define("FBAPPID", "175384656159057");
-        define("FBAPPSECRET", "2fc66c07e334dd6e1c343a0ddb47059e");
+//        define("FBAPPID", "175384656159057");
+//        define("FBAPPSECRET", "2fc66c07e334dd6e1c343a0ddb47059e");
 
     }
 
@@ -55,34 +56,15 @@ class MainController extends Controller
 //        \Iseed::generateSeed('tb_province');
 //        \Iseed::generateSeed('tb_zipcode');
 
+        \Iseed::generateSeed('category');
+        \Iseed::generateSeed('facebook_chat');
+        \Iseed::generateSeed('facebook_customer');
+        \Iseed::generateSeed('facebook_post');
+        \Iseed::generateSeed('session');
+        \Iseed::generateSeed('session_tag');
+        \Iseed::generateSeed('tags');
         \Iseed::generateSeed('users');
         \Iseed::generateSeed('user_page');
-        \Iseed::generateSeed('facebook_post');
-        \Iseed::generateSeed('category');
-//
-//        \Iseed::generateSeed('purchases');
-//        \Iseed::generateSeed('receipts');
-//        \Iseed::generateSeed('purchase_package');
-//        \Iseed::generateSeed('purchase_product');
-
-//        \Iseed::generateSeed('customers');
-//        \Iseed::generateSeed('perm_role');
-//        \Iseed::generateSeed('customer_branch');
-//        \Iseed::generateSeed('bills');
-//        \Iseed::generateSeed('bill_procedure');
-//        \Iseed::generateSeed('bill_item');
-//        \Iseed::generateSeed('bill_product');
-
-//        \Iseed::generateSeed('customers');
-//        \Iseed::generateSeed('packages');
-//        \Iseed::generateSeed('package_types');
-//        \Iseed::generateSeed('package_procedure');
-//        \Iseed::generateSeed('package_product');
-//        \Iseed::generateSeed('procedures');
-//        \Iseed::generateSeed('procedure_item');
-//        \Iseed::generateSeed('procedure_product');
-//        \Iseed::generateSeed('products');
-//        \Iseed::generateSeed('items');
 
     }
 
@@ -152,6 +134,7 @@ class MainController extends Controller
         $id = $data['id'];
         $page_id = $data['page_id'];
         $fb_id = $data['fb_id'];
+        $page_name = $data['page_name'] ;
         //--- check in data base
         $chk = UserPage::where('fb_id',$fb_id)->where('page_id',$page_id)->first();
         if(empty($chk)){
@@ -164,11 +147,12 @@ class MainController extends Controller
             $diff_url = explode("access_token=",$res) ;
             $access = explode("&expires=",$diff_url[1]) ;
             $data['longlive_token'] = $access[0] ;
-
+            $data['actived_at'] = Carbon::now()->format('y-m-d H:i:s');
             $status = UserPage::create($data);
             Session::set('fb_uid',$status->fb_id );
             Session::set('fb_page_id',$status->page_id );
-            Session::set('fb_longlive_token',$status->longlive_token);
+            Session::set('fb_page_name',$status->page_name );
+            Session::set('fb_longlive_token',$status->longlive_token );
             if($status === NULL) {
                 return Redirect::back()->withErrors(['Error!!! Could not connect server']);
             }
@@ -176,6 +160,13 @@ class MainController extends Controller
             Session::set('fb_uid',$chk->fb_id );
             Session::set('fb_longlive_token',$chk->longlive_token );
             Session::set('fb_page_id',$chk->page_id );
+            Session::set('fb_page_name',$chk->page_name );
+            $data['actived_at'] = Carbon::now()->format('Y-m-d H:i:s');
+            unset($data['_token']);
+            unset($data['fb_accesstoken']);
+            unset($data['page_accesstoken']);
+            $data['actived_at'] = Carbon::now()->format('y-m-d H:i:s');
+            UserPage::where('fb_id',$fb_id)->where('page_id',$page_id)->update($data);
         }
         return redirect()->intended('main');
     }
@@ -185,36 +176,30 @@ class MainController extends Controller
         $fb_accesstoken = $data['fb_accesstoken'];
         $fb_id = $data['fb_id'];
 
-        $url = "https://graph.facebook.com/v2.5/$fb_id?fields=email%2Cname&access_token=$fb_accesstoken" ;
+        $url = "https://graph.facebook.com/v2.5/$fb_id?fields=email,name,accounts&access_token=$fb_accesstoken" ;
         $data =  @file_get_contents($url);
         if(!$data){
             return Redirect::back()->withErrors(['Error!!! Bad request from facebook']);
         }
         $data = json_decode($data,true) ;
 
-        $chk = User::where('fb_id',$fb_id)->first();
+        $chk = Users::where('fb_id',$fb_id)->first();
         if(empty($chk)){
             $data = array_diff_key($data, array_flip(['id','_method','deleted_at','deleted_by','updated_at','created_at']));
             $data['fb_id'] = $fb_id ;
             $data['created_by'] = "System";
-            $status = User::create($data);
+            $status = Users::create($data);
             if($status === NULL) {
                 return Redirect::back()->withErrors(['Error!!! Could not connect server']);
             }
+            $user_id = $status->id ;
+        }else{
+            $user_id = $chk->id ;
         }
-
         Session::set('fb_name',$data['name']);
-
-        $data = Input::all();
-        $fb_accesstoken = $data['fb_accesstoken'];
-        $fb_id = $data['fb_id'];
-        $url =  "https://graph.facebook.com/v2.5/$fb_id/accounts?access_token=$fb_accesstoken" ;
-        $data =  @file_get_contents($url);
-        if(!$data){
-            return Redirect::back()->withErrors(['Error!!! Bad request from facebook']);
-        }
-
-        return view('facebook.facebookSelectPage', ['fb_accesstoken' => $fb_accesstoken ,'fb_id' => $fb_id,'id'=>$chk->id,'fb_data' => json_decode($data) ]);
+        $json = $data['accounts'] ;
+//        dd($json);
+        return view('facebook.facebookSelectPage', ['fb_accesstoken' => $fb_accesstoken ,'fb_id' => $fb_id,'id'=>$user_id,'fb_data' => $json ]);
 
     }
 
@@ -306,7 +291,31 @@ class MainController extends Controller
             echo Carbon::now()->tzName;
     }
 
+    public function test(){
+        $id= 1 ;
+        while ($id<4) {
+            foreach (array('1', '2', '3') as $a) {
+                echo "$a";
+                foreach (array('a', 'b', 'c') as $b) {
+                    echo "$b";
+                    if ($a == '1' && $b == 'b') {
 
+                        if ($id == 1) {
+                            break;  // this will break $b foreach loops
+                        }
+
+
+                    }
+                    if ($a == '2' && $b == 'b') {
+                        break 2;  // this will break both foreach loops
+                    }
+                }
+                echo "<BR>";
+            }
+            $id++;
+        }
+        echo ".";
+    }
 
 
 }

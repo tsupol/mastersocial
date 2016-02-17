@@ -11,9 +11,9 @@ class FacebookChatCloseTableSeeder extends Seeder {
 	 */
 	public function run()
 	{
-		\DB::table('facebook_chat_close')->delete();
+		\DB::table('session')->delete();
         
-		\DB::table('facebook_chat_close')->insert(array (
+		\DB::table('session')->insert(array (
 			0 => 
 			array (
 				'id' => 1,

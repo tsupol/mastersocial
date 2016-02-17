@@ -6,12 +6,17 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'CategoryTableSeeder' => $baseDir . '/database/seeds/CategoryTableSeeder.php',
     'CreateFacebookCustomerTable' => $baseDir . '/database/migrations/2016_02_09_190733_create_facebook_customer_table.php',
     'CreateFacebookPostTable' => $baseDir . '/database/migrations/2016_02_05_221825_create_facebook_post_table.php',
     'CreateSystemTable' => $baseDir . '/database/migrations/2016_01_04_143402_create_system_table.php',
     'CreateUserPageTable' => $baseDir . '/database/migrations/2016_02_04_184231_create_user_page_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2015_10_14_134719_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
+    'FacebookChatCloseTableSeeder' => $baseDir . '/database/seeds/FacebookChatCloseTableSeeder.php',
+    'FacebookChatTableSeeder' => $baseDir . '/database/seeds/FacebookChatTableSeeder.php',
+    'FacebookCustomerTableSeeder' => $baseDir . '/database/seeds/FacebookCustomerTableSeeder.php',
+    'FacebookPostTableSeeder' => $baseDir . '/database/seeds/FacebookPostTableSeeder.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',
     'File_Iterator_Factory' => $vendorDir . '/phpunit/php-file-iterator/src/Factory.php',
@@ -545,7 +550,10 @@ return array(
     'SebastianBergmann\\RecursionContext\\Exception' => $vendorDir . '/sebastian/recursion-context/src/Exception.php',
     'SebastianBergmann\\RecursionContext\\InvalidArgumentException' => $vendorDir . '/sebastian/recursion-context/src/InvalidArgumentException.php',
     'SebastianBergmann\\Version' => $vendorDir . '/sebastian/version/src/Version.php',
+    'SessionTableSeeder' => $baseDir . '/database/seeds/SessionTableSeeder.php',
+    'SessionTagTableSeeder' => $baseDir . '/database/seeds/SessionTagTableSeeder.php',
     'SetUpdater' => $baseDir . '/database/migrations/2017_11_21_123328_set_updater.php',
+    'TagsTableSeeder' => $baseDir . '/database/seeds/TagsTableSeeder.php',
     'TestCase' => $baseDir . '/tests/TestCase.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
     'UserPageTableSeeder' => $baseDir . '/database/seeds/UserPageTableSeeder.php',
