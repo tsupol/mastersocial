@@ -1,0 +1,106 @@
+
+<script>
+
+
+
+</script>
+<style >
+
+</style>
+<section id="inbox"  ng-controller="facebook" >
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12" >
+
+                <form class="form-horizontal" role="form">
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="name">ชื่อของลิ้ง : </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" ng-model="fb.name" placeholder="ชื่อของลิ้ง">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="message">ข้อความ : </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="message" ng-model="fb.message" placeholder="ข้อความ">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="link">แนบลิ้ง : </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="link" ng-model="fb.link" placeholder="ข้อความ">
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label class="control-label col-sm-2" for="picture">แนบรูป : </label>-->
+                        <!--<div class="col-sm-10">-->
+                            <!--<input type="text" class="form-control" id="picture" ng-model="fb.picture" placeholder="รูปพรีวิว">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="picture">แนบรูป : </label>
+
+                        <dropzone url="api/fileupload" modelname="imgs"  token="{{ view.csrf_token }}"></dropzone>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="message">ตั้งเวลา : </label>
+                        <div class="col-sm-10" id="select_scheduled" ng-show="schedule" >
+                            <button class="btn btn-primary" type="button" ng-click="schedule=!schedule" >
+                                Scheduled
+                            </button>
+                        </div>
+                        <div class="col-sm-10"  ng-hide="schedule">
+                            <div class="date-and-time">
+                                <input type="text" ng-model="fb.datepicker" class="form-control datepicker" data-format="yyyy-mm-dd">
+                                <input type="text" ng-model="fb.timepicker" class="form-control timepicker" data-template="dropdown" data-show-seconds="true" data-default-time="16:25 AM" data-show-meridian="true" data-minute-step="5" data-second-step="5" />
+                            </div>
+                            <button class="btn btn-primary" type="button" ng-click="schedule=!schedule" >
+                               ยกเลิก
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="photos">โพสด้วยรูปที่แนบ </label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" class="" id="photos" ng-model="fb.hasphotos"  >
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" >เลือกหมวดหมู่</label>
+
+                        <div class="col-sm-10">
+                            <script type="text/javascript">
+                                jQuery(document).ready(function($)
+                                {
+                                    $("#category").select2({
+                                        placeholder: 'Select your country...',
+                                        allowClear: true
+                                    }).on('select2-open', function()
+                                    {
+                                        // Adding Custom Scrollbar
+                                        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+                                    });
+
+                                });
+                            </script>
+                            <select  id="category" class="form-control" ng-model="fb.category_id" ng-options="vs.id as vs.name for vs in data.category" ></select>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-secondary" ng-click="submitForm()" >Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
