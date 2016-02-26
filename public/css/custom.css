@@ -2,6 +2,8 @@ html, body {
   height: 100%;
 }
 
+.r { position:relative;}
+
 .red {
   color: red;
   font-weight: bold ;

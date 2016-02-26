@@ -639,6 +639,84 @@ angular.module("gen.directives", []).
     //        }
     //    };
     //}).
+    directive('uploadfile', function () {
+        return {
+            restrict: 'A',
+            link: function(scope, element) {
+
+                element.bind('click', function(e) {
+                    angular.element(e.target).siblings('#upload').trigger('click');
+                });
+            }
+        };
+    }).
+    directive('checkImage', function($http,$q) {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                attrs.$observe('src', function(ngSrc) {
+                    isImage(ngSrc).then(function(test) {
+                        console.log('element',element);
+                        if(!test) {
+                            element.hide();
+                        }
+                    });
+
+                    function isImage(src) {
+                        var deferred = $q.defer();
+                        var image = new Image();
+                        image.onerror = function() {
+                            deferred.resolve(false);
+                        };
+                        image.onload = function() {
+                            deferred.resolve(true);
+                        };
+                        image.src = src;
+                        return deferred.promise;
+                    }
+                });
+            }
+        };
+    }).
+    directive('semiTags', function(){
+        return {
+            require: 'ngModel',
+            restrict: 'EA',
+            link: function(scope, elm, attrs, ctrl) {
+                var dp = $(elm);
+                var bh = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    remote: {
+                        url: 'api',
+                        replace: function (url, query) {
+                            console.log('5554',query);
+
+
+
+                            url = dp.attr('data-url') + '?q=' + encodeURIComponent(query);
+
+                           // url = 'http://localhost/mastersocial/public/api/search/tags' + '?q=' + encodeURIComponent(dp.val());
+
+                            return url;
+                        }
+                    }
+                });
+
+                bh.initialize();
+
+                dp.tagsinput({
+                    itemValue: 'id',
+                    itemText: 'name',
+                    typeaheadjs: {
+                        name: 'bh',
+                        displayKey: 'name',
+                        source: bh.ttAdapter()
+                    }
+                });
+            }
+        }
+    }).
 
     directive('pokTaginput', function(){
         return {
@@ -689,6 +767,8 @@ angular.module("gen.directives", []).
             }
         }
     }).
+
+
 
     // fix jQuery Plugins early load - delay
 

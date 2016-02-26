@@ -194,8 +194,6 @@ class TableController extends Controller
             $d->status_id  =  ($d->status_id==1) ? "Open" :  (( $d->status_id==2) ?  "Close" : "Pendding"  ) ;
         }
 
-
-
         return ['data' => VG::dataArray($data, $view, 'facebooks/session', 'inbox' ,[ 'edit' => false , 'delete' => false , 'custom' => [ '#/app/facebooks/session/chat/' , 'Chat Log' , 'preview Chat Log From this Status' ,'id'  ]  ] ) ];
     }
 
@@ -207,6 +205,7 @@ class TableController extends Controller
             if (!empty($v['select'])) $cols[] = $v['select'] . ' as ' . $v['col'];
             else $cols[] = $v['col'];
         }
+
         if (VG::getPermission('patterns.edit')) {
             $data = Pattern::withTrashed()->select($cols)->orderBy('patterns.id', 'DESC')->get();
         } else {

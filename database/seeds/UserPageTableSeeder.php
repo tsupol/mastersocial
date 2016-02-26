@@ -21,9 +21,9 @@ class UserPageTableSeeder extends Seeder {
 				'page_id' => '919082208176684',
 				'page_name' => 'Test',
 				'longlive_token' => 'CAACfguwhIVEBADaenwryQTZCGfQhlNUlcS85ecZCbU6FNHf9b4D9N0oq3irDHTeVZBsofBaNu3Acgfzs3ZCq9lCJFYwUkg1xJZCGMQswCr1MwZBTARVSEnBzIKMVBw1QOZCsnuI8rOSbWZB3zAWZADxEcVa0MfDAEFXoZCJLwUHM3b4iUVWwwZAxtkk',
-				'created_at' => '2016-02-16 20:12:12',
-				'updated_at' => '2016-02-16 20:12:12',
-				'actived_at' => '2016-02-16 20:12:12',
+				'created_at' => '2016-02-26 18:27:49',
+				'updated_at' => '2016-02-26 18:27:49',
+				'actived_at' => '2016-02-26 18:27:49',
 			),
 			1 => 
 			array (

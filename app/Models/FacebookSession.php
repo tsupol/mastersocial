@@ -91,6 +91,7 @@ class FacebookSession extends Model {
             ],
             [   'col' => 'tags',
                 'label' => trans('pos.tags'),
+                'filter' => 'text',
             ],
         ];
     }

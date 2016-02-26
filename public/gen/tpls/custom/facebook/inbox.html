@@ -1,168 +1,242 @@
-
 <script>
-    $(function(){
-        $('#tagid').tagsinput({
-            itemValue: 'id',
-            itemText: 'name',
-            source: function(query) {
-                return [ { "value": 1 , "text": "Amsterdam"   , "continent": "Europe"    },
-                    { "value": 2 , "text": "London"      , "continent": "Europe"    },
-                    { "value": 3 , "text": "Paris"       , "continent": "Europe"    },
-                    { "value": 4 , "text": "Washington"  , "continent": "America"   },
-                    { "value": 5 , "text": "Mexico City" , "continent": "America"   },
-                    { "value": 6 , "text": "Buenos Aires", "continent": "America"   },
-                    { "value": 7 , "text": "Sydney"      , "continent": "Australia" },
-                    { "value": 8 , "text": "Wellington"  , "continent": "Australia" },
-                    { "value": 9 , "text": "Canberra"    , "continent": "Australia" },
-                    { "value": 10, "text": "Beijing"     , "continent": "Asia"      },
-                    { "value": 11, "text": "New Delhi"   , "continent": "Asia"      },
-                    { "value": 12, "text": "Kathmandu"   , "continent": "Asia"      },
-                    { "value": 13, "text": "Cairo"       , "continent": "Africa"    },
-                    { "value": 14, "text": "Cape Town"   , "continent": "Africa"    },
-                    { "value": 15, "text": "Kinshasa"    , "continent": "Africa"    }
-                ];
-            }
+    //    $(function(){
 
-
-        });
-
-        $('#tagid').tagsinput('add', { "id": 1 , "name": "Amsterdam"  });
-        $('#tagid').tagsinput('add', { "id": 2 , "name": "Washington" });
-
-    })
-
+    //    })
 
 
 </script>
-<script>
 
-</script>
-<style >
-
-
-    #inbox_message .media-heading{
+<style>
+    #inbox_message .media-heading {
         color: #000000;
         font-weight: bold;
     }
 
+    .media-body span {
+        display: inline-block;
+        max-width: 200px;
+        background-color: white;
+        padding: 5px;
+        border-radius: 4px;
+        position: relative;
+        border-width: 1px;
+        border-style: solid;
+        border-color: grey;
+
+    }
+
+    .media-body left {
+        float: left;
+    }
+
+    .media-body span.left:after {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        left: -8.5px;
+        top: 7px;
+        height: 0px;
+        width: 0px;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-right: 8px solid white;
+
+    }
+
+    .media-body span.left:before {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        left: -9px;
+        top: 7px;
+        height: 0px;
+        width: 0px;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-right: 8px solid black;
+    }
+
+    .media-body span.right:after {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        right: -8px;
+        top: 6px;
+        height: 0px;
+        width: 0px;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 8px solid #dbedfe;
+    }
+
+    .media-body span.right:before {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        right: -9px;
+        top: 6px;
+        height: 0px;
+        width: 0px;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 8px solid black;
+    }
+
+    .media-body span.right {
+        float: right;
+        background-color: #dbedfe;
+    }
+
+    .clear {
+        clear: both;
+    }
+
 </style>
 
-
-
-<section id="inbox" style="border:1px solid #F00; height: 100%; margin: 0px; " ng-controller="Conversation" >
+<section id="inbox" style="height: 100%; margin: 0px; " ng-controller="Conversation">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-2"  ng-if="data" >
+            <div class="col-sm-2" ng-if="data">
                 <div class="dropdown">
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
                         Status <span class="caret"></span>
                     </button>
-
-
-
                     <ul class="dropdown-menu">
-                        <li ng-repeat="vs in data.status" style="padding: 5px;" >  <a ng-click="setStatus(vs.id)" >{{ vs.name }}</a></li>
+                        <li ng-repeat="vs in data.status" style="padding: 5px;"><a ng-click="setStatus(vs.id)">{{
+                            vs.name }}</a></li>
 
                     </ul>
                 </div>
             </div>
             <div class="col-sm-10">
-
                 <div class="form-group">
-
-                    <div class="col-sm-12 input-group" >
-
-
-                        <input type="text"  id="tagid" ng-model="cities" >
-
-                        <!--<input type="text" class="form-control"  pokTaginput  ng-model="testModel"  >-->
-                        <!--<input type="text" class="form-control" id="tagsinput-1" data-role="tagsinput"     tagsinput ng-init="cities"-->
-                               <!--ng-model="cities"-->
-                               <!--source="queryCities"-->
-                               <!--itemvalue="value"-->
-                               <!--itemtext="text" />-->
-
-
-                        <!--<input type="text" class="form-control" ng-model="cities"  tagsinput data-role="tagsinput"-->
-                               <!--itemtext="text" />-->
-
-                        <span class="input-group-btn">
-                            <button class="btn btn-purple" type="button" ng-click="setTag(cities)" >Set Tag</button>
-                        </span>
+                    <div class="col-sm-12 input-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control custom-control" ng-model="cities" semi-tags data-url="api/search/tags">
+                            <span class="input-group-addon btn btn-purple" ng-click="setTag(cities)">Set Tag</span>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 
-
-
-
-
-    <h3>{{val.sender.name}}</h3>
+    <h3 style="border-top:1px solid #E0E0E0;border-bottom: 1px solid #E0E0E0;padding: 10px;">{{val.sender.name}}</h3>
+    <!--<input type="text" class="form-control" placeholder="Search pattern" ng-keypress="keyPress($event)" tabindex="1">-->
     <div class="container-fluid">
-        <div class="row">
+        <div class="row" style="overflow: auto;">
             <div class="col-sm-12" ng-repeat="v in val.message | orderBy: 'chat_at':false">
+                <div ng-if="v.fromId!='919082208176684'">
+                    <div class="media">
+                        <a href="#" class="pull-left">
+                            <img class="media-object" src="{{ 'https://graph.facebook.com/'+val.sender.id+'/picture'}}"
+                                 alt="..." style="height: 30px;">
+                        </a>
 
-                <div class="media">
-                    <a href="#" class="pull-left">
-                        <img class="media-object" ng-if="v.fromId!='919082208176684'" src="{{ 'https://graph.facebook.com/'+val.sender.id+'/picture'}}" alt="..." style="height: 50px;">
-                    </a>
-                    <span class="pull-right">{{v.chat_at}}</span>
-                    <div class="media-body" >
-                        <h5 class="media-heading" > {{v.fromName}}</h5>
-                        {{v.message}}
-                        <img src="{{ v.attachments }}"  ng-if="v.attachments"  >
-                        <img src="{{ v.shares }}"  ng-if="v.shares" style="width:50px;height: auto;" >
+                        <div class="media-body" style="float: left; margin-right: 10px;">
+
+                            <span class="left" style="margin-left:10px;white-space: pre" ng-if="v.message">{{ v.message }}</span><br>
+                            <img src="{{ v.attachments }}" ng-if="v.attachments">
+                            <a href="{{ v.shares_link }}" target="_blank" >
+                                <img src="{{ v.shares_link }}" check-image ng-if="v.shares_link" style="width:50px;height: auto;"><BR>
+                                {{ v.shares_name }}
+                            </a>
+                            <p class="r" style="bottom: 0px;font-size: 8px; ">{{v.chat_at}}</p>
+                        </div>
 
                     </div>
+
                 </div>
+
+
+                <div ng-if="v.fromId=='919082208176684'">
+                    <div class="media" >
+
+                        <div class="media-body pull-right" style="float: right; ">
+                            <span class="right" ng-if="v.message" style="margin-right: 10px; white-space: pre">{{ v.message }}</span><br>
+                            <img src="{{ v.attachments }}" ng-if="v.attachments">
+                            <a href="{{ v.shares_link }}" target="_blank" >
+                                <img src="{{ v.shares_link }}" check-image  style="width:50px;height: auto;"><BR>
+                                {{ v.shares_name }}
+                            </a>
+
+                        </div>
+
+                    </div>
+                    <p style="position: relative;">
+
+                    <p style="white-space:nowrap; font-size: 8px; position: absolute; bottom: 0px; right: 20px;  ">
+                        {{v.chat_at}}</p>
+                    </p>
+                </div>
+
+
             </div>
-            <div class="col-sm-12"  >
+
+            <div class="col-sm-12" style="margin-top:50px;">
                 <div class="input-group">
-                    <input type="text" class="form-control" ng-model="replyinbox" placeholder="write a reply...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" ng-click="replyMessage()">Send!</button>
-                    </span>
-                </div><!-- /input-group -->
+                    <textarea class="form-control custom-control" ng-model="replyinbox" placeholder="write a reply..."
+                              style="resize: none"  rows="3"    ></textarea>
+                    <span class="input-group-addon btn btn-secondary" uploadfile >Photo</span>
+                    <span class="input-group-addon btn btn-secondary" ng-click="replyMessage()">Send!! </span>
+                    <span class="input-group-addon btn btn-primary"
+                          ng-click="openModal('modal-5', 'lg');">Save Reply</span>
+
+                    <input id="upload"
+                           type="file"
+                           ng-file-select="onFileSelect($files)"
+                           style="display: none;">
+                </div>
             </div>
         </div>
     </div>
     <div class="col-sm-12">
-        <div id="" >
+        <div id="">
 
         </div>
     </div>
 
-
 </section>
-<script>
-//    angular.module('AngularExample', ['bootstrap-tagsinput'])
-//            .controller('CityTagsInputController',
-//            function CityTagsInputController($scope) {
-//                // Init with some cities
-//                $scope.cities = [
-//                    { "value": 1, "text": "Amsterdam", "continent": "Europe" },
-//                    { "value": 4, "text": "Washington", "continent": "America" },
-//                    { "value": 7, "text": "Sydney", "continent": "Australia" },
-//                    { "value": 10, "text": "Beijing", "continent": "Asia" },
-//                    { "value": 13, "text": "Cairo", "continent": "Africa" }
-//                ];
-//
-//                $scope.queryCities = function (query) {
-//                    return $http.get('cities.json');
-//                };
-//
-//                $scope.getTagClass = function (city) {
-//                    switch (city.continent) {
-//                        case 'Europe': return 'badge badge-info';
-//                        case 'America': return 'label label-important';
-//                        case 'Australia': return 'badge badge-success';
-//                        case 'Africa': return 'label label-inverse';
-//                        case 'Asia': return 'badge badge-warning';
-//                    }
-//                };
-//            }
-//    );
+
+
+
+<script type="text/ng-template" id="modal-5">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Modal Content is Responsive</h4>
+    </div>
+
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="input-group input-group-minimal">
+                    <input type="text" class="form-control" placeholder="Search pattern" ng-model="searchPattern"
+                           ng-keyup="keyPress($event,searchPattern)">
+                    <span class="input-group-btn">
+                            <button class="btn btn-purple" type="button" ng-click="test()">Set Tag</button>
+                        </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="row" ng-if="pattern != null" style="margin-top:10px;">
+            <div class="col-sm-12" ng-repeat="p in pattern" ng-click="setreply(p.desc);currentModal.close();"
+                 style="border-top: 1px solid #ccc;border-bottom: 1px solid #ccc; :hover{ background:#F00; cursor: pointer; }">
+                <P style="font-weight: bold;"> {{ p.name }} </P>
+                <pre> {{ p.desc }} </pre>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+        <button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Save changes</button>
+    </div>
 </script>

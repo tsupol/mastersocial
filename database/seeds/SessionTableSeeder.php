@@ -78,6 +78,22 @@ class SessionTableSeeder extends Seeder {
 				'created_at' => '2016-02-16 17:54:58',
 				'updated_at' => '2016-02-16 17:54:58',
 			),
+			4 => 
+			array (
+				'id' => 5,
+				'tid' => 't_mid.1453826055296:6726c8564763d76e99',
+				'count_time' => 0,
+				'count_message_page' => 0,
+				'count_message_customer' => 0,
+				'mid' => '',
+				'start_chat_id' => 0,
+				'end_chat_id' => 0,
+				'start_chat_at' => '0000-00-00 00:00:00',
+				'end_chat_at' => '0000-00-00 00:00:00',
+				'status_id' => 1,
+				'created_at' => '2016-02-26 18:25:56',
+				'updated_at' => '2016-02-26 18:25:56',
+			),
 		));
 	}
 

@@ -10,13 +10,14 @@ class Pattern extends Model {
     protected $table = 'patterns';
     public $timestamps = false ;
     protected $fillable = array(
-        'name'
+        'name',
+        'desc'
     );
 
     public static function getCreateView($id = false, $val = [])
     {
         if ($id)
-            $val = Category::find($id);
+            $val = Static::find($id);
 
         return [
             'settings' => VG::getSetting('patterns'),
@@ -51,30 +52,27 @@ class Pattern extends Model {
                 'label' => trans('pos.id'),
                 'width' => '50px',
             ],
-
-            [   'name' => 'notes',
-                'label' => trans('pos.notes'),
-
+            [   'col' => 'name',
+                'label' => trans('pos.name'),
             ],
-
         ];
     }
 
     public static function getIndexView()
     {
         return [
-            'settings' => VG::getSetting('tags'),
+            'settings' => VG::getSetting('patterns'),
             'views' => [
                 [
-                    'label' => trans('pos.tags'),
+                    'label' => trans('pos.patterns'),
                     'type' => 'genTable',
                     'fields' => static::getTableView(),
-                    'data' => 'tags',
+                    'data' => 'patterns',
                     'ajaxUrl' => 'api/table/patterns',
                     'createUrl' => '#/app/facebooks/patterns/create',
                     'id' => 'dtCategory', // must have and unique
                     'panel' => [
-                        'label' => trans('pos.tags'),
+                        'label' => trans('pos.patterns'),
                     ],
                 ]
             ]

@@ -243,7 +243,8 @@ class FacebookController extends Controller
                         foreach ($message->data as $mkey => $m) {
                             //$this->pr($m);
                             $ins['tid'] = $d->id;
-                            $ins['shares'] = (!empty($m->shares)) ? $m->shares->data[0]->link : "";
+                            $ins['shares_link'] = (!empty($m->shares)) ? $m->shares->data[0]->link : "";
+                            $ins['shares_name'] = (!empty($m->shares)) ? $m->shares->data[0]->name : "";
                             $ins['attachments'] = (!empty($m->attachments)) ? $m->attachments->data[0]->image_data->preview_url : "";
                             $ins['fromId'] = (!empty($m->from)) ? $m->from->id : "";
                             $ins['fromName'] = (!empty($m->from)) ? $m->from->name : "";
@@ -323,6 +324,7 @@ class FacebookController extends Controller
 
     public function SessionTag(){
         $data = Input::all();
+
         if($data['section_id']==0){
             $chatClose = FacebookSession::where('tid', $data["tid"])->where('status_id', 1)->orderBy('id', 'desc')->first();
             if(empty($chatClose)){
@@ -336,6 +338,15 @@ class FacebookController extends Controller
         }
         unset($data['tid']);
         unset($data['section_id']);
+
+
+        $array =  explode(',', $data['tags']);
+        $res = [] ;
+        foreach ($array as $key=>$i) {
+            array_push($res,$i) ;
+        }
+
+        $data['tags'] = $res ;
         $chatClose->tags()->sync($data['tags']);
         return VG::result(true, ['msg' => 'complete']);
     }
@@ -569,7 +580,7 @@ class FacebookController extends Controller
         $sender = FacebookCustomer::where('tid', $data['id'])->first();
         $from["id"] = $sender->from_id;
         $from["name"] = $sender->from_name;
-        $data = FacebookChat::where('tid', $data['id'])->where('chat_at', '>', $data['since'])->get();
+        $data = FacebookChat::where('tid', $data['id'])->where('chat_at', '>', $data['since'])->orderBy('chat_at','DESC')->get();
         //dd($data);
         foreach ($data as $m) {
             //   $this->pr($m->fromId) ;
@@ -579,6 +590,9 @@ class FacebookController extends Controller
             } else {
                 $m->fromName = $page_name;
             }
+
+
+
 //            $m->fromName =   ($m->fromId != $fb_id) ?  $from["name"]  :  "TEST" ;
         }
 //        $url = "https://graph.facebook.com/v2.5/" . $data['id'] . "/messages?fields=attachments,shares,subject,from,message,created_time&since=" . $data['since'] . "&__previous=1&access_token=" . LONGLIVE_ACCESSTOKEN;
@@ -606,12 +620,19 @@ class FacebookController extends Controller
     {
 
         $data = Input::all();
-
+        $LONGLIVE_ACCESSTOKEN =  Session::get('fb_longlive_token');
 //        dd($data);
 
         $url = "https://graph.facebook.com/v2.5/" . $data['id'] . "/messages";
-        // $data =  file_put_contents($url);
-        $data = array('message' => $data['replyMessage'], 'access_token' => LONGLIVE_ACCESSTOKEN);
+        $data = array('message' => $data['replyMessage'], 'access_token' => $LONGLIVE_ACCESSTOKEN);
+        $imageurl="http://orig03.deviantart.net/5715/f/2014/362/c/c/phoenix_by_guillaume_phoenix-d7k11t2.jpg";
+
+        if(!empty($imageurl)){
+            $source = ['link'=> $imageurl ] ;
+            $data = array_merge($data,$source);
+        }
+
+
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -619,11 +640,9 @@ class FacebookController extends Controller
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $return = curl_exec($ch);
 
-        dd($return);
 
         if (!empty($return->id)) {
-            //---  insert data base
-            // reply complete
+            return VG::result(true, ['msg' => 'complete']);
         }
 
     }

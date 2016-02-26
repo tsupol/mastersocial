@@ -30,7 +30,8 @@ class CreateFacebookCustomerTable extends Migration
             $table->string('tid');   //--- facebook conversation id
             $table->string('mid');   //--- facebook message id
             $table->timestamps();
-            $table->string('shares');   //--- url object share
+            $table->string('shares_link');   //--- url object share
+            $table->string('shares_name');   //--- url object share
             $table->string('attachments');   //--- url object attachments
             $table->string('message');   //--- message text
             $table->dateTime('chat_at'); //--- chat id
@@ -77,7 +78,7 @@ class CreateFacebookCustomerTable extends Migration
         Schema::create('patterns', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('desc');
+            $table->text('desc');
             $table->timestamps();
         });
 

@@ -306,7 +306,7 @@ angular.module('xenon.controllers', []).
 		//	$chat_conv.removeClass('is-open');
 		//});
 	}).
-	controller('Conversation', function($scope, $element,$interval,$http,$location)
+	controller('Conversation', function($scope, $element,$interval,$http,$location,$rootScope)
 	{
 		//console.log('lasted_mid',$scope.val.lasted_mid);
 		$scope.replyMessage = function(){
@@ -314,9 +314,31 @@ angular.module('xenon.controllers', []).
 			var replyMessage = $scope.replyinbox;
 			console.log('replyMessage : ',replyMessage);
 			$http.post('api/facebook/inboxreply',{id:id ,replyMessage :replyMessage }).success(function(data) {
-
+				console.log('reply : ',data);
+				if(data.status=="success"){
+					$scope.replyinbox = '' ;
+				}
 			});
 		};
+		$scope.showModal = false;
+		$scope.openSaveReply = function(){
+			//var id = $scope.val.tid ;
+			//var replyMessage = $scope.replyinbox;
+			//console.log('replyMessage : ',replyMessage);
+			//$http.post('api/facebook/inboxreply',{id:id ,replyMessage :replyMessage }).success(function(data) {
+            //
+			//});
+
+			console.log('Open Box');
+			$scope.showModal = !$scope.showModal;
+
+
+			//$(element).modal('show');
+
+
+		};
+
+
 		var message;
 		$scope.start = function() {
 			$scope.stop();
@@ -331,29 +353,36 @@ angular.module('xenon.controllers', []).
 			$scope.stop();
 		});
 
-		$scope.cities = [
-			{ "value": 1, "text": "Amsterdam", "continent": "Europe" },
-			{ "value": 4, "text": "Washington", "continent": "America" },
-			{ "value": 7, "text": "Sydney", "continent": "Australia" },
-			{ "value": 10, "text": "Beijing", "continent": "Asia" },
-			{ "value": 13, "text": "Cairo", "continent": "Africa" }
-		];
-		$scope.queryCities = function () {
-
-			var data = $http.get('api/search/tags') ;
-			console.log('get Tag :',data);
-
-			return $http.get('api/table/tags');
-			//return $http.get('cities.json');
+		//$scope.cities = [
+		//	{ "id": 1, "name": "Amsterdam", "continent": "Europe" },
+		//	{ "id": 4, "name": "Washington", "continent": "America" },
+		//	{ "id": 7, "name": "Sydney", "continent": "Australia" },
+		//	{ "id": 10, "name": "Beijing", "continent": "Asia" },
+		//	{ "id": 13, "name": "Cairo", "continent": "Africa" }
+		//];
+		//$scope.queryCities = function () {
+        //
+		//	var data = $http.get('api/search/tags') ;
+		//	console.log('get Tag :',data);
+        //
+		//	return $http.get('api/table/tags');
+		//	//return $http.get('cities.json');
+		//};
+		$scope.showModal = false;
+		$scope.toggleModal = function(){
+			$scope.showModal = !$scope.showModal;
 		};
 
+		$rootScope.keyPress = function(e,val){
+			$http.post('api/search/patterns',{ stext:val  }).success(function(data) {
+				console.log('data', data);
+				$rootScope.pattern = data ;
+			});
+		};
 
-
-		$scope.keyPress = function(keyCode){
-			console.log('keyPress ',$scope.testModel);
-			$scope.stuffs.push({title: 'Hello', content: 'world'});
-		}
-
+		$rootScope.setreply = function(desc){
+			$scope.replyinbox = desc ;
+		};
 
 		//init() ;
 
@@ -367,7 +396,7 @@ angular.module('xenon.controllers', []).
 			$http.post('api/facebook/status',{mid:$scope.val.lasted_mid, status : id }).success(function(data) {
 				console.log('data', data);
 			});
-		}
+		};
 
 		$scope.setTag = function(settag) {
 
