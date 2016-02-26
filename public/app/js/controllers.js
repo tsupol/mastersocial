@@ -313,6 +313,8 @@ angular.module('xenon.controllers', []).
 			var id = $scope.val.tid ;
 			var replyMessage = $scope.replyinbox;
 			console.log('replyMessage : ',replyMessage);
+			console.log('fileupload : ', $scope.fileupload );
+
 			$http.post('api/facebook/inboxreply',{id:id ,replyMessage :replyMessage }).success(function(data) {
 				console.log('reply : ',data);
 				if(data.status=="success"){

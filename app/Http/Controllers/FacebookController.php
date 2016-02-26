@@ -631,7 +631,7 @@ class FacebookController extends Controller
             $source = ['link'=> $imageurl ] ;
             $data = array_merge($data,$source);
         }
-
+dd($data);
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_POST, true);
