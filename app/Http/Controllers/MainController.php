@@ -139,7 +139,7 @@ class MainController extends Controller
         $chk = UserPage::where('fb_id',$fb_id)->where('page_id',$page_id)->first();
         if(empty($chk)){
             //--- receipt Long live access token
-            $url = "https://graph.facebook.com/oauth/access_token?client_id=".FBAPPID."&client_secret=".FBAPPSECRET."&grant_type=fb_exchange_token&fb_exchange_token=$page_accessToken" ;
+            $url = "https://graph.facebook.com/oauth/access_token?client_id=175384656159057&client_secret=2fc66c07e334dd6e1c343a0ddb47059e&grant_type=fb_exchange_token&fb_exchange_token=$page_accessToken" ;
             $res =  @file_get_contents($url);
             if(!$res){
                 return Redirect::back()->withErrors(['Error!!! Bad request from facebook']);
