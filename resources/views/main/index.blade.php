@@ -31,6 +31,15 @@
         window.params = {};
         window.params.FB_PAGE_ID = "{{ Session::get('fb_page_id') }}";
 
+        window.loading = function(status) {
+            if(status === 'undefined') status = false;
+            if(status) {
+                $('#loading').show(500);
+            } else {
+                $('#loading').hide(500);
+            }
+        }
+
 
         window.params.FB_UID = "{{ Session::get('fb_uid')}}" ;
 
@@ -137,6 +146,12 @@
 </head>
 <body class="page-body"  ng-controller="MainCtrl" ng-class="{'settings-pane-open': layoutOptions.settingsPane.isOpen, 'chat-open': layoutOptions.chat.isOpen, 'login-page': isLoginPage && isMainPage == false, 'login-light': isLightLoginPage && isMainPage == false, 'lockscreen-page': isLockscreenPage && isMainPage == false, 'right-sidebar': layoutOptions.sidebar.isRight, 'boxed-container': layoutOptions.container.isBoxed}">
 
+
+<div id="loading" >
+    <div align="center">
+        <img src="assets/images/facebook/preloader.gif"  class="center-block" >
+    </div>
+</div>
 
 <settings-pane  who="profile"></settings-pane>
 

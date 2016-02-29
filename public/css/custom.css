@@ -271,7 +271,17 @@ div.datepicker table {
 /*#pReport input[type='radio'] {*/
   /*margin-right: 5px;*/
 /*}*/
-.loading { z-index:999;   position:fixed ; top:50%; margin-top:-50px;  }
+#loading {
+  z-index:999;
+  position:fixed;
+  background-color: rgba(255, 255, 255, .75);
+  width: 100%; height: 100%;
+  display: none;
+}
+
+#loading img {
+
+}
 
 
 @media print {

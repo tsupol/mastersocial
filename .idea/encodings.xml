@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/FacebookController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/FacebookSessionController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/PatternController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/TagController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Models/Category.php" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/Models/FacebookCase.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Models/FacebookChatTag.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Models/FacebookSession.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Models/Pattern.php" charset="UTF-8" />
@@ -18,6 +17,8 @@
     <file url="file://$PROJECT_DIR$/database/migrations/2016_01_04_143402_create_system_table.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/seeds/RealSeeder.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/lang/en/menu.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/views/facebook/facebookSelectPage.blade.php" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
