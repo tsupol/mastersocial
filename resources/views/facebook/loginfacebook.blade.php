@@ -32,9 +32,15 @@
             }
         }
         function checkLoginState() {
-            FB.getLoginStatus(function(response) {
-                statusChangeCallback(response);
-            });
+
+            FB.login(function (response) {
+                if (response.authResponse != null && response.authResponse != undefined) {
+                    FB.getLoginStatus(function (response) {
+                        statusChangeCallback(response);
+                    });
+                }
+            }, {scope: 'public_profile,email,manage_pages,read_page_mailboxes,publish_pages,read_insights'});
+
         }
         (function(d, s, id){
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -78,8 +84,10 @@
 
                                     <fieldset>
                                         <div class="form-group">
-                                            <fb:login-button scope="public_profile,email,manage_pages,read_page_mailboxes,publish_pages,read_insights" onlogin="checkLoginState();">
-                                            </fb:login-button>
+                                            <button class="btn btn-primary" onclick="checkLoginState()">Login with facebook</button>
+
+                                            {{--<fb:login-button scope="public_profile,email,manage_pages,read_page_mailboxes,publish_pages,read_insights" onlogin="checkLoginState();">--}}
+                                            {{--</fb:login-button>--}}
                                             <div id="status"></div>
                                         </div>
                                         @if($errors->any())

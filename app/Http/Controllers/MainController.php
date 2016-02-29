@@ -149,6 +149,8 @@ class MainController extends Controller
             $data['longlive_token'] = $access[0] ;
             $data['actived_at'] = Carbon::now()->format('y-m-d H:i:s');
             $status = UserPage::create($data);
+
+            Session::set('locale','th');
             Session::set('fb_uid',$status->fb_id );
             Session::set('fb_page_id',$status->page_id );
             Session::set('fb_page_name',$status->page_name );
@@ -157,6 +159,7 @@ class MainController extends Controller
                 return Redirect::back()->withErrors(['Error!!! Could not connect server']);
             }
         }else{
+            Session::set('locale','th');
             Session::set('fb_uid',$chk->fb_id );
             Session::set('fb_longlive_token',$chk->longlive_token );
             Session::set('fb_page_id',$chk->page_id );
@@ -178,6 +181,9 @@ class MainController extends Controller
 
         $url = "https://graph.facebook.com/v2.5/$fb_id?fields=email,name,accounts&access_token=$fb_accesstoken" ;
         $data =  @file_get_contents($url);
+
+
+
         if(!$data){
             return Redirect::back()->withErrors(['Error!!! Bad request from facebook']);
         }

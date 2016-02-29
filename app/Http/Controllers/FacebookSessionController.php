@@ -118,31 +118,32 @@ class FacebookSessionController extends Controller
 
         $message = FacebookChat::where('section_id', $id)->orderBy('chat_at', 'desc')->get();
 
-
-        $tid = $message[0]->tid ;
-        $sender = FacebookCustomer::where('tid', $tid)->first();
-        $from["id"] = $sender->from_id;
-        $from["name"] = $sender->from_name;
-        foreach ($message as $m) {
-            if ($m->fromId != $page_id) {
-                $m->fromName = $from["name"];
-            } else {
-                $m->fromName = $page_name;
-            }
-            $tid = $m->tid ;
-        }
-
         $val = [];
-        $val['section_id'] = $id;
-        $val['message'] = $message;
-        $val['sender'] = $from;
-        $val['tid'] = $tid;
-        $val['lasted_mid'] = $message[0]->mid;
+        if(!empty($message)){
+            $tid = $message[0]->tid ;
+            $sender = FacebookCustomer::where('tid', $tid)->first();
+            $from["id"] = $sender->from_id;
+            $from["name"] = $sender->from_name;
+            foreach ($message as $m) {
+                if ($m->fromId != $page_id) {
+                    $m->fromName = $from["name"];
+                } else {
+                    $m->fromName = $page_name;
+                }
+                $tid = $m->tid ;
+            }
+            $val['section_id'] = $id;
+            $val['message'] = $message;
+            $val['sender'] = $from;
+            $val['tid'] = $tid;
+            $val['lasted_mid'] = $message[0]->mid;
+        }
         return [
             'settings' => VG::getSetting('facebook_inbox'),
             'val' => $val,
             'views' => [
                 [
+                    'can_reply' => false,
                     'label' => trans('pos.facebook_inbox'),
                     'panel' => [
                         'label' => trans('pos.facebook_inbox'),

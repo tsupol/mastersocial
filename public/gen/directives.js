@@ -298,7 +298,7 @@ angular.module("gen.directives", []).
             restrict: 'A',
             //replace: true,
             //template: 'select2',
-            link: function(scope, elm, attrs, ctrl) {
+            link: function(scope, elm) {
                 var dp = $(elm);
                 if(scope.readonly) {
                     //dp.after('<input type="text" value="'+scope.val[scope.value.name]+'" class="form-control">');
@@ -639,6 +639,24 @@ angular.module("gen.directives", []).
     //        }
     //    };
     //}).
+    directive('fileModel', ['$parse', function ($parse) {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                var model = $parse(attrs.fileModel);
+                var modelSetter = model.assign;
+
+                element.bind('change', function(){
+
+                    console.log("filename" ,element[0].files[0]);
+
+                    scope.$apply(function(){
+                        modelSetter(scope, element[0].files[0]);
+                    });
+                });
+            }
+        };
+    }]).
     directive('uploadfile', function () {
         return {
             restrict: 'A',
@@ -656,7 +674,7 @@ angular.module("gen.directives", []).
             link: function(scope, element, attrs) {
                 attrs.$observe('src', function(ngSrc) {
                     isImage(ngSrc).then(function(test) {
-                        console.log('element',element);
+
                         if(!test) {
                             element.hide();
                         }
@@ -674,6 +692,7 @@ angular.module("gen.directives", []).
                         image.src = src;
                         return deferred.promise;
                     }
+
                 });
             }
         };

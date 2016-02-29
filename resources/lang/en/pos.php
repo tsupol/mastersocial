@@ -1,7 +1,27 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tonsu
- * Date: 1/14/2016
- * Time: 11:21 PM
- */
+return [
+    // modules
+
+
+    "facebook_inbox" => "inbox",
+    "facebooks" => "facebooks",
+    "id" => "id",
+    "post_id" => "รหัสการโพส",
+    "products" => "โปรดักค์",
+    "post_type" => "ประเภทการโพส",
+    "created_at" => "วันที่สร้าง",
+
+    "categorys" => "หมวดหมู่",
+    "name" => "ชื่อ",
+    "count_time" => "เวลาที่ใช้ในการปิดเคส(นาที)" ,
+    "count_message_customer" => "จำนวนข้อความของลูกค้า",
+    "tags" => "tags" ,
+    "session" => "session111",
+    "from_name" => "ข้อความจาก" ,
+    "status_id" => "สถานะเคส",
+
+
+    // miscs
+    "tool" => "เครื่องมือ",
+];
+

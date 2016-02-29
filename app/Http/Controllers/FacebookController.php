@@ -496,7 +496,8 @@ class FacebookController extends Controller
         $sender = FacebookCustomer::where('tid', $id)->first();
         $from["id"] = $sender->from_id;
         $from["name"] = $sender->from_name;
-        $message = FacebookChat::where('tid', $id)->where('chat_at', '<', '2016-02-02 14:47:40')->orderBy('chat_at', 'desc')->take(25)->get();
+        //$message = FacebookChat::where('tid', $id)->where('chat_at', '<', '2016-02-02 14:47:40')->orderBy('chat_at', 'desc')->take(25)->get();
+        $message = FacebookChat::where('tid', $id)->orderBy('chat_at', 'desc')->take(25)->get();
 
         foreach ($message as $m) {
 //            $this->pr($m) ;
@@ -536,19 +537,20 @@ class FacebookController extends Controller
 ////        }
 //        // $url =  "https://graph.facebook.com/$user_id/picture" ;
         $val = [];
-        $val['message'] = $message;
-        $val['sender'] = $from;
-        $val['tid'] = $id;
-        //$data['update_time'] = $sender->updated_time ;
-        $val['lasted_mid'] = $message[0]->mid;
-        $val['update_time'] = "2016-02-02 14:47:40";
+        if(!empty($message)){
+            $val['message'] = $message;
+            $val['sender'] = $from;
+            $val['tid'] = $id;
+            //$data['update_time'] = $sender->updated_time ;
+            $val['lasted_mid'] = $message[0]->mid;
+            $val['update_time'] = $message[0]->chat_at ;
+//        $val['update_time'] = "2016-02-02 14:47:40";
+        }
         $data = [];
         $data['status'] = [
             '0' => ['id' => 2, 'name' => 'Close'],
             '1' => ['id' => 3, 'name' => 'Pending']
         ];
-
-
         // $data["packages"] = Package::skip(0)->take(20)->get();
         return [
             'settings' => VG::getSetting('facebook_inbox'),
@@ -556,6 +558,8 @@ class FacebookController extends Controller
             'val' => $val,
             'views' => [
                 [
+                    'can_reply' => true,
+                    'csrf_token' => csrf_token(),
                     'label' => trans('pos.facebook_inbox'),
                     'panel' => [
                         'label' => trans('pos.facebook_inbox'),
@@ -566,8 +570,6 @@ class FacebookController extends Controller
                 ]
             ]
         ];
-
-
     }
 
 
@@ -618,20 +620,21 @@ class FacebookController extends Controller
 
     public function inboxreply()
     {
-
         $data = Input::all();
         $LONGLIVE_ACCESSTOKEN =  Session::get('fb_longlive_token');
 //        dd($data);
+        if(!empty($data['picture'])){
+            $imageurl= $data['picture'] ;
+            $imageurl="http://orig03.deviantart.net/5715/f/2014/362/c/c/phoenix_by_guillaume_phoenix-d7k11t2.jpg";
+        }
 
         $url = "https://graph.facebook.com/v2.5/" . $data['id'] . "/messages";
         $data = array('message' => $data['replyMessage'], 'access_token' => $LONGLIVE_ACCESSTOKEN);
-        $imageurl="http://orig03.deviantart.net/5715/f/2014/362/c/c/phoenix_by_guillaume_phoenix-d7k11t2.jpg";
 
         if(!empty($imageurl)){
             $source = ['link'=> $imageurl ] ;
             $data = array_merge($data,$source);
         }
-dd($data);
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_POST, true);
@@ -639,7 +642,6 @@ dd($data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $return = curl_exec($ch);
-
 
         if (!empty($return->id)) {
             return VG::result(true, ['msg' => 'complete']);

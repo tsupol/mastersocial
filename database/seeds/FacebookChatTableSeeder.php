@@ -23,7 +23,7 @@ class FacebookChatTableSeeder extends Seeder {
 				'created_at' => '2016-02-26 18:25:56',
 				'updated_at' => '2016-02-26 18:25:56',
 				'shares_link' => 'https://www.youtube.com/watch?v=ke1BNbHLXPE',
-				'shares_name' => 'ปลิว (Away) - PLOYCHOMPOO [Official Lyric Video]',
+			'shares_name' => 'ปลิว (Away) - PLOYCHOMPOO [Official Lyric Video]',
 				'attachments' => '',
 				'message' => '',
 				'chat_at' => '2016-02-26 11:16:45',
