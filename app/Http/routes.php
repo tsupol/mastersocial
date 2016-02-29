@@ -103,6 +103,7 @@ Route::group(['middleware' => ['web']], function () {
     // Custom Login
     Route::get('login', 'MainController@loginUser');
     Route::post('login/process', 'MainController@postProcess');
+    Route::get('login/processfb', 'MainController@postProcessfb');
     Route::post('login/processfb', 'MainController@postProcessfb');
     Route::post('login/createpage', 'MainController@postCreatepage');
     Route::post('login/selectpage', 'MainController@postSelectpage');

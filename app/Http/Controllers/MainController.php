@@ -77,10 +77,18 @@ class MainController extends Controller
     public function loginUser()
     {
 
+        $fb_id =  Session::get('fb_id');
+        $fb_accesstoken =  Session::get('fb_accesstoken');
+
+        if  (!empty($fb_id)&& !empty($fb_accesstoken)) {
+            return redirect('login/processfb')->with('_method', session('url.entended.method', 'POST'));
+        }
+
         if(Auth::check()) {
             return redirect('main');
             // return redirect()->back()->with('message',"Error!! Username or Password Incorrect. \nPlease try again.");
         } else {
+
             return view('facebook.loginfacebook');
 //            return view('users.login');
         }
@@ -174,15 +182,22 @@ class MainController extends Controller
         return redirect()->intended('main');
     }
 
+
+
     public function postProcessfb(){
         $data = Input::all();
+        $fb_id =  @Session::get('fb_id');
+        $fb_accesstoken =  @Session::get('fb_accesstoken');
+
+        if(!empty($fb_id)&&!empty($fb_accesstoken)){
+            $data['fb_accesstoken'] = $fb_accesstoken ;
+            $data['fb_id'] = $fb_id ;
+        }
         $fb_accesstoken = $data['fb_accesstoken'];
         $fb_id = $data['fb_id'];
 
         $url = "https://graph.facebook.com/v2.5/$fb_id?fields=email,name,accounts&access_token=$fb_accesstoken" ;
         $data =  @file_get_contents($url);
-
-
 
         if(!$data){
             return Redirect::back()->withErrors(['Error!!! Bad request from facebook']);
@@ -202,12 +217,18 @@ class MainController extends Controller
         }else{
             $user_id = $chk->id ;
         }
+
+        Session::set('fb_id',$fb_id);
+        Session::set('fb_accesstoken',$fb_accesstoken);
         Session::set('fb_name',$data['name']);
         $json = $data['accounts'] ;
 //        dd($json);
         return view('facebook.facebookSelectPage', ['fb_accesstoken' => $fb_accesstoken ,'fb_id' => $fb_id,'id'=>$user_id,'fb_data' => $json ]);
 
+
     }
+
+
 
     public function postfileupload(){
 //        dd('in file uplaod');

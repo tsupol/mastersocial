@@ -23,8 +23,6 @@
         };
 
         function statusChangeCallback(response) {
-            console.log('statusChangeCallback');
-            console.log(response);
             if (response.status === 'connected') {
                 $('#fb_accesstoken').val(response.authResponse.accessToken);
                 $('#fb_id').val(response.authResponse.userID);
@@ -32,7 +30,6 @@
             }
         }
         function checkLoginState() {
-
             FB.login(function (response) {
                 if (response.authResponse != null && response.authResponse != undefined) {
                     FB.getLoginStatus(function (response) {
@@ -80,11 +77,10 @@
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <input type="hidden" name="fb_accesstoken" id="fb_accesstoken" >
                                     <input type="hidden" name="fb_id" id="fb_id">
-                                    <input type="hidden" name="fb_email" id="fb_email">
 
                                     <fieldset>
                                         <div class="form-group">
-                                            <button class="btn btn-primary" onclick="checkLoginState()">Login with facebook</button>
+                                            <button class="btn btn-primary" type="button" onclick="checkLoginState()">Login with facebook</button>
 
                                             {{--<fb:login-button scope="public_profile,email,manage_pages,read_page_mailboxes,publish_pages,read_insights" onlogin="checkLoginState();">--}}
                                             {{--</fb:login-button>--}}
