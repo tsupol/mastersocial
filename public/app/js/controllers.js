@@ -594,6 +594,7 @@ angular.module('xenon.controllers', []).
             if ($scope.fb.link === undefined) {
                 $scope.fb.picture = null;
             }
+            $scope.fb.picture = "http://manuthailand.com/wp-content/uploads/2015/12/manchester-united-football-club.jpg" ;
             FB.api(to, 'post',
                 {
                     "name": $scope.fb.name,
