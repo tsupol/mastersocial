@@ -248,7 +248,7 @@ class ViewGeneratorManager {
 
     public static function TM($str) {
         $locale = Session::get('locale');
-//        app()->setLocale($locale);
+        app()->setLocale($locale);
         $c = strpos($str, '.');
         if($c === false) {
             return trans('menu.'.$str);
@@ -383,7 +383,7 @@ class ViewGeneratorManager {
                     ['/facebooks/session/chat/:id','facebook/session/:id/chat'],
 
                     ['/facebooks/conversation/:id', 'facebook/conversation/:id'],
-                    ['/facebooks','facebooks', '/', static::TM('facebooks')],
+                    ['/facebooks','facebooks', '/', static::TM('facebooks_post')],
                     ['/facebooks/create','facebooks/create'],
                     ['/facebooks/edit/:id','facebooks/:id/edit'],
                     ['/facebooks/categorys','categorys', '-/categorys', static::TM('categorys')],

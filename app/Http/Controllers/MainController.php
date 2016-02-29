@@ -261,7 +261,7 @@ class MainController extends Controller
 
             $upload_success = Input::file('file')->move($destinationPath, $filename);
 
-            $img_url = $path.$filename ;
+            $img_url = $path."/".$filename ;
 
             if ($upload_success) {
 

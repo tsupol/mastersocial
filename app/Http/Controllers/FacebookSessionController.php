@@ -143,6 +143,7 @@ class FacebookSessionController extends Controller
             'val' => $val,
             'views' => [
                 [
+
                     'can_reply' => false,
                     'label' => trans('pos.facebook_inbox'),
                     'panel' => [

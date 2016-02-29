@@ -108,7 +108,7 @@ class FacebookSession extends Model {
                     'data' => 'session',
 
                     'ajaxUrl' => 'api/table/facebooks-session',
-                    'createUrl' => '#/app/facebooks/create',     // อาจจะเอาไว้ทำ set tag
+                    //'createUrl' => '#/app/facebooks/create',     // อาจจะเอาไว้ทำ set tag
                     'id' => 'dtFacebookSession', // must have and unique
                     'panel' => [
                         'label' => trans('pos.facebooks'),
