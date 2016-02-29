@@ -207,7 +207,7 @@ angular.module('xenon.controllers', []).
         $scope.init = function () {
             loadInbox();
             promise = $interval(loadInbox, 10000);
-        }
+        };
         $scope.init();
         function loadInbox() {
             $http.get('api/facebook/inbox').success(function (data) {
@@ -220,7 +220,7 @@ angular.module('xenon.controllers', []).
                 //jQuery('.chat-inner >.chat-group').html(data_append);
                 $scope.chat_list = data;
             });
-        }
+        };
         //$scope.chat_list = [{
         //    status: 1,
         //    name: 'Tab Lnw',
@@ -519,6 +519,7 @@ angular.module('xenon.controllers', []).
 
 
         function share() {
+            console.log('in share');
             FB.login(function (response) {
                 if (response.authResponse != null && response.authResponse != undefined) {
                     FB.getLoginStatus(function (response) {

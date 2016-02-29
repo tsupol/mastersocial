@@ -144,8 +144,17 @@ class MainController extends Controller
         $fb_id = $data['fb_id'];
         $page_name = $data['page_name'] ;
         //--- check in data base
+
+
+
         $chk = UserPage::where('fb_id',$fb_id)->where('page_id',$page_id)->first();
+
+
+
         if(empty($chk)){
+
+            dd("in insert");
+
             //--- receipt Long live access token
             $url = "https://graph.facebook.com/oauth/access_token?client_id=175384656159057&client_secret=2fc66c07e334dd6e1c343a0ddb47059e&grant_type=fb_exchange_token&fb_exchange_token=$page_accessToken" ;
             $res =  @file_get_contents($url);
@@ -172,7 +181,7 @@ class MainController extends Controller
             Session::set('fb_longlive_token',$chk->longlive_token );
             Session::set('fb_page_id',$chk->page_id );
             Session::set('fb_page_name',$chk->page_name );
-            $data['actived_at'] = Carbon::now()->format('Y-m-d H:i:s');
+            unset($data['id']);
             unset($data['_token']);
             unset($data['fb_accesstoken']);
             unset($data['page_accesstoken']);
