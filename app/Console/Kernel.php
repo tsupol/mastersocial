@@ -28,46 +28,35 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
+
+
+    protected function difftime($start_at, $active_at)
+    {
+        $datetime1 = strtotime($active_at);
+        $datetime2 = strtotime($start_at);
+        $interval = abs($datetime2 - $datetime1);
+        $minutes = round($interval / 60);
+        return $minutes;
+    }
+
     protected function schedule(Schedule $schedule)
     {
-//         $schedule->command('inspire')
-//                 ->hourly();
-//         if(true){
-//             $userPage = UserPage::all();
-//             foreach ($userPage as $up){
-//
-//                 $actived_at = $up->actived_at ;
-//                 $startTime = Carbon::now()->format('Y-m-d H:i:s');
-//
-//                 $minutes = $this->difftime($startTime,$actived_at) ;
-//
-//                 echo "$startTime <BR> $actived_at<BR>" ;
-//                 echo 'Diff. in minutes is: '.$minutes."<BR>";
-//
-//                 if($minutes<=5){
-//                     //--- call if active
-//                     //Bus::dispatch(new TestCommand($up));
-//                 }else{
-//
-//                 }
-//
-//             }
-////             dd($userPage);
-//             Log::info('Job! '.$userPage);
-//         }
-//         function difftime($start_at,$active_at){
-//             $datetime1 = strtotime($active_at);
-//             $datetime2 = strtotime($start_at);
-//             $interval  = abs($datetime2 - $datetime1);
-//             $minutes   = round($interval / 60);
-//             return $minutes ;
-//         }
+        $schedule->command('inspire')
+            ->hourly();
+        if (true) {
+
+            Bus::dispatch(new TestCommand());
 
 
+//             dd($userPage);
+            Log::info('Job! ' . $userPage);
+        }
 
+
+//
 //        function sDiff(Carbon $t1, Carbon $t2) {
 //            $diff = $t1->diff($t2);
 //            return ($diff->s + $diff->m*60 + $diff->h*3600);
@@ -79,7 +68,7 @@ class Kernel extends ConsoleKernel
 //        if(true) {
 //            Bus::dispatch(new TestCommand('555666777'));
 //
-//            // loop 6 times in 1 minute
+        // loop 6 times in 1 minute
 //            $startTime = Carbon::now();
 //            $st = Carbon::now();
 //            $i = 0;
@@ -97,7 +86,7 @@ class Kernel extends ConsoleKernel
 ////                Log::notice('--- storing media ---');
 ////                Bus::dispatch(new StoreMedia());
 //            })->dailyAt('1:23')->sendOutputTo(storage_path('logs/output.log'));
-//
+
 //        }
     }
 }

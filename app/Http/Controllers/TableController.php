@@ -169,7 +169,7 @@ class TableController extends Controller
 
        // dd('test');
 
-        return ['data' => VG::dataArray($data, $view, 'facebooks/session', 'inbox',['custom' => [ '#/app/facebooks/session/edit/' , 'list view' , 'preview Open/Close status this customer' ,'tid'  ] ])];
+        return ['data' => VG::dataArray($data, $view, 'facebooks/session', 'inbox',['edit' => false , 'delete' => false , 'custom' => [ '#/app/facebooks/session/edit/' , 'list view' , 'preview Open/Close status this customer' ,'tid'  ] ])];
     }
 
 

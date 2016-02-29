@@ -150,8 +150,6 @@ class ViewGeneratorManager {
         $bDelete = $bEdit;
 
 
-
-
         $bShow = [
             'view' => $bView,
             'edit' => $bEdit,
@@ -160,7 +158,7 @@ class ViewGeneratorManager {
         // -- Override
         $bShow = array_merge($bShow, $show);
 
-//        dd($bShow);
+
         if(isset($bShow['receipt'])) {
             $bShow['receipt'] = static::getPermission('receipts.create');
         }
@@ -399,7 +397,7 @@ class ViewGeneratorManager {
 
                 ],
             ],
-            'users' => [
+            /*'users' => [
                 'settings' => [
                     'url' => '/app/users',
                     'icon' => 'fa fa-user',
@@ -411,7 +409,7 @@ class ViewGeneratorManager {
                     ['/users/edit/:id', 'users/:id/edit'],
 
                 ],
-            ],
+            ],*/
         ];
 
 

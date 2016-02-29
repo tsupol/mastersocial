@@ -12,8 +12,12 @@
 */
 
 Route::get('job/getinbox', function () {
-    dispatch(new App\Jobs\GetInbox('Test String Parameter'));
-    return 'Done!';
+
+
+
+
+//    dispatch(new App\Jobs\GetInbox('Test String Parameter'));
+//    return 'Done!';
 });
 
 Route::get('/', function () {
@@ -120,6 +124,8 @@ Route::group(['middleware' => ['web']], function () {
 //Route::get('gencode','MainController@genCode');
 Route::get('seed', 'MainController@seed');
 Route::get('test', 'MainController@test');
+
+
 
 
 //Route::get('carbon','MainController@carbon');

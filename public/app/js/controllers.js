@@ -512,7 +512,7 @@ angular.module('xenon.controllers', []).
 
             // save_post_id('919082208176684_940878629330375','test123');
             // save_post_id('919082208176684_938308306254074','test123');
-            $scope.preloader = true;
+            window.loading(true) ;
             share();
 
 
@@ -583,14 +583,12 @@ angular.module('xenon.controllers', []).
                 },
                 function (response) {
                     console.log('photos response :', response);
-                    var POST_ID = response.id ;
-                    if($scope.unix_fb_date!=""){
-                         POST_ID = PAGE_ID + '_' + response.id ;
-                    }
+
                     if (response && !response.error) {
+                        var POST_ID = response.id ;
                         save_post_id( POST_ID , $scope.PAGE_ACCESSTOKEN);
                     }else{
-                        dialog.close();
+                        window.loading(false) ;
                     }
                 }
             );
@@ -616,7 +614,7 @@ angular.module('xenon.controllers', []).
                         save_post_id(response.id, $scope.PAGE_ACCESSTOKEN);
 
                     } else {
-                        dialog.close();
+                        window.loading(false) ;
                     }
                 });
         }
@@ -634,13 +632,14 @@ angular.module('xenon.controllers', []).
                 data: $scope.fb
             }).success(function (data) {
                 console.log(data);
-                currentModal.close();
+                window.loading(false) ;
                 if (data.status == "success") {
                     alert("Post Success!!!");
                     $scope.reloadPage();
                 }
             }).error(function () {
                 alert("Post Fail!!!");
+                window.loading(false) ;
             });
             $scope.reloadPage = function () {
                 $state.transitionTo($state.current, $stateParams, {reload: true, inherit: false, notify: true});
