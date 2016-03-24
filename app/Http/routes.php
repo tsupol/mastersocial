@@ -13,7 +13,8 @@
 
 Route::get('job/getinbox', function () {
 
-
+    dispatch(new App\Jobs\SetActiveCommand());
+    dispatch(new App\Jobs\UpdateConversation());
 
 
 //    dispatch(new App\Jobs\GetInbox('Test String Parameter'));

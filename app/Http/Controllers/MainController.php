@@ -165,6 +165,9 @@ class MainController extends Controller
             $access = explode("&expires=",$diff_url[1]) ;
             $data['longlive_token'] = $access[0] ;
             $data['actived_at'] = Carbon::now()->format('y-m-d H:i:s');
+
+            $data['is_active'] = 1 ;
+
             $status = UserPage::create($data);
 
             Session::set('locale','th');
@@ -186,6 +189,7 @@ class MainController extends Controller
             unset($data['fb_accesstoken']);
             unset($data['page_accesstoken']);
             $data['actived_at'] = Carbon::now()->format('y-m-d H:i:s');
+            $data['is_active'] = 1 ;
             UserPage::where('fb_id',$fb_id)->where('page_id',$page_id)->update($data);
         }
         return redirect()->intended('main');
@@ -209,7 +213,10 @@ class MainController extends Controller
         $data =  @file_get_contents($url);
 
         if(!$data){
+            Session::flush();
             return Redirect::back()->withErrors(['Error!!! Bad request from facebook']);
+        }else{
+
         }
         $data = json_decode($data,true) ;
 

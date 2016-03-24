@@ -11,6 +11,7 @@ class CreateUsersTable extends Migration {
 			$table->increments('id');
 			$table->string('fb_id');
 			$table->string('name');
+			$table->string('remember_token');
 			$table->string('email')->unique();
 			$table->string('lang', 2)->default('th');
 			$table->timestamps();

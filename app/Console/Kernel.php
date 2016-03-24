@@ -3,7 +3,8 @@
 namespace App\Console;
 
 
-use App\Commands\TestCommand;
+use App\Commands\SetActiveCommand;
+use App\Commands\UpdateConversation;
 use App\Models\UserPage;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
@@ -32,28 +33,19 @@ class Kernel extends ConsoleKernel
      * @return void
      */
 
-
-    protected function difftime($start_at, $active_at)
-    {
-        $datetime1 = strtotime($active_at);
-        $datetime2 = strtotime($start_at);
-        $interval = abs($datetime2 - $datetime1);
-        $minutes = round($interval / 60);
-        return $minutes;
-    }
-
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('inspire')
-            ->hourly();
-        if (true) {
-
-            Bus::dispatch(new TestCommand());
-
-
-//             dd($userPage);
-            Log::info('Job! ' . $userPage);
-        }
+//        $schedule->command('inspire')
+//            ->hourly();
+//        if (true) {
+//
+//            Bus::dispatch(new SetActiveCommand());
+//            Bus::dispatch(new UpdateConversation());
+//
+//
+////             dd($userPage);
+//
+//        }
 
 
 //

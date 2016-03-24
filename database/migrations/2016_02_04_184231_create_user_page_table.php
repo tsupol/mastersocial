@@ -15,6 +15,7 @@ class CreateUserPageTable extends Migration
             $table->string('longlive_token');
             $table->timestamps();
             $table->dateTime('actived_at');
+            $table->boolean('is_active') ;
         });
     }
 

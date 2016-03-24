@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Commands;
+namespace App\Jobs;
 
 use App\Http\Controllers\FacebookController;
 use App\Models\Facebook;
@@ -13,7 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 use Fb;
 
-class TestCommand extends Command implements ShouldQueue
+class SetActiveCommand extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
@@ -47,38 +47,20 @@ class TestCommand extends Command implements ShouldQueue
     public function handle()
     {
 //        Log::info('Job! '.$this->data);
-        $userPage = UserPage::where('active_status',1)->get() ;
+        $userPage = UserPage::where('is_active',1)->get() ;
         foreach ($userPage as $up) {
             $actived_at = $up->actived_at;
             $startTime = Carbon::now()->format('Y-m-d H:i:s');
             $minutes = $this->difftime($startTime, $actived_at);
             echo "$startTime <BR> $actived_at<BR>";
             echo 'Diff. in minutes is: ' . $minutes . "<BR>";
-            if ($minutes <= 5) {
-                $this->getConversation($up);
+            if ($minutes > 5) {
+                $update['is_active'] = false ;
+                UserPage::where('id',$up->id)->update($update);
             }
         }
-        //$data = file_get_contents("http://localhost/mastersocial/public/api/facebook/bgConversations") ;
     }
 
 
-
-    public static function curl_download($Url){
-
-        // is cURL installed yet?
-        if (!function_exists('curl_init')){
-            die('Sorry cURL is not installed!');
-        }
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $Url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        $output = curl_exec($ch);
-        curl_close($ch);
-
-        return $output;
-    }
 
 }

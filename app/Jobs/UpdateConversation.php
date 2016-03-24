@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Commands;
+namespace App\Jobs;
 
 use App\Http\Controllers\FacebookController;
 use App\Models\Facebook;
@@ -12,21 +12,14 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 use Fb;
+use Bus;
 
-class TestCommand extends Command implements ShouldQueue
+class UpdateConversation extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
-    protected $data;
-
-
-
     public function __construct()
     {
-
-
-
-
     }
 
     /**
@@ -47,7 +40,7 @@ class TestCommand extends Command implements ShouldQueue
     public function handle()
     {
 //        Log::info('Job! '.$this->data);
-        $userPage = UserPage::where('active_status',1)->get() ;
+        $userPage = UserPage::where('is_active',1)->get() ;
         foreach ($userPage as $up) {
             $actived_at = $up->actived_at;
             $startTime = Carbon::now()->format('Y-m-d H:i:s');
@@ -55,30 +48,11 @@ class TestCommand extends Command implements ShouldQueue
             echo "$startTime <BR> $actived_at<BR>";
             echo 'Diff. in minutes is: ' . $minutes . "<BR>";
             if ($minutes <= 5) {
-                $this->getConversation($up);
+//                Bus::dispatch(new GetUserConversation($up));
+                Bus::dispatch(new GetUserMessage($up));
             }
         }
         //$data = file_get_contents("http://localhost/mastersocial/public/api/facebook/bgConversations") ;
-    }
-
-
-
-    public static function curl_download($Url){
-
-        // is cURL installed yet?
-        if (!function_exists('curl_init')){
-            die('Sorry cURL is not installed!');
-        }
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $Url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        $output = curl_exec($ch);
-        curl_close($ch);
-
-        return $output;
     }
 
 }
